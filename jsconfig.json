@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@redux/*": ["./src/redux/*"],
+      "@fonts/*": ["./src/fonts/*"],
+      "@config/*": ["./src/config/*"],
+      "@main/*": ["./src/components/main/*"],
+      "@auth/*": ["./src/components/auth/*"],
+      "@src/*": ["./src/*"],
+      "@shared/*": ["./src/components/shared/*"]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+WHILE DEMONSTRATION SET SETONLINESTATUS TIMEOUT TO FEW SECONDS
+for backend check set offset x(timeout) + 3~4s
+
+PRIORITY:
+explore ==> friends list , player list = (pl - fl - own ) ==> send requests
+
+game requests!!!!
+add channels using friends table index
+php table save messages (friends_table_id, timestamp, uid, message, type)
+global chat - redux
+
+secure php endpoints
+friends ui
+
+friends logic
+    
+add fruit and poison
+after game stats to db
+
+snakes scoreboard ui and decide scoring system
+
+chat
+TTT
+
+Disable submit after clicking submit once (all forms)
+Fix loading screen
+preferences
+
+
+
+
+LATER:
+Generate icons
+Choose colour scheme
+Choose different font
+Regenerate manifest
+Firestore error handling registration hasData
+
+
+TESTING:
+check for users w same username
+
+php build (set homepage in package.json, use hash router)
