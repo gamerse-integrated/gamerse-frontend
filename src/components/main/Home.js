@@ -39,14 +39,14 @@ export default class Home extends Component {
             {/* dashboard nav */}
             <div className="col" id="dashboard-nav">
               <div id="logo">
-                <h1>Gamerse</h1>
+                <h1 style={{ fontFamily: "" }}>Gamerse</h1>
               </div>
               <div className="dropdown">
                 <img
                   // src="https://via.placeholder.com/150"
                   src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
                   alt="Profile"
-                  className="img-responsive rounded-circle shadow-lg"
+                  className="img-responsive rounded-circle shadow"
                   style={{
                     width: "3.2em",
                     height: "3.2em",
@@ -54,10 +54,17 @@ export default class Home extends Component {
                   role="button"
                   data-toggle="dropdown"
                 />
-                <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-item">{this.state.userName}</div>
+                <div className="dropdown-menu dropdown-menu-right border-0 shadow p-1 mt-2 text-cente">
+                  <div className="dropdown-item rounded" role="button">
+                    {this.state.userName}
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <div className="dropdown-item rounded" role="button">
+                    Profile
+                  </div>
                   <div
-                    className="dropdown-item"
+                    className="dropdown-item rounded"
+                    role="button"
                     onClick={() =>
                       auth.signOut().then((e) => global.worker.terminate())
                     }
@@ -72,7 +79,7 @@ export default class Home extends Component {
             <div className="col" id="dashboard-game-carousel">
               <div
                 id="carouselExampleControls"
-                className="carousel slide shadow-lg"
+                className="carousel slide shadow"
                 data-ride="carousel"
               >
                 <div className="carousel-inner">
@@ -135,32 +142,35 @@ export default class Home extends Component {
             </div>
 
             {/* dashboard */}
-            <div className="col" id="dashboard-controls">
+            <div
+              className="col d-flex justify-content-around"
+              id="dashboard-controls"
+            >
               {/* <img
                 src="https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_settings_48px-512.png"
                 alt="Placeholder"
-                className="img-responsive rounded-circle shadow-lg"
+                className="img-responsive rounded-circle shadow"
                 style={{
                   width: "4em",
                   height: "4em",
                 }}
               /> */}
-              <NavLink exact to="/friends">
+              <NavLink className="d-block" exact to="/friends">
                 <img
                   src="https://www.ifsw.org/wp-content/uploads/2018/03/friends.png"
                   alt="Placeholder"
-                  className="img-responsive rounded-circle shadow-lg"
+                  className="img-responsive rounded- shadow-"
                   style={{
                     width: "4em",
                     height: "4em",
                   }}
                 />
               </NavLink>
-              <NavLink to="/explore" exact>
+              <NavLink className="d-block" to="/explore" exact>
                 <img
                   src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_explore_48px-512.png"
                   alt="Placeholder"
-                  className="img-responsive rounded-circle shadow-lg"
+                  className="img-responsive rounded- shadow-"
                   style={{
                     width: "4em",
                     height: "4em",
