@@ -7,6 +7,7 @@ module.exports = function override(config) {
     "@config": "src/config",
     "@fonts": "src/fonts",
     "@main": "src/components/main",
+    "@workers": "src/workers",
     "@redux": "src/redux",
     "@shared": "src/components/shared",
     "@src": "src",

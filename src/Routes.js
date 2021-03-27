@@ -11,16 +11,9 @@ import TTTfriend from "@main/tictactoe/TTTfriend";
 import TTThuman from "@main/tictactoe/TTThuman";
 import Friends from "@main/friends/Friends";
 import { Explore } from "@components/main/explore/Explore";
-import php from "@config/php";
-import { auth } from "@config/firebaseConfig";
 
 const USER_AUTHENTICATED = (
   <Switch>
-    {setInterval(() => {
-      php.post("player.php", {
-        email: auth.currentUser.email,
-      });
-    }, 1000 * 4)}
     <Route exact path="/" component={Home}></Route>
     <Route exact path="/friends" component={Friends}></Route>
     <Route exact path="/explore" component={Explore}></Route>

@@ -56,7 +56,12 @@ export default class Home extends Component {
                 />
                 <div className="dropdown-menu dropdown-menu-right">
                   <div className="dropdown-item">{this.state.userName}</div>
-                  <div className="dropdown-item" onClick={() => auth.signOut()}>
+                  <div
+                    className="dropdown-item"
+                    onClick={() =>
+                      auth.signOut().then((e) => global.worker.terminate())
+                    }
+                  >
                     Logout
                   </div>
                 </div>

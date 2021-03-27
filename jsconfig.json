@@ -8,6 +8,7 @@
       "@config/*": ["./src/config/*"],
       "@main/*": ["./src/components/main/*"],
       "@auth/*": ["./src/components/auth/*"],
+      "@workers/*": ["./src/workers/*"],
       "@src/*": ["./src/*"],
       "@shared/*": ["./src/components/shared/*"]
     }

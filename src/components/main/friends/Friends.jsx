@@ -8,6 +8,7 @@ import Chat from "./Chat";
 import php from "@config/php";
 import PendingListItem from "./PendingListItem";
 import _ from "lodash";
+import { Loading } from "@components/shared/Loading";
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn
 
@@ -98,7 +99,7 @@ export class Friends extends Component {
   }
 
   render() {
-    if (this.state.loading) return "Loading";
+    if (this.state.loading) return <Loading></Loading>;
     else
       return (
         <div>

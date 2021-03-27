@@ -4,6 +4,8 @@ import Loading from "@shared/Loading";
 import Welcome from "@main/welcome/Welcome";
 import { USER_AUTHENTICATED, USER_NOT_AUTHENTICATED } from "./Routes";
 import { NotificationManager } from "react-notifications";
+import WebWorker from "@workers/WorkerSetup";
+import setOnlineStatus from "@workers/OnlineStatusWorker";
 
 export default class App extends Component {
   constructor(props) {
@@ -37,6 +39,8 @@ export default class App extends Component {
           this.whereTo = "w";
         }
         this.__authenticated = true;
+        global.worker = new WebWorker(setOnlineStatus);
+        global.worker.postMessage(auth.currentUser.email);
       } else {
         this.__authenticated = false;
       }

@@ -1,3 +1,10 @@
+** add this to every signOut function 
+.then((e) => global.worker.terminate()
+
+
+
+
+--------------------------------------------
 WHILE DEMONSTRATION SET SETONLINESTATUS TIMEOUT TO FEW SECONDS
 for backend check set offset x(timeout) + 3~4s
 
