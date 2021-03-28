@@ -12,3 +12,5 @@ const setOnlineStatus = () => {
 };
 
 export default setOnlineStatus;
+
+// no imports, fetch, postmessage

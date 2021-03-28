@@ -9,6 +9,8 @@ import php from "@config/php";
 import PendingListItem from "./PendingListItem";
 import _ from "lodash";
 import { Loading } from "@components/shared/Loading";
+import WebWorker from "@workers/WorkerSetup";
+import friendsDataFetcher from "@workers/friendsDataFetcher";
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn
 
@@ -31,6 +33,7 @@ export class Friends extends Component {
   };
 
   async componentDidMount() {
+    global.friendsDataFetcher = new WebWorker(friendsDataFetcher);
     setInterval(async () => {
       let friends, userName, requests;
       try {
