@@ -41,6 +41,10 @@ export default class App extends Component {
         this.__authenticated = true;
         global.worker = new WebWorker(setOnlineStatus);
         global.worker.postMessage(auth.currentUser.email);
+        // global.chatListener = new WebWorker(chatWorker);
+        // global.chatListener.addEventListener("message", (e) => {
+        //   NotificationManager.info(e, "New message!");
+        // });
       } else {
         this.__authenticated = false;
       }

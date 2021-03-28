@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { auth } from "@config/firebaseConfig";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import "./Friends.scss";
 import FriendListItem from "./FriendListItem";
 import Chat from "./Chat";
@@ -9,8 +9,6 @@ import php from "@config/php";
 import PendingListItem from "./PendingListItem";
 import _ from "lodash";
 import { Loading } from "@components/shared/Loading";
-import WebWorker from "@workers/WorkerSetup";
-import friendsDataFetcher from "@workers/friendsDataFetcher";
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn
 
@@ -33,7 +31,9 @@ export class Friends extends Component {
   };
 
   async componentDidMount() {
-    global.friendsDataFetcher = new WebWorker(friendsDataFetcher);
+    // global.friendsDataFetcher.addEventListener("message", (e) => {
+    //   console.log(e);
+    // });
     setInterval(async () => {
       let friends, userName, requests;
       try {
@@ -147,13 +147,18 @@ export class Friends extends Component {
                         // console.log(friend);
                         if (friend.status === "F")
                           return (
-                            <FriendListItem
-                              chatWith={this.chatWith}
-                              key={i}
-                              id={friend.id}
-                              onlineStatus={friend.onlineStatus}
-                              userName={friend.friend}
-                            />
+                            <Route
+                              render={(props) => (
+                                <FriendListItem
+                                  {...props}
+                                  chatWith={this.chatWith}
+                                  key={i}
+                                  id={friend.id}
+                                  onlineStatus={friend.onlineStatus}
+                                  userName={friend.friend}
+                                />
+                              )}
+                            ></Route>
                           );
                       })
                     : "No friends"}

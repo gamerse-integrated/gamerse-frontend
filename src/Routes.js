@@ -21,7 +21,7 @@ const USER_AUTHENTICATED = (
     <Route exact path="/snakes" component={Snakes}></Route>
     <Route exact path="/ttteasy" component={TTTeasy}></Route>
     <Route exact path="/ttthuman" component={TTThuman}></Route>
-    <Route exact path="/tttfriend" component={TTTfriend}></Route>
+    <Route exact path="/tttfriend/:id" component={TTTfriend}></Route>
     <Route exact path="/tttai" component={TTTai}></Route>
 
     <Redirect to="/" />
