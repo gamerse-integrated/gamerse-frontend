@@ -91,10 +91,13 @@ function Chat({ id, userName }) {
                 .update({
                   count: Math.floor(Math.random() * 100),
                   lastSenderUsername: userName,
+                  challenge: false,
+                  challenger: "",
+                  challengee: "",
                 });
             });
-          setMessage("");
         });
+      setMessage("");
     }
   };
 

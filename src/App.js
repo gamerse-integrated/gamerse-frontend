@@ -1,35 +1,30 @@
-import React, { Component } from "react";
 import { auth, db } from "@config/firebaseConfig";
-import Loading from "@shared/Loading";
 import Welcome from "@main/welcome/Welcome";
-import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Routes";
-import { NotificationManager } from "react-notifications";
-import WebWorker from "@workers/WorkerSetup";
+import Loading from "@shared/Loading";
 import setOnlineStatus from "@workers/OnlineStatusWorker";
-
+import WebWorker from "@workers/WorkerSetup";
+import React, { Component } from "react";
+import { NotificationManager } from "react-notifications";
+import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Routes";
 export default class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
     };
   }
   __authenticated = null;
   whereTo = null;
-
   checkData = async (uid) => {
     try {
       let doc = await db.collection("users").doc(uid).get();
       let data = doc.data();
       return data["hasData"];
     } catch (err) {
-      console.log(err);
       auth.signOut();
-      NotificationManager.warning("Error fetching data");
+      NotificationManager.warning("An unexpected error has occured");
     }
   };
-
   componentDidMount() {
     auth.onAuthStateChanged(async (user) => {
       if (user && user.emailVerified) {
@@ -39,19 +34,16 @@ export default class App extends Component {
           this.whereTo = "w";
         }
         this.__authenticated = true;
+
+        // * worker
         global.worker = new WebWorker(setOnlineStatus);
         global.worker.postMessage(auth.currentUser.email);
-        // global.chatListener = new WebWorker(chatWorker);
-        // global.chatListener.addEventListener("message", (e) => {
-        //   NotificationManager.info(e, "New message!");
-        // });
       } else {
         this.__authenticated = false;
       }
       this.setState({ loading: false });
     });
   }
-
   render() {
     if (this.state.loading) {
       return <Loading></Loading>;
@@ -62,7 +54,7 @@ export default class App extends Component {
         } else if (this.whereTo === "h") {
           return <UserAuthenticated></UserAuthenticated>;
         } else {
-          return "Inappropriate action 🛑";
+          return "Sorry, that won't work 😂";
         }
       } else if (this.__authenticated === false) {
         return USER_NOT_AUTHENTICATED;

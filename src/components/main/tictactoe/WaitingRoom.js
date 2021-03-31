@@ -8,36 +8,18 @@ export class WaitingRoom extends Component {
     super(props);
 
     this.state = {
-      requesters: [],
+      id: null,
+      playerCount: null,
     };
   }
 
   componentDidMount() {
-    let friendId = this.props.match.params.friendId;
-    // !  send game request
-    // send firestore request
-    // add listener on app
-    // if accepted: goto game else: go back and prompt request rejected
-    // * listen w own uid
-    // ! multiple requests handle
-    db.collection("requests")
-      .doc(friendId)
-      .get()
-      .then((e) => this.setState({ requesters: e.data()["requesters"] }))
-      .catch((e) => console.log(e));
-
-    db.collection("requests")
-      .doc(friendId)
-      .set({
-        requesters: [...this.state.requesters, auth.currentUser.uid],
-      })
-      .then((ref) => {
-        //   add extra attribute
-        // if accepted send both users to game
-        // else requester entry delete ==>
-      });
-
-    //
+    let friendId = this.props.match.params.id;
+    // console.log(friendId);
+    // challenger: check,
+    // challengee: check,
+    // checker 0-1-2
+    // proceed to game
   }
 
   render() {

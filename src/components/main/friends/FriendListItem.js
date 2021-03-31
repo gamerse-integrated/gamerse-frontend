@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import php from "@config/php";
 import { NotificationManager } from "react-notifications";
+import { auth, db } from "@config/firebaseConfig";
 
 export class FriendListItem extends Component {
   constructor(props) {
@@ -22,12 +23,11 @@ export class FriendListItem extends Component {
       .catch((error) => console.log(error));
   };
 
-  challenge = () => {
+  challenge = (id) => {
     // challenge to TTT
-    // php add message
     php
       .post("friends.php", {
-        friendid: this.props.id,
+        friendid: this.state.id,
         message:
           "@" +
           this.props.userName +
@@ -35,13 +35,28 @@ export class FriendListItem extends Component {
           new Date().toISOString() +
           " / " +
           "code / " +
-          this.props.id,
+          this.state.id,
       })
       .then((e) => {
-        NotificationManager.warning("Challenge sent");
-        this.props.history.push(`/tttfriend/${this.props.id}`);
+        db.collection("chats")
+          .doc(this.state.id)
+          .update({
+            count: Math.floor(Math.random() * 100),
+            lastSenderUsername: this.props.myUsername,
+            challenge: true,
+            challenger: this.props.myUsername,
+            challengee: this.props.userName,
+          })
+          .then(() => {
+            NotificationManager.warning("Challenge sent");
+            this.props.history.push(`/waiting-room/${this.props.id}`);
+          });
       });
   };
+
+  componentDidMount() {
+    this.setState({ id: this.props.id });
+  }
 
   render() {
     return (
@@ -81,12 +96,15 @@ export class FriendListItem extends Component {
             className="d-flex flex-column bg-white shadow p-1"
             style={{ borderRadius: "1rem" }}
           >
-            <MenuItem className="btn" onClick={this.challenge}>
-              Challenge
+            <MenuItem
+              className="btn"
+              onClick={() => this.challenge(this.state.id)}
+            >
+              Challenge {this.state.id}
             </MenuItem>
             <MenuItem
               className="btn text-danger font-weight-bold"
-              onClick={() => this.removeFriend(this.props.id)}
+              onClick={() => this.removeFriend(this.state.id)}
             >
               Remove
             </MenuItem>

@@ -54,7 +54,7 @@ export default class TicTacToeRouter extends Component {
               <p>Against Random Player</p>
             </Link>
             <Link
-              to="tttfriend"
+              to="joinroom"
               className="d-flex flex-column flex-grow-1 border col-3"
             >
               <p>Against Friend</p>

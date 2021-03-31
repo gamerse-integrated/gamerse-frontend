@@ -9,18 +9,18 @@ import "./index.scss";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "@redux/store";
 import NotificationContainer from "react-notifications/lib/NotificationContainer";
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
+    <Router>
       <Provider store={store}>
         <Route component={App}></Route>
       </Provider>
-    </HashRouter>
+    </Router>
     <NotificationContainer />
   </React.StrictMode>,
   document.getElementById("gamerse")

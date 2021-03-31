@@ -1,7 +1,7 @@
 ** add this to every signOut function 
 .then((e) => global.worker.terminate()
 
-
+DELETE CONTEXTMENU
 
 
 --------------------------------------------

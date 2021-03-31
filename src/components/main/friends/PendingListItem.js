@@ -18,6 +18,9 @@ class PendingListItem extends Component {
           .set({
             count: 0,
             lastSenderUsername: "",
+            challenge: false,
+            challenger: "",
+            challengee: "",
           })
           .then(() => this.setState({}))
       )

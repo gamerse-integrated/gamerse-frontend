@@ -92,12 +92,15 @@ export class Friends extends Component {
         requests = this.state.requests;
       }
 
-      this.setState({
-        loading: false,
-        userName: userName,
-        friends: friends,
-        requests: requests,
-      });
+      this.setState(
+        {
+          loading: false,
+          userName: userName,
+          friends: friends,
+          requests: requests,
+        }
+        // () => console.log(this.state.friends)
+      );
     }, 4 * 1000);
   }
 
@@ -156,10 +159,12 @@ export class Friends extends Component {
                                   id={friend.id}
                                   onlineStatus={friend.onlineStatus}
                                   userName={friend.friend}
+                                  myUsername={this.state.userName}
                                 />
                               )}
                             ></Route>
                           );
+                        else return <></>;
                       })
                     : "No friends"}
                 </ul>

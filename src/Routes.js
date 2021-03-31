@@ -1,61 +1,69 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import ForgotPassword from "@auth/forgotPassword/ForgotPassword";
 import Login from "@auth/login/Login";
 import Register from "@auth/register/Register";
-import ForgotPassword from "@auth/forgotPassword/ForgotPassword";
-import Home from "@main/Home";
-import TicTacToeRouter from "@main/TicTacToeRouter";
-import Snakes from "@main/snakes/Snakes";
-import TTTeasy from "@main/tictactoe/TTTeasy";
-import TTTai from "@main/tictactoe/TTTai";
-import TTTfriend from "@main/tictactoe/TTTfriend";
-// import TTThuman from "@main/tictactoe/TTThuman";
-import Friends from "@main/friends/Friends";
 import { Explore } from "@components/main/explore/Explore";
-import { auth, db } from "@config/firebaseConfig";
-import php from "@config/php";
-import _ from "lodash";
-import { Loading } from "@components/shared/Loading";
-import { NotificationManager } from "react-notifications";
+import { JoinRoom } from "@components/main/tictactoe/JoinRoom";
 import TicTacToe from "@components/main/tictactoe/TicTacToe";
 import TTThuman from "@components/main/tictactoe/TTThuman";
+import { WaitingRoom } from "@components/main/tictactoe/WaitingRoom";
+import { Loading } from "@components/shared/Loading";
+import { auth, db } from "@config/firebaseConfig";
+import php from "@config/php";
+import Friends from "@main/friends/Friends";
+import Home from "@main/Home";
+import Snakes from "@main/snakes/Snakes";
+import TTTai from "@main/tictactoe/TTTai";
+import TTTfriend from "@main/tictactoe/TTTfriend";
+import TicTacToeRouter from "@main/TicTacToeRouter";
+import _ from "lodash";
+import React from "react";
+import { NotificationManager } from "react-notifications";
+import { Redirect, Route, Switch } from "react-router-dom";
+
+export const USER_NOT_AUTHENTICATED = (
+  <Switch>
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/register" component={Register} />
+    <Route exact path="/forgot" component={ForgotPassword} />
+    <Redirect to="/login" />
+  </Switch>
+);
 
 export class UserAuthenticated extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
-      userName: null,
-      friends: [],
-      requests: [],
-      chatWithId: null,
     };
   }
 
   async componentDidMount() {
-    let friends, userName, requests;
+    let friends, userName;
+
+    // *get friends using username
     try {
-      let res1 = await php.get("player.php", {
+      let result_1 = await php.get("player.php", {
         params: {
           email: auth.currentUser.email,
         },
       });
-      userName = res1.data["userName"];
-      // console.log(userName);
-      let res2 = await php.get("friends.php", {
+      userName = result_1.data["userName"];
+
+      // * after fetching username, now fetching friends list
+      let result_2 = await php.get("friends.php", {
         params: {
           userName: userName,
         },
       });
-      friends = res2.data;
+      friends = result_2.data;
     } catch (e) {
-      friends = this.state.friends;
+      friends = [];
     }
 
+    // * format friends array
     try {
-      let res4 = await php.get("player.php");
-      let t = res4.data;
+      let result_3 = await php.get("player.php");
+      let t = result_3.data;
       t = _.map(t, _.partialRight(_.pick, ["userName", "onlineStatus"]));
       let fl = friends.filter((f) => f["status"] === "F");
       let flnames = _.map(fl, "friend");
@@ -77,60 +85,49 @@ export class UserAuthenticated extends React.Component {
             ? "online"
             : "offline",
       }));
-    } catch (e) {}
-
-    try {
-      let res3 = await php.get("friends.php", {
-        params: {
-          fr: true,
-          userName: userName,
-        },
-      });
-      requests = res3.data;
     } catch (e) {
-      requests = this.state.requests;
+      friends = [];
     }
 
-    // notification logic
+    // * new message notifications
 
     let friendsIds = _.map(friends, "id");
-
-    // for (let index = 0; index < friendsIds.length; index++) {
-    //   const id = friendsIds[index];
-    //   console.log("Inside for loop");
-    //   // .where("id", "==", id)
-    // }
-
-    db.collection("chats").onSnapshot((querySnapshot) => {
+    this.unsubscribe = db.collection("chats").onSnapshot((querySnapshot) => {
       let docs = querySnapshot.docs.filter((d) => friendsIds.includes(d.id));
-      // console.log(docs.map((d) => d.data()));
-      // console.log(querySnapshot.docs.map((d) => d.data()));
       docs.forEach((doc) => {
-        // console.log(doc);
         let user = doc.data().lastSenderUsername;
+        let challenge = doc.data().challenge;
         if (user !== userName && user !== "") {
-          // console.log("New message!");
-          NotificationManager.info(
-            `${user} sent you a new message`,
-            "New message"
-          );
+          if (challenge === true) {
+            NotificationManager.warning(
+              `${user} has challenged you to a game`,
+              "Challenge"
+            );
+          }
+          if (challenge === false) {
+            NotificationManager.info(
+              `${user} sent you a new message`,
+              "New message"
+            );
+          }
+
           db.collection("chats").doc(doc.id).update({
+            challenge: false,
             lastSenderUsername: "",
           });
         }
       });
     });
 
+    // * load component
+
     this.setState({
       loading: false,
-      userName: userName,
-      friends: friends,
-      requests: requests,
     });
   }
 
   componentWillUnmount() {
-    // this.listener.u;
+    this.unsubscribe();
   }
 
   render() {
@@ -144,22 +141,12 @@ export class UserAuthenticated extends React.Component {
         <Route exact path="/snakes" component={Snakes}></Route>
         <Route exact path="/ttteasy" component={TicTacToe}></Route>
         <Route exact path="/ttthuman" component={TTThuman}></Route>
+        <Route exact path="/waiting-room/:id" component={WaitingRoom}></Route>
+        <Route exact path="/joinroom" component={JoinRoom}></Route>
         <Route exact path="/tttfriend/:id" component={TTTfriend}></Route>
         <Route exact path="/tttai" component={TTTai}></Route>
-
         <Redirect to="/" />
       </Switch>
     );
   }
 }
-
-const USER_NOT_AUTHENTICATED = (
-  <Switch>
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/register" component={Register} />
-    <Route exact path="/forgot" component={ForgotPassword} />
-    <Redirect to="/login" />
-  </Switch>
-);
-
-export { USER_NOT_AUTHENTICATED };
