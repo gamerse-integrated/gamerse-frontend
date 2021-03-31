@@ -2,7 +2,10 @@
 .then((e) => global.worker.terminate()
 
 DELETE CONTEXTMENU
-
+WAITING ROOM NAVIGATION BACK FROM BROWSER
+https://www.npmjs.com/package/rctx-contextmenu
+https://www.npmjs.com/package/react-contexify
+https://www.npmjs.com/package/jquery-contextmenu
 
 --------------------------------------------
 WHILE DEMONSTRATION SET SETONLINESTATUS TIMEOUT TO FEW SECONDS
