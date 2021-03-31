@@ -1,7 +1,7 @@
 const setOnlineStatus = () => {
   onmessage = ({ data }) => {
     setInterval(() => {
-      console.log(data);
+      // console.log(data);
       fetch(process.env.REACT_APP_BASE_URL + "player.php", {
         method: "POST",
         body: JSON.stringify({

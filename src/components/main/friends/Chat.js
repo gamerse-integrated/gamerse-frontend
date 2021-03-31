@@ -4,6 +4,7 @@ import { PubNubProvider, usePubNub } from "pubnub-react";
 import php from "@config/php";
 import $ from "jquery";
 import _ from "lodash";
+import app, { db } from "@config/firebaseConfig";
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUB,
@@ -73,16 +74,25 @@ function Chat({ id, userName }) {
             "@" + userName + " / " + new Date().toISOString() + " / " + message,
         })
         .then(() => {
-          php.post("friends.php", {
-            friendid: id,
-            message:
-              "@" +
-              userName +
-              " / " +
-              new Date().toISOString() +
-              " / " +
-              message,
-          });
+          php
+            .post("friends.php", {
+              friendid: id,
+              message:
+                "@" +
+                userName +
+                " / " +
+                new Date().toISOString() +
+                " / " +
+                message,
+            })
+            .then((res) => {
+              db.collection("chats")
+                .doc(id)
+                .update({
+                  count: Math.floor(Math.random() * 100),
+                  lastSenderUsername: userName,
+                });
+            });
           setMessage("");
         });
     }

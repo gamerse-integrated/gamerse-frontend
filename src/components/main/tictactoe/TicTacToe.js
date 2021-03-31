@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ScoreBoard from "./Scoreboard";
 import "./TicTacToe.css";
 
 class TicTacToe extends Component {
@@ -14,6 +15,8 @@ class TicTacToe extends Component {
       gameEnded: false,
       board: Array(9).fill(""),
       totalMoves: 0,
+      currentPlayerScore: 0,
+      opponentPlayer: 0,
     };
   }
 
@@ -35,12 +38,14 @@ class TicTacToe extends Component {
 
     if (result == "X") {
       this.gameState.gameEnded = true;
+      this.gameState.currentPlayerScore = this.gameState.currentPlayerScore + 1;
       this.setState({
         winner: "X",
         winnerLine: "Match won by X",
       });
     } else if (result == "O") {
       this.gameState.gameEnded = true;
+      this.gameState.opponentPlayer = this.gameState.opponentPlayer + 1;
       this.setState({
         winner: "O",
         winnerLine: "Match won by O",
@@ -107,6 +112,10 @@ class TicTacToe extends Component {
           <div className="square" data-square="7"></div>
           <div className="square" data-square="8"></div>
         </div>
+        <ScoreBoard
+          player1={["X", this.gameState.currentPlayerScore]}
+          player2={["O", this.gameState.opponentPlayer]}
+        />
       </div>
     );
   }

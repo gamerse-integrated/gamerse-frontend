@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { auth, db } from "@config/firebaseConfig";
 import Loading from "@shared/Loading";
 import Welcome from "@main/welcome/Welcome";
-import { USER_AUTHENTICATED, USER_NOT_AUTHENTICATED } from "./Routes";
+import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Routes";
 import { NotificationManager } from "react-notifications";
 import WebWorker from "@workers/WorkerSetup";
 import setOnlineStatus from "@workers/OnlineStatusWorker";
@@ -60,7 +60,7 @@ export default class App extends Component {
         if (this.whereTo === "w") {
           return <Welcome></Welcome>;
         } else if (this.whereTo === "h") {
-          return USER_AUTHENTICATED;
+          return <UserAuthenticated></UserAuthenticated>;
         } else {
           return "Inappropriate action 🛑";
         }

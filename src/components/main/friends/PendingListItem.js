@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import php from "@config/php";
 import { NotificationManager as nm } from "react-notifications";
+import { db } from "@config/firebaseConfig";
 class PendingListItem extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,16 @@ class PendingListItem extends Component {
     console.log("inside add friend");
     php
       .post("friends.php", { action: "A", friendRecordId: id })
-      .then((res) => this.setState({}))
+      .then((res) =>
+        db
+          .collection("chats")
+          .doc(id)
+          .set({
+            count: 0,
+            lastSenderUsername: "",
+          })
+          .then(() => this.setState({}))
+      )
       .catch((error) => nm.error("An unexpected error has occured"));
   };
   rejectFriend = (id) => {
