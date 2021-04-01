@@ -82,13 +82,13 @@ $enable-shadows: true;
 $enable-gradients: true;
 $enable-caret: false;
 
-// $primary: #6c63ff;
-// $dark: #222831;
+$primary: #6c63ff;
+$dark: #222831;
 
-// ::selection {
-//   background-color: #6c63ff;
-//   color: #fff;
-// }
+::selection {
+  background-color: #6c63ff;
+  color: #fff;
+}
 
 // $theme-colors: ();
 

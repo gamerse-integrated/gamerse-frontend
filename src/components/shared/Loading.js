@@ -7,7 +7,9 @@ export class Loading extends Component {
     return (
       <div
         id="Loading"
-        className="d-flex min-vh-100 bg- justify-content-center align-items-center"
+        className={`d-flex ${
+          this.props.height || "min-vh-100"
+        } bg- justify-content-center align-items-center`}
       >
         <div className="loading">
           <div className="dot"></div>
