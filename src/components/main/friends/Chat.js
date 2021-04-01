@@ -20,6 +20,21 @@ function Chatbox({ id, userName }) {
   );
 }
 
+const hashCode = (str) => {
+  // java String#hashCode
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+};
+
+const intToRGB = (i) => {
+  let c = (i & 0x00ffffff).toString(16).toUpperCase();
+
+  return "00000".substring(0, 6 - c.length) + c;
+};
+
 const getResults = async (id) => {
   let { data } = await php.get("friends.php", {
     params: {
@@ -114,27 +129,47 @@ function Chat({ id, userName }) {
         {/* <div style={headerStyles}>React Chat Example</div> */}
         <div
           style={{}}
-          className="text-dark h1 text-center rounded shadow-sm p-1 bg-white"
+          className="text-dark font-weight-bold h1 text-center p-1 bg-white"
         >
-          Personal chat
+          Personal Chat
         </div>
         {/* <div style={listStyles}> */}
         <div
           style={{
-            maxHeight: "70vh",
+            maxHeight: "66vh",
             overflowY: "auto",
           }}
           id="chatStyle"
           className=""
         >
           {messages.map((message, index) => {
+            let messageParts = message.split(" / ");
+            let sender = messageParts[0];
+            let timestamp = new Date(messageParts[1]);
+            let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            let printTime = `${
+              days[timestamp.getDay()]
+            }, ${timestamp.toLocaleString()}`;
+            let content = Array.from(messageParts).splice(2).join(" / ");
             return (
               <div
                 className="shadow-sm"
                 key={`message-${index}`}
                 style={messageStyles}
               >
-                {message}
+                <small
+                  className="text- d-block"
+                  style={{
+                    // color: `#${genRanHex(6)}`,
+                    color: `${intToRGB(hashCode(sender))}`,
+                  }}
+                >
+                  {sender}
+                </small>
+                <span style={{ userSelect: "" }}>{content}</span>
+                <small className="text-muted text-right d-block">
+                  {printTime}
+                </small>
               </div>
             );
           })}

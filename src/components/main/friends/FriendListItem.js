@@ -71,7 +71,7 @@ export class FriendListItem extends Component {
             <div className="media w-100 h-100 align-items-center">
               <img
                 alt="Person"
-                src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
+                src={this.props.photoURL}
                 className="img-responsive rounded-circle shadow-sm"
                 style={{
                   width: "3.2em",

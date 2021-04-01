@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  // transition: all 1s ease;
+
+  // * SCROLLBAR STYLES
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
@@ -15,29 +18,34 @@
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #9d98f8;
+    border-radius: 1rem;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #6c63ff;
   }
+
+  // * ANTIALIASING
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // -webkit-overflow-scrolling: touch;
+  // overflow-y: auto;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  user-select: none; /* disable text select */
+  -webkit-touch-callout: none; /* disable callout, image save panel (popup) */
+  -webkit-tap-highlight-color: transparent; /* "turn off" link highlight */
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap");
+a:focus {
+  outline: 0; // Firefox (remove border on link click)
+}
 
-$font-family-sans-serif: "Inter", sans-serif;
-$font-family-monospace: "Fira Code", monospace;
-$enable-shadows: true;
-$enable-gradients: true;
-// $body-bg: #222831;
-// $body-color: white;
-
-$primary: #6c63ff;
-$dark: #222831;
-
-::selection {
-  background-color: #6c63ff;
-  color: #fff;
+h1,
+h2,
+h3 {
+  text-rendering: optimizeLegibility;
 }
 
 .notification {
@@ -49,12 +57,40 @@ $dark: #222831;
   --animate-duration: 1.55s;
 }
 
-$theme-colors: (
-  "t-light": #f1f1f6,
-  "t-primary": #e1ccec,
-  "t-secondary": #c9b6e4,
-  "t-dark": #be9fe1,
-);
+// @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap");
+
+// * BOOTSTRAP SASS OPTIONS
+
+$font-family-sans-serif: "Inter",
+  // Safari for macOS and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for macOS (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  "Segoe UI",
+  // Android
+  "Roboto",
+  // Basic web fallback
+  "Helvetica Neue",
+  Arial, sans-serif,
+  // Emoji fonts
+  "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+$font-family-monospace: "Fira Code", monospace;
+$enable-shadows: true;
+$enable-gradients: true;
+$enable-caret: false;
+
+// $primary: #6c63ff;
+// $dark: #222831;
+
+// ::selection {
+//   background-color: #6c63ff;
+//   color: #fff;
+// }
+
+// $theme-colors: ();
 
 @import "bootstrap";
 @import "animate.css";

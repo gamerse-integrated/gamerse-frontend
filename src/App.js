@@ -1,11 +1,12 @@
+import React, { Component } from "react";
 import { auth, db } from "@config/firebaseConfig";
 import Welcome from "@main/welcome/Welcome";
 import Loading from "@shared/Loading";
 import setOnlineStatus from "@workers/OnlineStatusWorker";
 import WebWorker from "@workers/WorkerSetup";
-import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
-import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Routes";
+import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Router";
+// import $ from "jquery"
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,7 @@ export default class App extends Component {
       let doc = await db.collection("users").doc(uid).get();
       let data = doc.data();
       return data["hasData"];
-    } catch (err) {
+    } catch (e) {
       auth.signOut();
       NotificationManager.warning("An unexpected error has occured");
     }
@@ -41,6 +42,9 @@ export default class App extends Component {
       } else {
         this.__authenticated = false;
       }
+      // $(function () {
+      //   $('[data-toggle="tooltip"]').tooltip();
+      // });
       this.setState({ loading: false });
     });
   }

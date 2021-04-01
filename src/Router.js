@@ -16,6 +16,7 @@ import TTTai from "@main/tictactoe/TTTai";
 import TTTfriend from "@main/tictactoe/TTTfriend";
 import TicTacToeRouter from "@main/TicTacToeRouter";
 import _ from "lodash";
+import $ from "jquery";
 import React from "react";
 import { NotificationManager } from "react-notifications";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -34,6 +35,7 @@ export class UserAuthenticated extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      userName: null,
     };
   }
 
@@ -119,10 +121,18 @@ export class UserAuthenticated extends React.Component {
       });
     });
 
+    // * tooltips
+
+    // $(function () {
+    //   $('[data-toggle="tooltip"]').tooltip();
+    //   $('[data-toggle="tooltip"]').tooltip("hide");
+    // });
+
     // * load component
 
     this.setState({
       loading: false,
+      userName: userName,
     });
   }
 
@@ -134,7 +144,13 @@ export class UserAuthenticated extends React.Component {
     if (this.state.loading) return <Loading></Loading>;
     return (
       <Switch>
-        <Route exact path="/" component={Home}></Route>
+        <Route
+          exact
+          path="/"
+          component={(props) => (
+            <Home {...props} userName={this.state.userName} />
+          )}
+        ></Route>
         <Route exact path="/friends" component={Friends}></Route>
         <Route exact path="/explore" component={Explore}></Route>
         <Route exact path="/tictactoe" component={TicTacToeRouter}></Route>

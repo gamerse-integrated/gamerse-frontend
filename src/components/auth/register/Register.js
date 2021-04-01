@@ -39,8 +39,14 @@ export class Register extends Component {
     });
   };
 
+  genRanHex = (size) =>
+    [...Array(size)]
+      .map(() => Math.floor(Math.random() * 16).toString(16))
+      .join("");
+
   handleSubmit = (ev) => {
     ev.preventDefault();
+    let photoURL = `https://api.multiavatar.com/${this.genRanHex(18)}.svg`;
     if (this.validatePassword(this.state.password)) {
       if (this.state.confirm_password === this.state.password) {
         $("#reason").fadeOut("fast");
@@ -51,9 +57,16 @@ export class Register extends Component {
               .sendEmailVerification()
               .then(() => {
                 // create firestore doc
-                db.collection("users").doc(user.uid).set({
-                  hasData: false,
-                });
+                db.collection("users")
+                  .doc(user.uid)
+                  .set({
+                    hasData: false,
+                  })
+                  .then(() => {
+                    auth.currentUser.updateProfile({
+                      photoURL: photoURL,
+                    });
+                  });
                 this.setState({ code: "accountCreated" }, () => {
                   $("#reason").fadeIn("fast");
                 });

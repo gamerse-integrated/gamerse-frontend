@@ -17,6 +17,26 @@ function Chatbox({ userName }) {
   );
 }
 
+// const genRanHex = (size) =>
+//   [...Array(size)]
+//     .map(() => Math.floor(Math.random() * 16).toString(16))
+//     .join("");
+
+const hashCode = (str) => {
+  // java String#hashCode
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+};
+
+const intToRGB = (i) => {
+  let c = (i & 0x00ffffff).toString(16).toUpperCase();
+
+  return "00000".substring(0, 6 - c.length) + c;
+};
+
 function Chat({ userName }) {
   const pubnub = usePubNub();
   const [channels] = useState(["global-chat"]);
@@ -57,13 +77,21 @@ function Chat({ userName }) {
   }, [pubnub, channels]);
 
   return (
-    <div style={{}} className="d-flex flex-column">
+    <div id="GLOBALCHAT" style={{}} className="d-flex flex-column">
       {/* <div style={pageStyles} className="flex-grow-1 d-flex flex-column"> */}
       {/* <div style={chatStyles} className="flex-grow-1"> */}
       <div style={{}} className="position-relative">
         {/* <div style={headerStyles}>React Chat Example</div> */}
-        <div style={{}} className="text-white h1 text-center">
-          Global chat
+        <div
+          // style={{
+          //   background:
+          //     "-webkit-gradient(linear, left top, left bottom, from(#eee), to(#333))",
+          //   WebkitBackgroundClip: "text",
+          //   WebkitTextFillColor: "transparent",
+          // }}
+          className="text-uppercas h1 text-center font-weight-bold"
+        >
+          Global Chat
         </div>
         {/* <div style={listStyles}> */}
         <div
@@ -75,13 +103,33 @@ function Chat({ userName }) {
           className=""
         >
           {messages.map((message, index) => {
+            let messageParts = message.split(" / ");
+            let sender = messageParts[0];
+            let timestamp = new Date(messageParts[1]);
+            let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            let printTime = `${
+              days[timestamp.getDay()]
+            }, ${timestamp.toLocaleString()}`;
+            let content = Array.from(messageParts).splice(2).join(" / ");
             return (
               <div
-                className="shadow"
+                className="shadow-sm"
                 key={`message-${index}`}
                 style={messageStyles}
               >
-                {message}
+                <small
+                  className="text- d-block"
+                  style={{
+                    // color: `#${genRanHex(6)}`,
+                    color: `${intToRGB(hashCode(sender))}`,
+                  }}
+                >
+                  {sender}
+                </small>
+                <span style={{ userSelect: "" }}>{content}</span>
+                <small className="text-muted text-right d-block">
+                  {printTime}
+                </small>
               </div>
             );
           })}
@@ -109,7 +157,16 @@ function Chat({ userName }) {
                 sendMessage(message);
               }}
             >
-              Send Message
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-arrow-right-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+              </svg>
             </button>
           </div>
         </div>
@@ -146,7 +203,7 @@ const listStyles = {
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
-  overflow: "auto",
+  overflowY: "auto",
   // padding: "10px",
 };
 

@@ -1,17 +1,23 @@
 #global-chat {
   padding: 2em;
-  border-top-left-radius: 3em;
-  border-bottom-left-radius: 3em;
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
   // box-shadow: -9px 0px 121px 2px rgba(190, 159, 225, 0.38);
   box-shadow: 2px 0px 32px -10px rgba(0, 0, 0, 0.43);
-  border-left: 1.2rem solid palevioletred;
-  background-color: blueviolet;
+  // border-left: 1.2rem solid palevioletred;
+  background-color: rgba(238, 238, 238, 0.397);
+  // color: white;
   // background-color: rgba(44, 29, 129, 0.76);
-  color: white;
 }
 
+// #GLOBALCHAT {
+//   #chatStyle {
+//     transition: all 1s ease;
+//   }
+// }
+
 #home-controls {
-  padding: 2em;
+  // padding: 2em;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -25,7 +31,7 @@
   align-items: center;
 }
 #dashboard-game-carousel {
-  padding: 2em;
+  // padding: 2em;
   min-height: 70vh !important;
   border-radius: 2em;
 }
@@ -50,8 +56,8 @@
 // }
 
 #dashboard-controls {
-  padding-top: 1em;
-  min-height: 10vh !important;
+  // padding-top: 1em;
+  // min-height: 10vh !important;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -9,6 +9,7 @@ import php from "@config/php";
 import PendingListItem from "./PendingListItem";
 import _ from "lodash";
 import { Loading } from "@components/shared/Loading";
+import Header from "@shared/Header";
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn
 
@@ -31,9 +32,6 @@ export class Friends extends Component {
   };
 
   async componentDidMount() {
-    // global.friendsDataFetcher.addEventListener("message", (e) => {
-    //   console.log(e);
-    // });
     setInterval(async () => {
       let friends, userName, requests;
       try {
@@ -57,7 +55,10 @@ export class Friends extends Component {
       try {
         let res4 = await php.get("player.php");
         let t = res4.data;
-        t = _.map(t, _.partialRight(_.pick, ["userName", "onlineStatus"]));
+        t = _.map(
+          t,
+          _.partialRight(_.pick, ["userName", "onlineStatus", "photoURL"])
+        );
         let fl = friends.filter((f) => f["status"] === "F");
         let flnames = _.map(fl, "friend");
         t = t.filter((p) => flnames.includes(p["userName"]));
@@ -72,6 +73,7 @@ export class Friends extends Component {
           friend: p["userName"],
           id: p["id"],
           status: p["status"],
+          photoURL: p["photoURL"],
           onlineStatus:
             new Date(parseInt(p["onlineStatus"])).getTime() + 6 * 1000 >
             new Date().getTime()
@@ -109,39 +111,9 @@ export class Friends extends Component {
     else
       return (
         <div>
-          <div className="min-vh-100 bg-light d-flex flex-column">
-            <div
-              className=" d-flex justify-content-between py-2 px-3 align-items-center "
-              style={{ border: "none" }}
-            >
-              <div className="">
-                <Link to="/" className="" style={{ textDecoration: "none" }}>
-                  <h2>Gamerse</h2>
-                </Link>
-              </div>
-
-              <div className="dropdown nav-item">
-                <img
-                  // src="https://via.placeholder.com/150"
-                  src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
-                  alt="Profile"
-                  className="img-responsive rounded-circle shadow"
-                  style={{
-                    width: "3.2em",
-                    height: "3.2em",
-                  }}
-                  role="button"
-                  data-toggle="dropdown"
-                />
-                <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-item">Profile</div>
-                  <div className="dropdown-item" onClick={() => auth.signOut()}>
-                    Logout
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <div className="min-vh-100 d-flex flex-column">
+            <Route component={(props) => <Header {...props}></Header>}></Route>
+            {/* main */}
             <div className="d-flex flex-row flex-grow-1">
               <div className="col-4 flex-grow-1 m-0 p-0">
                 <ul className="list-group list-group-flushed  rounded-0">
@@ -156,6 +128,7 @@ export class Friends extends Component {
                                   {...props}
                                   chatWith={this.chatWith}
                                   key={i}
+                                  photoURL={friend.photoURL}
                                   id={friend.id}
                                   onlineStatus={friend.onlineStatus}
                                   userName={friend.friend}

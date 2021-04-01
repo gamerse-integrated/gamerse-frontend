@@ -100,6 +100,7 @@ export default class Welcome extends Component {
         dob: this.state.dob,
         gender: this.state.gender,
         accountStatus: this.state.accountStatus,
+        photoURL: auth.currentUser.photoURL,
       })
       .then((res) => {
         db.collection("users")
