@@ -1,5 +1,6 @@
 import Snake from "./Snake";
 import Food from "./Food";
+import Poison from "./Poison";
 import "./App.css";
 import { Component } from "react";
 import { connect } from "react-redux";
@@ -12,11 +13,19 @@ const getRandomCoordinates = () => {
   let y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
   return [x, y];
 };
-
+const getRandomCoordinates2 = () => {
+  let min = 1;
+  let max = 98;
+  let x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
+  let y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
+  return [x, y];
+};
 const initialState = {
   food: getRandomCoordinates(),
   speed: 200,
   direction: "n",
+  poison: null,
+  length: 2,
   snakeDots: [
     [0, 0],
     [2, 0],
@@ -31,12 +40,16 @@ export class SnakeGame extends Component {
   componentDidMount() {
     setInterval(this.moveSnake, this.state.speed);
     document.onkeydown = this.onKeyDown;
+    setInterval(this.checklength, 5000);
   }
 
   componentDidUpdate() {
     this.checkIfOutOfBorders();
     this.checkIfCollapsed();
     this.checkIfEat();
+    if (this.state.poison !== null) {
+      this.checkIfEatPoison();
+    }
   }
 
   onKeyDown = (e) => {
@@ -123,14 +136,27 @@ export class SnakeGame extends Component {
   checkIfEat() {
     let head = this.state.snakeDots[this.state.snakeDots.length - 1];
     let food = this.state.food;
-    if (head[0] === food[0] && head[1] === food[1]) {
+    if (head[0] == food[0] && head[1] == food[1]) {
       this.setState({
-        food: getRandomCoordinates(),
+        food: this.gen_food(),
+        length: this.state.length + 1,
       });
       this.enlargeSnake();
       this.increaseSpeed();
       this.s = this.s + 20;
-      // this.props.updateScore(this.s);
+    }
+  }
+  checkIfEatPoison() {
+    let head = this.state.snakeDots[this.state.snakeDots.length - 1];
+    let poison = this.state.poison;
+    if (head[0] == poison[0] && head[1] == poison[1]) {
+      this.setState({
+        poison: this.gen_poison(),
+        length: this.state.length + 1,
+      });
+      this.enlargeSnake();
+      this.increaseSpeed();
+      this.s = this.s - 40;
     }
   }
 
@@ -157,11 +183,36 @@ export class SnakeGame extends Component {
     this.s = 0;
     this.setState(initialState);
   }
+  gen_food() {
+    let food = getRandomCoordinates();
+    let snake = [...this.state.snakeDots];
+    snake.forEach((dot) => {
+      if (food[0] === dot[0] && food[1] === dot[1]) {
+        this.gen_food();
+      }
+    });
+    return food;
+  }
+  gen_poison() {
+    let poison = getRandomCoordinates2();
+    let food = this.state.food;
+    let snake = [...this.state.snakeDots];
+    snake.forEach((dot) => {
+      if (
+        (poison[0] === dot[0] && poison[1] === dot[1]) ||
+        (poison[0] === food[0] && poison[1] === food[1])
+      ) {
+        this.gen_poison();
+      }
+    });
+    return poison;
+  }
   render() {
     return (
       <div className="game-area shadow rounded">
         <Snake snakeDots={this.state.snakeDots} />
         <Food dot={this.state.food} />
+        <Poison dot={this.state.poison} />
       </div>
     );
   }

@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import "./Friends.scss";
-import { FriendsMainContent } from "./FriendsMainContent";
+import FriendsMainContent from "./FriendsMainContent";
 
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn

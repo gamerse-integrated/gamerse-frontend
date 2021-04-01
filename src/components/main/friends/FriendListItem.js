@@ -3,30 +3,19 @@ import { connect } from "react-redux";
 import php from "@config/php";
 import { NotificationManager } from "react-notifications";
 import { db } from "@config/firebaseConfig";
+import { changeChatWindow, removeFriend } from "@redux/actionCreators/chat";
 
 export class FriendListItem extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: 0,
-    };
-  }
-  openChat = () => {
-    //open corresponding chat
-  };
-  removeFriend = (id) => {
+  removeFriend = (id) =>
     php
       .post("friends.php", { action: "R", friendRecordId: id })
-      .then((res) => console.log(res.data))
+      .then((res) => this.props.removeFriend(id))
       .catch((error) => console.log(error));
-  };
 
   challenge = (id) => {
-    // challenge to TTT
     php
       .post("friends.php", {
-        friendid: this.state.id,
+        friendid: this.props.ownProps.id,
         message:
           "@" +
           this.props.myUsername +
@@ -34,11 +23,11 @@ export class FriendListItem extends Component {
           new Date().toISOString() +
           " / " +
           "code / " +
-          this.state.id,
+          this.props.ownProps.id,
       })
       .then((e) => {
         db.collection("chats")
-          .doc(this.state.id)
+          .doc(this.props.ownProps.id)
           .update({
             count: Math.floor(Math.random() * 100),
             lastSenderUsername: this.props.myUsername,
@@ -53,18 +42,16 @@ export class FriendListItem extends Component {
       });
   };
 
-  componentDidMount() {
-    this.setState({ id: this.props.id });
-  }
-
   render() {
     return (
-      <div className="" onClick={() => this.props.chatWith(this.props.id)}>
+      <div
+        className=""
+        onClick={() => this.props.changeChatWindow(this.props.id)}
+      >
         <li
           className="li list-group-item d-flex flex-row my-2 mx-1 px-2 py-1 shadow border-0"
           style={{ borderRadius: "1rem" }}
           role="button"
-          onClick={this.openChat}
         >
           <div className="media w-100 h-100 align-items-center">
             <img
@@ -77,10 +64,10 @@ export class FriendListItem extends Component {
               }}
             />
             <div className="ml-4 media-body d-flex align-items-center">
-              <p className="p-0 m-0">{this.props.userName}</p>
+              <p className="p-0 m-0">{this.props.ownProps.userName}</p>
             </div>
             <div className="">
-              {this.props.onlineStatus === "online" ? (
+              {this.props.ownProps.onlineStatus === "online" ? (
                 <span className="badge badge-success">Online</span>
               ) : (
                 <span className="badge badge-danger">Offline</span>
@@ -108,15 +95,15 @@ export class FriendListItem extends Component {
               >
                 <div
                   className="dropdown-item"
-                  onClick={() => this.challenge(this.state.id)}
+                  onClick={() => this.challenge(this.props.ownProps.id)}
                 >
-                  Challenge {this.state.id}
+                  Challenge {this.props.ownProps.id}
                 </div>
                 <div
                   className="dropdown-item"
-                  onClick={() => this.removeFriend(this.state.id)}
+                  onClick={() => this.removeFriend(this.props.ownProps.id)}
                 >
-                  Remove {this.state.id}
+                  Remove {this.props.ownProps.id}
                 </div>
               </div>
             </div>
@@ -127,8 +114,13 @@ export class FriendListItem extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ chatReducer }, ownProps) => ({
+  ownProps,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  removeFriend,
+  changeChatWindow,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendListItem);

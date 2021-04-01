@@ -10,29 +10,12 @@ import php from "@config/php";
 import { auth } from "@config/firebaseConfig";
 import { Loading } from "@components/shared/Loading";
 import _ from "lodash";
+import { fetchData, changeChatWindow } from "@redux/actionCreators/chat";
 
 export class FriendsMainContent extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      userName: null,
-      friends: [],
-      requests: [],
-      chatWithId: null,
-    };
-  }
-  refreshME = (userName) =>
-    this.setState({
-      requests: this.state.requests.filter((p) => p["userName"] !== userName),
-    });
-  chatWith = (id) => {
-    this.setState({ chatWithId: id });
-  };
   async componentDidMount() {
     setInterval(async () => {
-      let friends, userName, requests;
+      let friends, userName, requests, t, t_all;
       try {
         let res1 = await php.get("player.php", {
           params: {
@@ -48,16 +31,17 @@ export class FriendsMainContent extends Component {
         });
         friends = res2.data;
       } catch (e) {
-        friends = this.state.friends;
+        friends = this.props.friends;
       }
 
       try {
         let res4 = await php.get("player.php");
-        let t = res4.data;
+        t = res4.data;
         t = _.map(
           t,
           _.partialRight(_.pick, ["userName", "onlineStatus", "photoURL"])
         );
+        t_all = t;
         let fl = friends.filter((f) => f["status"] === "F");
         let flnames = _.map(fl, "friend");
         t = t.filter((p) => flnames.includes(p["userName"]));
@@ -89,31 +73,49 @@ export class FriendsMainContent extends Component {
           },
         });
         requests = res3.data;
+        // id, pid1
+        // onlineStatus, userName, photoURL
+        t = t_all;
+        let requestsNames = _.map(requests, "pid1");
+        t = t.filter((p) => requestsNames.includes(p["userName"]));
+        // requests = t;
+        t = t.map((p) => ({
+          pid1: p["userName"],
+          photoURL: p["photoURL"],
+        }));
+        requests = _.merge(_.keyBy(requests, "pid1"), _.keyBy(t, "pid1"));
+        let ans = [];
+        Object.keys(requests).forEach((key) =>
+          ans.push({
+            pid1: key,
+            photoURL: requests[key].photoURL,
+            id: requests[key].id,
+          })
+        );
+        console.log(ans);
+        requests = ans;
       } catch (e) {
-        requests = this.state.requests;
+        requests = this.props.requests;
       }
 
-      this.setState(
-        {
-          loading: false,
-          userName: userName,
-          friends: friends,
-          requests: requests,
-        }
-        // () => console.log(this.state.friends)
-      );
+      this.props.fetchData({
+        loading: false,
+        userName: userName,
+        friends: friends,
+        requests: requests,
+      });
     }, 4 * 1000);
   }
+
   render() {
-    if (this.state.loading) return <Loading height={"flex-grow-1"} />;
+    if (this.props.loading) return <Loading height={"flex-grow-1"} />;
     return (
       <div>
         <div className="d-flex flex-row flex-grow-1 px-2">
           <div className="col-4 flex-grow-1 m-0 p-0">
             <ul className="list-group list-group-flushed  rounded-0">
-              {this.state.friends.length ? (
-                this.state.friends.map((friend, i) => {
-                  // console.log(friend);
+              {this.props.friends.length ? (
+                this.props.friends.map((friend, i) => {
                   if (friend.status === "F")
                     return (
                       <Route
@@ -126,7 +128,7 @@ export class FriendsMainContent extends Component {
                             id={friend.id}
                             onlineStatus={friend.onlineStatus}
                             userName={friend.friend}
-                            myUsername={this.state.userName}
+                            myUsername={this.props.userName}
                           />
                         )}
                       ></Route>
@@ -162,11 +164,8 @@ export class FriendsMainContent extends Component {
             </ul>
           </div>
           <div className="col-4 flex-grow-1">
-            {this.state.chatWithId ? (
-              <Chat
-                userName={this.state.userName}
-                id={this.state.chatWithId}
-              ></Chat>
+            {this.props.chatWithId ? (
+              <Chat></Chat>
             ) : (
               <div
                 className="d-flex flex-column justify-content-around align-items-center bg-"
@@ -183,15 +182,14 @@ export class FriendsMainContent extends Component {
           </div>
           <div className="col-4 flex-grow-1 m-0 p-0">
             <ul className="list-group list-group-flushed  rounded-0">
-              {this.state.requests.length ? (
-                this.state.requests.map((request, i) => {
-                  // console.log(friend);
+              {this.props.requests.length ? (
+                this.props.requests.map((request, i) => {
                   return (
                     <PendingListItem
                       key={i}
                       id={request.id}
                       userName={request.pid1}
-                      refreshME={this.refreshME}
+                      photoURL={request.photoURL}
                     />
                   );
                 })
@@ -216,8 +214,18 @@ export class FriendsMainContent extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ chatReducer }) => ({
+  loading: chatReducer.loading,
+  userName: chatReducer.userName,
+  requests: chatReducer.requests,
+  players: chatReducer.players,
+  friends: chatReducer.friends,
+  chatWithId: chatReducer.chatWithId,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchData,
+  changeChatWindow,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendsMainContent);
