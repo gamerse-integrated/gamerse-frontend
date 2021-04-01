@@ -23,6 +23,10 @@ export class FriendsMainContent extends Component {
       chatWithId: null,
     };
   }
+  refreshME = (userName) =>
+    this.setState({
+      requests: this.state.requests.filter((p) => p["userName"] !== userName),
+    });
   chatWith = (id) => {
     this.setState({ chatWithId: id });
   };
@@ -146,7 +150,7 @@ export class FriendsMainContent extends Component {
                   <p>
                     Go to{" "}
                     <span
-                      className="text-primary text-link"
+                      className="btn-link"
                       role="button"
                       onClick={() => this.props.history.push("/explore")}
                     >
@@ -187,6 +191,7 @@ export class FriendsMainContent extends Component {
                       key={i}
                       id={request.id}
                       userName={request.pid1}
+                      refreshME={this.refreshME}
                     />
                   );
                 })

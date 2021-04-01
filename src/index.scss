@@ -90,7 +90,10 @@ $dark: #222831;
   color: #fff;
 }
 
-// $theme-colors: ();
+$theme-colors: (
+  "success": #00ee00,
+  "danger": #ff0033,
+);
 
 @import "bootstrap";
 @import "animate.css";

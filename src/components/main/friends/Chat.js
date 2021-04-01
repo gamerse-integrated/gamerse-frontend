@@ -4,7 +4,7 @@ import { PubNubProvider, usePubNub } from "pubnub-react";
 import php from "@config/php";
 import $ from "jquery";
 import _ from "lodash";
-import app, { db } from "@config/firebaseConfig";
+import { db } from "@config/firebaseConfig";
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUB,
@@ -36,16 +36,20 @@ const intToRGB = (i) => {
 };
 
 const getResults = async (id) => {
-  let { data } = await php.get("friends.php", {
-    params: {
-      id: id,
-    },
-  });
-  // console.log(data);
-  let result = _.orderBy(data, ["timestamp"]);
-  // console.log(result);
-  result = _.map(result, "message");
-  return result;
+  try {
+    let { data } = await php.get("friends.php", {
+      params: {
+        id: id,
+      },
+    });
+    // console.log(data);
+    let result = _.orderBy(data, ["timestamp"]);
+    // console.log(result);
+    result = _.map(result, "message");
+    return result;
+  } catch (e) {
+    return [];
+  }
 };
 
 function Chat({ id, userName }) {
@@ -132,6 +136,7 @@ function Chat({ id, userName }) {
           className="text-dark font-weight-bold h1 text-center p-1 bg-white"
         >
           Personal Chat
+          {/* {userName} */}
         </div>
         {/* <div style={listStyles}> */}
         <div

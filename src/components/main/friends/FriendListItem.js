@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import php from "@config/php";
 import { NotificationManager } from "react-notifications";
-import { auth, db } from "@config/firebaseConfig";
+import { db } from "@config/firebaseConfig";
 
 export class FriendListItem extends Component {
   constructor(props) {
@@ -30,7 +29,7 @@ export class FriendListItem extends Component {
         friendid: this.state.id,
         message:
           "@" +
-          this.props.userName +
+          this.props.myUsername +
           " / " +
           new Date().toISOString() +
           " / " +
@@ -61,55 +60,68 @@ export class FriendListItem extends Component {
   render() {
     return (
       <div className="" onClick={() => this.props.chatWith(this.props.id)}>
-        <ContextMenuTrigger id="same_unique_identifier">
-          <li
-            className="li list-group-item d-flex flex-row my-2 mx-1 px-2 py-1"
-            style={{ borderRadius: "1rem" }}
-            role="button"
-            onClick={this.openChat}
-          >
-            <div className="media w-100 h-100 align-items-center">
-              <img
-                alt="Person"
-                src={this.props.photoURL}
-                className="img-responsive rounded-circle shadow-sm"
-                style={{
-                  width: "3.2em",
-                  height: "3.2em",
-                }}
-              />
-              <div className="ml-4 media-body d-flex align-items-center">
-                <p className="p-0 m-0">{this.props.userName}</p>
-              </div>
-              <div className="">
-                {this.props.onlineStatus === "online" ? (
-                  <span className="badge badge-success">Online</span>
-                ) : (
-                  <span className="badge badge-danger">Offline</span>
-                )}
+        <li
+          className="li list-group-item d-flex flex-row my-2 mx-1 px-2 py-1 shadow border-0"
+          style={{ borderRadius: "1rem" }}
+          role="button"
+          onClick={this.openChat}
+        >
+          <div className="media w-100 h-100 align-items-center">
+            <img
+              alt="Person"
+              src={this.props.photoURL}
+              className="img-responsive rounded-circle shadow-sm"
+              style={{
+                width: "3.2em",
+                height: "3.2em",
+              }}
+            />
+            <div className="ml-4 media-body d-flex align-items-center">
+              <p className="p-0 m-0">{this.props.userName}</p>
+            </div>
+            <div className="">
+              {this.props.onlineStatus === "online" ? (
+                <span className="badge badge-success">Online</span>
+              ) : (
+                <span className="badge badge-danger">Offline</span>
+              )}
+            </div>
+            <div className="dropdown">
+              <button
+                className="btn-link btn dropdown-toggle"
+                data-toggle="dropdown"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-three-dots-vertical"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                </svg>
+              </button>
+              <div
+                className="dropdown-menu dropdown-menu-right shadow border-0 mt-2"
+                style={{ borderRadius: "1.2rem" }}
+              >
+                <div
+                  className="dropdown-item"
+                  onClick={() => this.challenge(this.state.id)}
+                >
+                  Challenge {this.state.id}
+                </div>
+                <div
+                  className="dropdown-item"
+                  onClick={() => this.removeFriend(this.state.id)}
+                >
+                  Remove {this.state.id}
+                </div>
               </div>
             </div>
-          </li>
-
-          <ContextMenu
-            id="same_unique_identifier"
-            className="d-flex flex-column bg-white shadow p-1"
-            style={{ borderRadius: "1rem" }}
-          >
-            <MenuItem
-              className="btn"
-              onClick={() => this.challenge(this.state.id)}
-            >
-              Challenge {this.state.id}
-            </MenuItem>
-            <MenuItem
-              className="btn text-danger font-weight-bold"
-              onClick={() => this.removeFriend(this.state.id)}
-            >
-              Remove
-            </MenuItem>
-          </ContextMenu>
-        </ContextMenuTrigger>
+          </div>
+        </li>
       </div>
     );
   }

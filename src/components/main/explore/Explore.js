@@ -19,16 +19,27 @@ export class Explore extends Component {
       },
     });
     let userName = result.data["userName"];
-    result = await php.get("player.php");
-    let players = result.data;
-    result = await php.get("friends.php", {
-      params: {
-        userName: userName,
-      },
-    });
-    let friends = result.data;
+    let players, friends;
+    try {
+      result = await php.get("player.php");
+      players = result.data;
+    } catch (e) {
+      players = [];
+    }
     players = _.map(players, "userName");
-    friends = _.map(friends, "friend");
+
+    try {
+      result = await php.get("friends.php", {
+        params: {
+          userName: userName,
+        },
+      });
+      friends = result.data;
+      friends = _.map(friends, "friend");
+    } catch (e) {
+      friends = [];
+    }
+
     players = players.filter((p) => !friends.includes(p));
     this.setState({
       userName: userName,
