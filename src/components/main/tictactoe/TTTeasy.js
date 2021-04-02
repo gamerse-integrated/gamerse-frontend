@@ -2,38 +2,30 @@ import React, { Component } from "react";
 import { auth } from "@config/firebaseConfig";
 import TicTacToe from "./TicTacToe";
 import "./TTTbg.scss";
+import Header from "@shared/Header";
+import { Route } from "react-router-dom";
+
 // import BG from "./grass4.png";
 
 export default class TTTeasy extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      playerScore: 0,
+      computerScore: 0,
+    };
+  }
+  updateScore = (playerScore, computerScore) => {
+    this.setState({ playerScore: playerScore, computerScore: computerScore });
+  };
+  resetGame = () => {
+    this.refs.tttRef.resetGame();
+  };
   render() {
     return (
       <div id="ttteasy" className="bg min-vh-100 d-flex flex-column">
         <header>
-          <div className="navbar navbar-light bg-white shadow">
-            <div className="navbar-brand">
-              <h1>Gamerse</h1>
-            </div>
-            <div className="dropdown">
-              <img
-                // src="https://via.placeholder.com/150"
-                src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
-                alt="Profile"
-                className="img-responsive rounded-circle shadow"
-                style={{
-                  width: "3.6em",
-                  height: "3.6em",
-                }}
-                role="button"
-                data-toggle="dropdown"
-              />
-              <div className="dropdown-menu dropdown-menu-right">
-                <div className="dropdown-item">Profile</div>
-                <div className="dropdown-item" onClick={() => auth.signOut()}>
-                  Logout
-                </div>
-              </div>
-            </div>
-          </div>
+          <Route component={(props) => <Header {...props}></Header>}></Route>
         </header>
         <div className="d-flex flex-row flex-grow-1">
           <div className="col-7 d-flex justify-content-center align-items-center">
@@ -42,7 +34,10 @@ export default class TTTeasy extends Component {
               className="shadow p-3 bg-white"
               style={{ borderRadius: "1.2rem" }}
             >
-              <TicTacToe></TicTacToe>
+              <TicTacToe
+                ref="tttRef"
+                updateScore={this.updateScore}
+              ></TicTacToe>
             </div>
           </div>
           <div className="col-5 d-flex justify-content-center align-items-center">
@@ -71,7 +66,7 @@ export default class TTTeasy extends Component {
                     fontWeight: "bold",
                   }}
                 >
-                  3
+                  {this.state.playerScore}
                 </p>
               </div>
               <img
@@ -97,9 +92,19 @@ export default class TTTeasy extends Component {
                     fontWeight: "bold",
                   }}
                 >
-                  2
+                  {this.state.computerScore}
                 </p>
               </div>
+            </div>
+            <div>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  this.resetGame();
+                }}
+              >
+                New Game
+              </button>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
-import Chat from "./ChatMain";
+import ChatComponent from "./ChatComponent";
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUB,
@@ -12,7 +12,7 @@ const pubnub = new PubNub({
 function Chatbox() {
   return (
     <PubNubProvider client={pubnub}>
-      <Chat />
+      <ChatComponent />
     </PubNubProvider>
   );
 }

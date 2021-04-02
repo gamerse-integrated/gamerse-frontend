@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { auth } from "@config/firebaseConfig";
 import AppProvider from "./AppProvider";
-import Header from "./Header";
+// import Header from "./Header";
 import Main from "./Main";
 import { AppContext } from "./AppProvider";
 import { GAME_TYPES } from "./common";
+import Header from "@shared/Header";
+import { Route } from "react-router-dom";
 
 import "./TTTbg.scss";
 // import BG from "./grass4.png";
@@ -31,31 +33,7 @@ export default class TTTai extends Component {
       <AppProvider>
         <div id="ttteasy" className="bg min-vh-100 d-flex flex-column">
           <header>
-            <div className="navbar navbar-light bg-white shadow">
-              <div className="navbar-brand">
-                <h1>Gamerse</h1>
-              </div>
-              <div className="dropdown">
-                <img
-                  // src="https://via.placeholder.com/150"
-                  src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
-                  alt="Profile"
-                  className="img-responsive rounded-circle shadow"
-                  style={{
-                    width: "3.6em",
-                    height: "3.6em",
-                  }}
-                  role="button"
-                  data-toggle="dropdown"
-                />
-                <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-item">Profile</div>
-                  <div className="dropdown-item" onClick={() => auth.signOut()}>
-                    Logout
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Route component={(props) => <Header {...props}></Header>}></Route>
           </header>
           <div className="d-flex flex-row flex-grow-1">
             <div className="col-7 d-flex justify-content-center align-items-center">
@@ -68,7 +46,7 @@ export default class TTTai extends Component {
               </div>
             </div>
             <div className="col-5 d-flex flex-column justify-content-center align-items-center">
-              <Header></Header>
+              {/* <Header></Header> */}
               <div
                 className="d-flex justify-content-between align-items-center  shadow px-4 pt-4 text-black"
                 style={{

@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import php from "@config/php";
 import { NotificationManager } from "react-notifications";
-import { db } from "@config/firebaseConfig";
-import { changeChatWindow, removeFriend } from "@redux/actionCreators/chat";
+import { auth, db } from "@config/firebaseConfig";
+import {
+  changeChatWindow,
+  removeFriend,
+  sendChallenge,
+} from "@redux/actionCreators/chat";
+import CryptoJS from "crypto-js";
 
 export class FriendListItem extends Component {
   removeFriend = (id) =>
@@ -13,6 +18,12 @@ export class FriendListItem extends Component {
       .catch((error) => console.log(error));
 
   challenge = (id) => {
+    let b64 = CryptoJS.AES.encrypt(
+      this.props.ownProps.id,
+      process.env.REACT_APP_TITLE
+    ).toString();
+    let e64 = CryptoJS.enc.Base64.parse(b64);
+    let code = e64.toString(CryptoJS.enc.Hex);
     php
       .post("friends.php", {
         friendid: this.props.ownProps.id,
@@ -23,7 +34,7 @@ export class FriendListItem extends Component {
           new Date().toISOString() +
           " / " +
           "code / " +
-          this.props.ownProps.id,
+          code,
       })
       .then((e) => {
         db.collection("chats")
@@ -32,12 +43,13 @@ export class FriendListItem extends Component {
             count: Math.floor(Math.random() * 100),
             lastSenderUsername: this.props.myUsername,
             challenge: true,
-            challenger: this.props.myUsername,
-            challengee: this.props.userName,
+            challenger: auth.currentUser.email,
+            challengee: "1",
           })
           .then(() => {
             NotificationManager.warning("Challenge sent");
-            this.props.history.push(`/waiting-room/${this.props.id}`);
+            this.props.sendChallenge(auth.currentUser.email);
+            this.props.history.push(`/waiting-room/${code}`);
           });
       });
   };
@@ -120,6 +132,7 @@ const mapStateToProps = ({ chatReducer }, ownProps) => ({
 
 const mapDispatchToProps = {
   removeFriend,
+  sendChallenge,
   changeChatWindow,
 };
 

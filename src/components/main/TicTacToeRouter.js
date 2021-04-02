@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "@config/firebaseConfig";
-
+// import { auth } from "@config/firebaseConfig";
+import Header from "@shared/Header";
+// import React, { Component } from "react";
+// import { connect } from "react-redux";
+import friends from "./friends.svg";
+import { Route } from "react-router-dom";
+import { JoinRoom } from "./tictactoe/JoinRoom";
 export default class TicTacToeRouter extends Component {
   render() {
     return (
       <div>
         <div className="d-flex flex-column min-vh-100">
           <header>
-            <div className="navbar navbar-light bg-light border-bottom">
+            {/* <div className="navbar navbar-light bg-light border-bottom">
               <div className="navbar-brand">
                 <h1>Gamerse</h1>
               </div>
@@ -32,33 +37,41 @@ export default class TicTacToeRouter extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+            <Route component={(props) => <Header {...props}></Header>}></Route>
           </header>
-          <div className="d-flex flex-row flex-grow-1">
-            <Link
-              to="ttteasy"
-              className="d-flex flex-column flex-grow-1 border col-3"
-            >
-              <p>Easy</p>
-            </Link>
-            <Link
-              to="tttai"
-              className="d-flex flex-column flex-grow-1 border col-3"
-            >
-              <p>Impossible (against AI)</p>
-            </Link>
-            <Link
-              to="ttthuman"
-              className="d-flex flex-column flex-grow-1 border col-3"
-            >
-              <p>Against Random Player</p>
-            </Link>
-            <Link
-              to="joinroom"
-              className="d-flex flex-column flex-grow-1 border col-3"
-            >
-              <p>Against Friend</p>
-            </Link>
+          <div className="d-flex flex-row flex-grow-1 ">
+            <div className="d-flex flex-column flex-grow-1 border col-3">
+              <Link to="ttteasy">
+                <p>Easy</p>
+              </Link>
+            </div>
+            <div className="d-flex flex-column flex-grow-1 border col-3">
+              <Link to="tttai">
+                <p>Impossible (against AI)</p>
+              </Link>
+            </div>
+            <div className="d-flex flex-column flex-grow-1 border col-3">
+              <Link to="ttthuman">
+                <p>Against Random Player</p>
+              </Link>
+            </div>
+            <div className="d-flex flex-column flex-grow-1 border col-3 align-items-center">
+              <p>VS Friend</p>
+              <img
+                src={friends}
+                className="w-100 img-responsive"
+                alt="Snakes"
+                style={
+                  {
+                    // height: "100%",
+                  }
+                }
+              />
+              <Route
+                component={(props) => <JoinRoom {...props}></JoinRoom>}
+              ></Route>
+            </div>
           </div>
         </div>
       </div>

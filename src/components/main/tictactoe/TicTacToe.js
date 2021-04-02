@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ScoreBoard from "./Scoreboard";
 import "./TicTacToe.css";
-
+import $ from "jquery";
 class TicTacToe extends Component {
   constructor() {
     super();
@@ -23,11 +23,11 @@ class TicTacToe extends Component {
   clicked = (box) => {
     if (this.gameState.gameEnded || this.gameState.gameLocked) return;
 
-    if (this.gameState.board[box.dataset.square] == "") {
+    if (this.gameState.board[box.dataset.square] === "") {
       this.gameState.board[box.dataset.square] = this.gameState.turn;
       box.innerText = this.gameState.turn;
 
-      this.gameState.turn = this.gameState.turn == "X" ? "O" : "X";
+      this.gameState.turn = this.gameState.turn === "X" ? "O" : "X";
 
       this.gameState.totalMoves++;
     }
@@ -36,26 +36,38 @@ class TicTacToe extends Component {
 
     var result = this.checkWinner();
 
-    if (result == "X") {
+    if (result === "X") {
       this.gameState.gameEnded = true;
       this.gameState.currentPlayerScore = this.gameState.currentPlayerScore + 1;
       this.setState({
         winner: "X",
         winnerLine: "Match won by X",
       });
-    } else if (result == "O") {
+      this.props.updateScore(
+        this.gameState.currentPlayerScore,
+        this.gameState.opponentPlayer
+      );
+    } else if (result === "O") {
       this.gameState.gameEnded = true;
       this.gameState.opponentPlayer = this.gameState.opponentPlayer + 1;
       this.setState({
         winner: "O",
         winnerLine: "Match won by O",
       });
-    } else if (result == "draw") {
+      this.props.updateScore(
+        this.gameState.currentPlayerScore,
+        this.gameState.opponentPlayer
+      );
+    } else if (result === "draw") {
       this.gameState.gameEnded = true;
       this.setState({
         winner: "draw",
         winnerLine: "Match is drawn",
       });
+      this.props.updateScore(
+        this.gameState.currentPlayerScore,
+        this.gameState.opponentPlayer
+      );
     }
 
     if (this.gameState.turn == "O" && !this.gameState.gameEnded) {
@@ -69,7 +81,16 @@ class TicTacToe extends Component {
       }, 500);
     }
   };
-
+  resetGame = () => {
+    this.gameState.turn = "X";
+    this.gameState.gameLocked = false;
+    this.gameState.gameEnded = false;
+    this.gameState.board = Array(9).fill("");
+    // console.log(;)
+    this.gameState.totalMoves = 0;
+    $(".square").html("");
+    this.setState({ winner: undefined, winnerLine: "" });
+  };
   checkWinner = () => {
     var moves = [
       [0, 3, 6],
@@ -84,14 +105,14 @@ class TicTacToe extends Component {
     var board = this.gameState.board;
     for (let i = 0; i < moves.length; i++) {
       if (
-        board[moves[i][0]] == board[moves[i][1]] &&
-        board[moves[i][1]] == board[moves[i][2]]
+        board[moves[i][0]] === board[moves[i][1]] &&
+        board[moves[i][1]] === board[moves[i][2]]
       )
         return board[moves[i][0]];
     }
 
     console.log(this.gameState.totalMoves);
-    if (this.gameState.totalMoves == 9) {
+    if (this.gameState.totalMoves === 9) {
       return "draw";
     }
   };
@@ -112,10 +133,10 @@ class TicTacToe extends Component {
           <div className="square" data-square="7"></div>
           <div className="square" data-square="8"></div>
         </div>
-        <ScoreBoard
+        {/* <ScoreBoard
           player1={["X", this.gameState.currentPlayerScore]}
           player2={["O", this.gameState.opponentPlayer]}
-        />
+        /> */}
       </div>
     );
   }

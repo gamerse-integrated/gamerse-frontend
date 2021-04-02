@@ -107,8 +107,13 @@ export class FriendsMainContent extends Component {
     }, 4 * 1000);
   }
 
+  componentWillUnmount() {
+    this.props.changeChatWindow(null);
+  }
+
   render() {
-    if (this.props.loading) return <Loading height={"flex-grow-1"} />;
+    if (this.props.loading)
+      return <Loading height={"flex-grow-1"} text={<p>Fetching data</p>} />;
     return (
       <div>
         <div className="d-flex flex-row flex-grow-1 px-2">

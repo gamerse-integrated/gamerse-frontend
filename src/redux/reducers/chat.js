@@ -7,6 +7,7 @@ const initState = {
   userName: null,
   chatWithId: null,
   loading: true,
+  email: null,
 };
 
 const chatReducer = (state = initState, action) => {
@@ -34,7 +35,7 @@ const chatReducer = (state = initState, action) => {
         chatWithId: null,
       };
     case actions.SEND_CHALLENGE:
-      return state;
+      return { ...state, email: action.payload };
     case actions.SEND_MESSAGE:
       return state;
     case actions.FETCH_DATA:

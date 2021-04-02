@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { auth } from "@config/firebaseConfig";
+// import { auth } from "@config/firebaseConfig";
 import SnakeGame from "./SnakeGame";
 import SnakesScore from "./SnakesScore";
+import Header from "@shared/Header";
+import { Route } from "react-router-dom";
 
 export class Snakes extends Component {
   render() {
     return (
       <div className="min-vh-100 game-container d-flex flex-column">
         <header>
-          <div className="navbar navbar-light bg-white shadow">
+          {/* <div className="navbar navbar-light bg-white shadow">
             <div className="navbar-brand">
               <h1>Gamerse</h1>
             </div>
@@ -32,7 +34,8 @@ export class Snakes extends Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          <Route component={(props) => <Header {...props}></Header>}></Route>
         </header>
         <div className="d-flex flex-grow-1">
           <div className="col-7 d-flex flex-column justify-content-center align-items-center">

@@ -7,6 +7,7 @@ export class SnakesScore extends Component {
     return (
       <div>
         <p>Score: {this.props.score}</p>
+        {/* <p>Hi</p> */}
       </div>
     );
   }

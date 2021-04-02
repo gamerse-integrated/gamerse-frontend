@@ -12,18 +12,17 @@ export class JoinRoom extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Joining room ${this.state.code}`);
     this.props.history.push(`/waiting-room/${this.state.code}`);
   };
 
   render() {
     return (
       <div>
-        <form action="" onSubmit={this.handleSubmit}>
+        <form action="" onSubmit={this.handleSubmit} autoComplete="off">
           <div className="form-group">
             <label htmlFor="code">Enter code</label>
             <input
-              type="number"
+              type="text"
               name="code"
               id="code"
               className="form-control"

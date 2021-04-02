@@ -13,6 +13,8 @@ import Friends from "@main/friends/Friends";
 import Home from "@main/Home";
 import Snakes from "@main/snakes/Snakes";
 import TTTai from "@main/tictactoe/TTTai";
+import TTTeasy from "@main/tictactoe/TTTeasy";
+
 import TTTfriend from "@main/tictactoe/TTTfriend";
 import TicTacToeRouter from "@main/TicTacToeRouter";
 import _ from "lodash";
@@ -138,6 +140,7 @@ export class UserAuthenticated extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+    global.worker.terminate();
   }
 
   render() {
@@ -155,10 +158,10 @@ export class UserAuthenticated extends React.Component {
         <Route exact path="/explore" component={Explore}></Route>
         <Route exact path="/tictactoe" component={TicTacToeRouter}></Route>
         <Route exact path="/snakes" component={Snakes}></Route>
-        <Route exact path="/ttteasy" component={TicTacToe}></Route>
+        <Route exact path="/ttteasy" component={TTTeasy}></Route>
         <Route exact path="/ttthuman" component={TTThuman}></Route>
         <Route exact path="/waiting-room/:id" component={WaitingRoom}></Route>
-        <Route exact path="/joinroom" component={JoinRoom}></Route>
+        {/* <Route exact path="/joinroom" component={JoinRoom}></Route> */}
         <Route exact path="/tttfriend/:id" component={TTTfriend}></Route>
         <Route exact path="/tttai" component={TTTai}></Route>
         <Redirect to="/" />

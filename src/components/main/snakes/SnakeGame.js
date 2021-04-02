@@ -1,7 +1,7 @@
 import Snake from "./Snake";
 import Food from "./Food";
 import Poison from "./Poison";
-import "./App.css";
+import "./Snakes.scss";
 import { Component } from "react";
 import { connect } from "react-redux";
 // import { updateScore } from "../../../actionCreator";
@@ -56,19 +56,28 @@ export class SnakeGame extends Component {
     e = e || window.event;
     switch (e.keyCode) {
       case 38:
-        this.setState({ direction: "UP" });
+        if (this.state.direction !== "DOWN") {
+          this.setState({ direction: "UP" });
+        }
+
         break;
       case 40:
-        this.setState({ direction: "DOWN" });
+        if (this.state.direction !== "UP") {
+          this.setState({ direction: "DOWN" });
+        }
         break;
       case 37:
-        this.setState({ direction: "LEFT" });
+        if (this.state.direction !== "RIGHT") {
+          this.setState({ direction: "LEFT" });
+        }
         break;
       case 39:
-        this.setState({ direction: "RIGHT" });
+        if (this.state.direction !== "LEFT") {
+          this.setState({ direction: "RIGHT" });
+        }
         break;
       default:
-        break;
+        console.log("inside default");
     }
   };
 
@@ -111,7 +120,8 @@ export class SnakeGame extends Component {
         });
         break;
       default:
-        head = head;
+        // head = head;
+        console.log("default case");
     }
   };
 
@@ -136,7 +146,7 @@ export class SnakeGame extends Component {
   checkIfEat() {
     let head = this.state.snakeDots[this.state.snakeDots.length - 1];
     let food = this.state.food;
-    if (head[0] == food[0] && head[1] == food[1]) {
+    if (head[0] === food[0] && head[1] === food[1]) {
       this.setState({
         food: this.gen_food(),
         length: this.state.length + 1,
@@ -149,7 +159,7 @@ export class SnakeGame extends Component {
   checkIfEatPoison() {
     let head = this.state.snakeDots[this.state.snakeDots.length - 1];
     let poison = this.state.poison;
-    if (head[0] == poison[0] && head[1] == poison[1]) {
+    if (head[0] === poison[0] && head[1] === poison[1]) {
       this.setState({
         poison: this.gen_poison(),
         length: this.state.length + 1,
@@ -175,7 +185,14 @@ export class SnakeGame extends Component {
       });
     }
   }
-
+  checklength = () => {
+    console.log("inside check_length");
+    if (this.state.length > 2) {
+      this.setState({
+        poison: this.gen_poison(),
+      });
+    }
+  };
   onGameOver() {
     this.score = "your score is " + this.s;
     this.game = "Game-Over";
