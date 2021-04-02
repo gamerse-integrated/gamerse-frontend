@@ -1,5 +1,8 @@
-import React from "react";
-export default (props) => {
+import React, { useEffect } from "react";
+const Poison = (props) => {
+  useEffect(() => {
+    console.log("Inside poison");
+  });
   if (props["dot"]) {
     const style = {
       left: `${props.dot[0]}%`,
@@ -11,3 +14,4 @@ export default (props) => {
     return <div></div>;
   }
 };
+export default Poison;
