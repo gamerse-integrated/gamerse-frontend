@@ -7,6 +7,7 @@ import { Loading } from "@components/shared/Loading";
 import CryptoJS from "crypto-js";
 import { Route } from "react-router";
 import { NotificationManager } from "react-notifications";
+import BackgroundImage from "@assets/7.jpg";
 
 export class WaitingRoom extends Component {
   constructor(props) {
@@ -111,16 +112,42 @@ else:
     // };
 
     let friendId = this.props.match.params.id;
-    if (friendId.length !== 64) {
-      this.props.history.goBack();
-    }
+    // if (friendId.length !== 96) {
+    //   this.props.history.goBack();
+    // }
 
     let reb64 = CryptoJS.enc.Hex.parse(friendId);
     let bytes = reb64.toString(CryptoJS.enc.Base64);
     let code = CryptoJS.AES.decrypt(bytes, process.env.REACT_APP_TITLE);
     code = code.toString(CryptoJS.enc.Utf8);
+    // console.log(code);
+    code = code.split("z");
+    let timestamp = code[0];
+    code = code[1];
+    // console.log(code);
 
-    this.setState({ code: code });
+    this.setState({ code: code }, () => {
+      setInterval(() => {
+        NotificationManager.info("It seems to be taking too long", "Umm...");
+        console.log(
+          parseInt(timestamp),
+          parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY),
+          new Date().getTime(),
+          parseInt(timestamp) +
+            parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY) <
+            new Date().getTime()
+        );
+        if (
+          parseInt(timestamp) +
+            parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY) <
+          new Date().getTime()
+        ) {
+          // code expired
+          NotificationManager.error("The code is now expired", "Oops!");
+          this.cancelRequest();
+        }
+      }, 30 * 1000);
+    });
   }
 
   cancelRequest = () => {
@@ -140,15 +167,28 @@ else:
   render() {
     return (
       <div className="d-flex min-vh-100 flex-column">
+        <div
+          className="w-100"
+          style={{
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: -1,
+            top: 0,
+            left: 0,
+            background: `url(${BackgroundImage})`,
+            backgroundPosition: `center`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `cover`,
+            backgroundColor: `#fff`,
+          }}
+        />
         <Route component={(props) => <Header {...props}></Header>}></Route>
         <div className="d-flex flex-grow-1 flex-column">
           <Loading
             height={"flex-grow-1"}
             text={
               <>
-                <p>
-                  Waiting for {this.state.code || "Code not readable"} to join
-                </p>
+                <p>Waiting for the other player to join</p>
                 <button
                   className="btn btn-primary"
                   onClick={this.cancelRequest}

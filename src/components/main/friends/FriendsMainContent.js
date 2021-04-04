@@ -92,7 +92,7 @@ export class FriendsMainContent extends Component {
             id: requests[key].id,
           })
         );
-        console.log(ans);
+        // console.log(ans);
         requests = ans;
       } catch (e) {
         requests = this.props.requests;

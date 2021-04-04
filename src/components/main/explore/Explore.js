@@ -103,52 +103,71 @@ export class Explore extends Component {
               className="form-control w-50 mx-auto"
             />
           </form>
-          <div className="d-flex justify-content-around align-items-between">
-            {this.state.players.filter((p) =>
-              p["userName"].includes(this.state.q)
-            ).length !== 0 ? (
-              this.state.players
-                .filter((p) => p["userName"].includes(this.state.q))
-                .map((u) => (
-                  <div
-                    className="d-flex flex-column justify-content-around align-items-center shadow"
-                    style={{
-                      borderRadius: `1rem`,
-                      width: `16vw`,
-                      height: `40vh`,
-                      backdropFilter: `blur(10px)`,
-                      background: `rgba(255,255,255,.7)`,
-                    }}
-                  >
+          <div
+            className="pt-2 pl-4"
+            style={{
+              // width: `inherit`,
+              height: `43vh`,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              className=" row flex-row flex-nowrap"
+              style={{
+                width: "100%",
+                height: "100%",
+                paddingBottom: "17px",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+                boxSizing: "content-box",
+              }}
+            >
+              {this.state.players.filter((p) =>
+                p["userName"].includes(this.state.q)
+              ).length !== 0 ? (
+                this.state.players
+                  .filter((p) => p["userName"].includes(this.state.q))
+                  .map((u) => (
                     <div
-                      className="text-center"
+                      className="col-2 mr-3 d-flex flex-column justify-content-around align-items-center shadow"
                       style={{
-                        width: "8rem",
-                        height: "8rem",
+                        borderRadius: `1rem`,
+                        width: `16vw`,
+                        height: `40vh`,
+                        backdropFilter: `blur(10px)`,
+                        background: `rgba(255,255,255,.7)`,
                       }}
                     >
-                      <img
-                        src={u.photoURL}
-                        className="img-responsive w-100 rounded-circle"
-                        alt={"userAvatar"}
-                      />
-                    </div>
-                    <div>{u["userName"]}</div>
-                    <div>
-                      <button
-                        className="btn btn-light"
-                        onClick={() => this.sendFriendRequest(u["userName"])}
+                      <div
+                        className="text-center"
+                        style={{
+                          width: "8rem",
+                          height: "8rem",
+                        }}
                       >
-                        Send Request
-                      </button>
+                        <img
+                          src={u.photoURL}
+                          className="img-responsive w-100 rounded-circle"
+                          alt={"userAvatar"}
+                        />
+                      </div>
+                      <div>{u["userName"]}</div>
+                      <div>
+                        <button
+                          className="btn btn-light"
+                          onClick={() => this.sendFriendRequest(u["userName"])}
+                        >
+                          Send Request
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))
-            ) : (
-              <div className="">
-                <h1 className="text-danger">No users found!</h1>
-              </div>
-            )}
+                  ))
+              ) : (
+                <div className="">
+                  <h1 className="text-danger">No users found!</h1>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

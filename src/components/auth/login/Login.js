@@ -33,26 +33,16 @@ export class Login extends Component {
             NotificationManager.warning(
               "Verify account to proceed. Click this notification to resend the verification mail.",
               "Account verification",
-              1000,
-              async () => {
-                try {
-                  await u.user.sendEmailVerification();
-                  NotificationManager.info(
-                    "Verification mail sent",
-                    null,
-                    1000,
-                    () => {},
-                    true
-                  );
-                } catch ({ message }) {
-                  NotificationManager.info(
-                    message,
-                    "Oops!",
-                    1000,
-                    () => {},
-                    true
-                  );
-                }
+              2000,
+              () => {
+                u.user.sendEmailVerification();
+                NotificationManager.info(
+                  "Verification mail sent",
+                  null,
+                  2000,
+                  () => {},
+                  true
+                );
               },
               true
             );

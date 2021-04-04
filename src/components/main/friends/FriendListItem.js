@@ -19,7 +19,7 @@ export class FriendListItem extends Component {
 
   challenge = (id) => {
     let b64 = CryptoJS.AES.encrypt(
-      this.props.ownProps.id,
+      new Date().getTime() + "z" + this.props.ownProps.id,
       process.env.REACT_APP_TITLE
     ).toString();
     let e64 = CryptoJS.enc.Base64.parse(b64);

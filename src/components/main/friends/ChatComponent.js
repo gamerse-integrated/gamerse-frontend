@@ -243,13 +243,19 @@ export class ChatComponent extends Component {
                           with your friend.
                         </small>
                       </div>
-                      {/* <p>{content}</p> */}
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => copyTextToClipboard(content)}
-                      >
-                        Copy code
-                      </button>
+
+                      {timestamp.getTime() +
+                        parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY) <
+                      new Date().getTime() ? (
+                        <p className="text-danger">Code Expired</p>
+                      ) : (
+                        <button
+                          className="btn btn-sm btn-primary"
+                          onClick={() => copyTextToClipboard(content)}
+                        >
+                          Copy code
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <span style={{ userSelect: "text" }}>{content}</span>

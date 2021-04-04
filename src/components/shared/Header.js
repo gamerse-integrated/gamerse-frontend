@@ -96,7 +96,7 @@ export class Header extends Component {
         <div
           className="modal"
           id="changePassword"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="changePasswordLabel"
           aria-hidden="true"
