@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
-// styles
 import "bootstrap/dist/js/bootstrap.bundle";
 import "@fortawesome/fontawesome-free/js/all";
 import "react-notifications/lib/notifications.css";
@@ -22,9 +20,9 @@ ReactDOM.render(
     <Router>
       <Provider store={store}>
         <Route component={App}></Route>
+        <NotificationContainer />
       </Provider>
     </Router>
-    <NotificationContainer />
   </React.StrictMode>,
   document.getElementById("gamerse")
 );

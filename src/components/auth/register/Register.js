@@ -1,19 +1,24 @@
 import React, { Component } from "react";
 import { auth, db } from "@config/firebaseConfig";
-import RegisterSvg from "./Register.svg";
+import RegisterSvg from "@assets/Register.jpg";
 import { Link } from "react-router-dom";
 import $ from "jquery";
-
+import { Loading } from "@components/shared/Loading";
+import { NotificationManager } from "react-notifications";
+import voca from "voca";
 export class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       email: "",
       password: "",
       confirm_password: "",
     };
   }
-
+  componentDidMount() {
+    this.setState({ loading: false });
+  }
   validatePassword = (password) =>
     password.match(/[a-z]/g) &&
     password.match(/[A-Z]/g) &&
@@ -21,95 +26,156 @@ export class Register extends Component {
     password.match(/[^a-zA-Z\d]/g) &&
     password.length >= 6 &&
     password.length <= 20;
-
   handleChange = (ev) => {
     ev.preventDefault();
     this.setState({ [ev.target.name]: ev.target.value }, () => {
       if (ev.target.name === "password") {
-        if (this.validatePassword(ev.target.value)) {
-          $("#password").addClass("is-valid");
+        if (!voca.isEmpty(ev.target.value)) {
+          if (this.validatePassword(ev.target.value)) {
+            $("#password").addClass("is-valid");
+            $("#password").removeClass("is-invalid");
+            $("#password_help_text").fadeOut();
+          } else {
+            $("#password").removeClass("is-valid");
+            $("#password").addClass("is-invalid");
+            $("#confirm_password").removeClass("is-valid");
+            $("#confirm_password").removeClass("is-invalid");
+            $("#password_help_text").fadeIn();
+          }
+        } else {
+          $("#password").removeClass("is-valid");
           $("#password").removeClass("is-invalid");
-          $("#password_error").fadeOut();
+          $("#confirm_password").removeClass("is-valid");
+          $("#confirm_password").removeClass("is-invalid");
+          $("#password_help_text").fadeOut();
+        }
+      } else if (ev.target.name === "confirm_password") {
+        if (this.validatePassword(this.state.password)) {
+          if (this.state.password === this.state.confirm_password) {
+            $("#confirm_password").addClass("is-valid");
+            $("#confirm_password").removeClass("is-invalid");
+          } else {
+            $("#confirm_password").removeClass("is-valid");
+            $("#confirm_password").addClass("is-invalid");
+          }
         } else {
           $("#password").removeClass("is-valid");
           $("#password").addClass("is-invalid");
-          $("#password_error").fadeIn();
+          $("#confirm_password").removeClass("is-valid");
+          $("#confirm_password").removeClass("is-invalid");
+          $("#password_help_text").fadeIn();
         }
       }
     });
   };
-
   genRanHex = (size) =>
     [...Array(size)]
       .map(() => Math.floor(Math.random() * 16).toString(16))
       .join("");
-
   handleSubmit = (ev) => {
     ev.preventDefault();
-    let photoURL = `https://api.multiavatar.com/${this.genRanHex(18)}.svg`;
-    if (this.validatePassword(this.state.password)) {
-      if (this.state.confirm_password === this.state.password) {
-        $("#reason").fadeOut("fast");
+    if (
+      this.validatePassword(this.state.password) &&
+      this.state.confirm_password === this.state.password
+    ) {
+      this.setState({ loading: true }, () => {
+        let photoURL = `https://api.multiavatar.com/${this.genRanHex(18)}.svg`;
         auth
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then(({ user }) => {
             user
               .sendEmailVerification()
               .then(() => {
-                // create firestore doc
                 db.collection("users")
                   .doc(user.uid)
                   .set({
                     hasData: false,
                   })
                   .then(() => {
-                    auth.currentUser.updateProfile({
-                      photoURL: photoURL,
-                    });
+                    auth.currentUser
+                      .updateProfile({
+                        photoURL: photoURL,
+                      })
+                      .then(() => {
+                        this.setState({ loading: false }, () => {
+                          NotificationManager.success("Account created");
+                        });
+                      })
+                      .catch(({ message }) => {
+                        this.setState({ loading: false }, () => {
+                          NotificationManager.error(
+                            message.trim(),
+                            "Unable to create account"
+                          );
+                        });
+                      });
                   });
-                this.setState({ code: "accountCreated" }, () => {
-                  $("#reason").fadeIn("fast");
-                });
               })
-              .catch((err) => {
-                this.setState({ code: "sendMailError" }, () => {
-                  $("#reason").fadeIn("fast");
+              .catch(({ message }) => {
+                this.setState({ loading: false }, () => {
+                  NotificationManager.error(
+                    message.trim(),
+                    "Unable to create account"
+                  );
                 });
               });
           })
-          .catch(({ code }) => {
-            this.setState({ code: code }, () => {
-              $("#reason").fadeIn("fast");
+          .catch(({ message }) => {
+            this.setState({ loading: false }, () => {
+              NotificationManager.error(
+                message.trim(),
+                "Unable to create account"
+              );
             });
           });
-      }
+      });
     } else {
+      NotificationManager.error("Please enter correct details");
     }
   };
-
   render() {
+    if (this.state.loading) return <Loading />;
     return (
-      <div className="min-vh-100 d-flex flex-row-reverse">
+      <div className="min-vh-100 d-flex justify-content-center align-items-center">
         {/* Image */}
-        <div className="d-flex align-items-center justify-content-center col-6 ">
-          <img
-            src={RegisterSvg}
-            alt="Register"
-            className="w-100 img-responsive p-5"
-          />
-        </div>
-
+        <div
+          className="w-100"
+          style={{
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: 0,
+            top: 0,
+            left: 0,
+            background: `url(${RegisterSvg})`,
+            backgroundPosition: `center`,
+            backgroundSize: `cover`,
+            backgroundColor: `#000000ff`,
+          }}
+        />
         {/* Form */}
-        <div className="d-flex flex-column w-100 justify-content-center col-6 p-5">
+        <div
+          className="d-flex flex-column justify-content-center p-3 shadow border-0"
+          style={{
+            zIndex: 1,
+            backdropFilter: `blur(10px)`,
+            background: `rgba(255,255,255,.7)`,
+            borderRadius: `1rem`,
+            width: `50vw`,
+            minHeight: `60vh`,
+            // overflow: "hidden",
+          }}
+        >
           <form
             method="post"
             onSubmit={this.handleSubmit}
             autoComplete="off"
-            className="w-75 mx-auto"
+            className="mx-auto"
+            style={{
+              width: "80%",
+            }}
           >
             {/* Title */}
-            <h1 className="text-center pb-4">Gamerse</h1>
-
+            <h1 className="text-center p-4">Gamerse</h1>
             {/* Email */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -119,10 +185,8 @@ export class Register extends Component {
                 name="email"
                 id="email"
                 className="form-control"
-                placeholder="Enter your E-mail"
               />
             </div>
-
             {/* Password */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -132,10 +196,9 @@ export class Register extends Component {
                 name="password"
                 id="password"
                 className="form-control"
-                placeholder="Enter your Password"
               />
               <small
-                id="password_error"
+                id="password_help_text"
                 className="text-danger form-text"
                 style={{ display: "none" }}
               >
@@ -143,41 +206,31 @@ export class Register extends Component {
                 and one numeric character and any symbol
               </small>
             </div>
-
             {/* Confirm password */}
             <div className="form-group">
               <label htmlFor="confirm_password">Confirm Password</label>
               <input
                 onChange={this.handleChange}
-                disabled={this.state.password === "" ? true : false}
+                disabled={
+                  voca.isEmpty(this.state.password) ||
+                  !this.validatePassword(this.state.password)
+                }
                 type="password"
                 name="confirm_password"
-                id="comfirm_password"
+                id="confirm_password"
                 className="form-control"
-                placeholder="Re-enter your Password"
-                aria-describedby="passwordHelpText"
               />
-
-              {this.state.confirm_password === this.state.password &&
-              this.state.password !== "" ? (
-                <small className="form-text text-success">
-                  Password matched
-                </small>
-              ) : this.state.confirm_password !== "" ? (
-                <small className="form-text text-danger">
-                  Passwords do not match
-                </small>
-              ) : (
-                ""
-              )}
-            </div>
-
-            {/* Messages */}
-            <div className="form-group" id="reason">
-              {this.alertRegister()}
             </div>
             <div className="form-group d-flex justify-content-between align-items-center">
-              <button type="submit" className="btn btn-primary my-2">
+              <button
+                type="submit"
+                disabled={
+                  voca.isEmpty(this.state.email) ||
+                  voca.isEmpty(this.state.password) ||
+                  voca.isEmpty(this.state.confirm_password)
+                }
+                className="btn btn-primary my-2"
+              >
                 Register
               </button>
               <Link to="/login" className="form-text text-muted">
@@ -188,40 +241,6 @@ export class Register extends Component {
         </div>
       </div>
     );
-  }
-
-  alertRegister() {
-    if (this.state.code === "auth/email-already-in-use")
-      return (
-        <div className="alert alert-warning shadow d-flex justify-content-between align-items-center">
-          <small>User already exists</small>
-          <Link to="/login">Login</Link>
-        </div>
-      );
-    else if (this.state.code === "auth/weak-password")
-      return (
-        <div className="alert alert-warning shadow d-flex justify-content-between align-items-center">
-          <small>Please enter a stronger password</small>
-        </div>
-      );
-    else if (this.state.code === "auth/invalid-email")
-      return (
-        <div className="alert alert-warning shadow d-flex justify-content-between align-items-center">
-          <small>Invalid email</small>
-        </div>
-      );
-    else if (this.state.code === "accountCreated")
-      return (
-        <div className="alert alert-success shadow d-flex justify-content-between align-items-center">
-          <small>Account created. Verify email to continue</small>
-        </div>
-      );
-    else if (this.state.code === "sendMailError")
-      return (
-        <div className="alert alert-danger shadow d-flex justify-content-between align-items-center">
-          <small>Error sending verification mail</small>
-        </div>
-      );
   }
 }
 export default Register;

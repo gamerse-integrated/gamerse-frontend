@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
 import { Link } from "react-router-dom";
 import voca from "voca";
-import LoginSvg from "./Login.svg";
+import LoginImage from "@assets/Login.jpg";
 import { auth } from "@config/firebaseConfig";
+import Loading from "@components/shared/Loading";
 
 export class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: true,
       email: "",
       password: "",
     };
@@ -22,36 +24,97 @@ export class Login extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-
-    auth
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((u) => {
-        if (u && !u.user.emailVerified) {
-          NotificationManager.info("Verify account to proceed");
-          auth.signOut();
-        }
-      })
-      .catch((e) => {
-        NotificationManager.error(e.message);
-      });
+    this.setState({ loading: true }, () => {
+      NotificationManager.info("Checking credentials");
+      auth
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((u) => {
+          if (u && !u.user.emailVerified) {
+            NotificationManager.warning(
+              "Verify account to proceed. Click this notification to resend the verification mail.",
+              "Account verification",
+              1000,
+              async () => {
+                try {
+                  await u.user.sendEmailVerification();
+                  NotificationManager.info(
+                    "Verification mail sent",
+                    null,
+                    1000,
+                    () => {},
+                    true
+                  );
+                } catch ({ message }) {
+                  NotificationManager.info(
+                    message,
+                    "Oops!",
+                    1000,
+                    () => {},
+                    true
+                  );
+                }
+              },
+              true
+            );
+            auth.signOut();
+          }
+        })
+        .catch((e) => {
+          NotificationManager.error(e.message);
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    });
   };
 
+  componentDidMount() {
+    this.setState({ loading: false });
+  }
+
   render() {
+    if (this.state.loading) return <Loading />;
     return (
       <div>
-        <div className="min-vh-100 d-flex">
+        <div className="min-vh-100 d-flex justify-content-center align-items-center">
           {/* Image */}
-          <div className="d-flex align-items-center justify-content-center col-7">
-            <img
-              src={LoginSvg}
-              alt="Login"
-              className="w-100 img-responsive p-5"
-            />
-          </div>
+          <div
+            className="w-100"
+            style={{
+              position: `absolute`,
+              height: `100vh`,
+              zIndex: 0,
+              top: 0,
+              left: 0,
+              background: `url(${LoginImage})`,
+              backgroundPosition: `center`,
+              backgroundSize: `cover`,
+              backgroundColor: `#000000ff`,
+            }}
+          />
 
           {/* Login Form */}
-          <div className="d-flex flex-column w-100 justify-content-center col-5 p-5">
-            <form method="post" onSubmit={this.handleSubmit} autoComplete="off">
+          <div
+            className="d-flex flex-column justify-content-center p-1 border-0 shadow"
+            style={{
+              zIndex: 1,
+              backdropFilter: `blur(10px)`,
+              background: `rgba(255,255,255,.7)`,
+              borderRadius: `1rem`,
+              width: `50vw`,
+              minHeight: `60vh`,
+              // overflow: "hidden",
+            }}
+          >
+            <form
+              method="post"
+              onSubmit={this.handleSubmit}
+              autoComplete="off"
+              className="mx-auto"
+              style={{
+                width: "80%",
+              }}
+            >
               {/* Title */}
               <h1 className="text-center pb-4">Gamerse</h1>
 

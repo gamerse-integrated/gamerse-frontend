@@ -48,6 +48,15 @@ h3 {
   text-rendering: optimizeLegibility;
 }
 
+.dropdown-menu {
+  border: none;
+  overflow: hidden;
+  z-index: 2 !important;
+  backdrop-filter: blur(10px) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 1rem !important;
+}
+
 .notification {
   box-shadow: none !important;
   border-radius: 0.4rem;
@@ -81,6 +90,7 @@ $font-family-monospace: "Fira Code", monospace;
 $enable-shadows: true;
 $enable-gradients: true;
 $enable-caret: false;
+$enable-responsive-font-sizes: true;
 
 $primary: #6c63ff;
 $dark: #222831;

@@ -113,7 +113,7 @@ function Chat({ userName }) {
             let content = Array.from(messageParts).splice(2).join(" / ");
             return (
               <div
-                className="shadow-sm"
+                className="shadow-sm animate__animated animate__fadeIn"
                 key={`message-${index}`}
                 style={messageStyles}
               >

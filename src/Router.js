@@ -132,10 +132,15 @@ export class UserAuthenticated extends React.Component {
 
     // * load component
 
-    this.setState({
-      loading: false,
-      userName: userName,
-    });
+    this.setState(
+      {
+        loading: false,
+        userName: userName,
+      },
+      () => {
+        NotificationManager.success(`Welcome ${userName}`);
+      }
+    );
   }
 
   componentWillUnmount() {

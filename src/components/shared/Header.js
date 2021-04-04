@@ -33,6 +33,7 @@ export class Header extends Component {
                 role="button"
                 data-toggle="modal"
                 data-target="#changePassword"
+                data-backdrop="false"
               >
                 Change password
               </div>
@@ -51,7 +52,7 @@ export class Header extends Component {
         </div>
 
         <div
-          className="modal fade"
+          className="modal"
           id="changePassword"
           tabindex="-1"
           role="dialog"
@@ -59,7 +60,14 @@ export class Header extends Component {
           aria-hidden="true"
         >
           <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content" style={{ borderRadius: "2rem" }}>
+            <div
+              className="modal-content border-0 shadow animate__animated animate__fadeIn"
+              style={{
+                borderRadius: "2rem",
+                backdropFilter: `blur(10px)`,
+                background: `rgba(255,255,255,.7)`,
+              }}
+            >
               <div className="modal-header">
                 <h5 className="modal-title" id="changePasswordLabel">
                   Change password

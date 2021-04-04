@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
       "@redux/*": ["./src/redux/*"],
       "@fonts/*": ["./src/fonts/*"],
       "@config/*": ["./src/config/*"],
