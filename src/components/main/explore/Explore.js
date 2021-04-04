@@ -13,6 +13,7 @@ export class Explore extends Component {
     this.state = {
       userName: null,
       players: [],
+      q: "",
     };
   }
   async componentDidMount() {
@@ -84,56 +85,64 @@ export class Explore extends Component {
         />
         <div className="container">
           <h1 className="text-center text-white">Explore</h1>
-          <form className="text-center mx-auto my-5">
+          <form
+            className="text-center mx-auto my-5"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <input
+              autoComplete="off"
               type="search"
               name="q"
               id="q"
               placeholder="Search players"
-              // onChange={}
+              onChange={(e) => this.setState({ q: e.target.value })}
               className="form-control w-50 mx-auto"
             />
           </form>
           <div className="d-flex justify-content-around align-items-between">
-            {this.state.players.length !== 0 ? (
-              this.state.players.map((u) => (
-                <div
-                  className="d-flex flex-column justify-content-around align-items-center shadow"
-                  style={{
-                    borderRadius: `1rem`,
-                    width: `16vw`,
-                    height: `40vh`,
-                    backdropFilter: `blur(10px)`,
-                    background: `rgba(255,255,255,.7)`,
-                  }}
-                >
+            {this.state.players.filter((p) =>
+              p["userName"].includes(this.state.q)
+            ).length !== 0 ? (
+              this.state.players
+                .filter((p) => p["userName"].includes(this.state.q))
+                .map((u) => (
                   <div
-                    className="text-center"
+                    className="d-flex flex-column justify-content-around align-items-center shadow"
                     style={{
-                      width: "8rem",
-                      height: "8rem",
+                      borderRadius: `1rem`,
+                      width: `16vw`,
+                      height: `40vh`,
+                      backdropFilter: `blur(10px)`,
+                      background: `rgba(255,255,255,.7)`,
                     }}
                   >
-                    <img
-                      src={u.photoURL}
-                      className="img-responsive w-100 rounded-circle"
-                      alt={"userAvatar"}
-                    />
-                  </div>
-                  <div>{u["userName"]}</div>
-                  <div>
-                    <button
-                      className="btn btn-light"
-                      onClick={() => this.sendFriendRequest(u["userName"])}
+                    <div
+                      className="text-center"
+                      style={{
+                        width: "8rem",
+                        height: "8rem",
+                      }}
                     >
-                      Send Request
-                    </button>
+                      <img
+                        src={u.photoURL}
+                        className="img-responsive w-100 rounded-circle"
+                        alt={"userAvatar"}
+                      />
+                    </div>
+                    <div>{u["userName"]}</div>
+                    <div>
+                      <button
+                        className="btn btn-light"
+                        onClick={() => this.sendFriendRequest(u["userName"])}
+                      >
+                        Send Request
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
             ) : (
               <div className="">
-                <p>No users here!</p>
+                <h1 className="text-danger">No users found!</h1>
               </div>
             )}
           </div>
