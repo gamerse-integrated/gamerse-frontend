@@ -105,17 +105,26 @@ export class FriendListItem extends Component {
                 className="dropdown-menu dropdown-menu-right shadow border-0 mt-2"
                 style={{ borderRadius: "1.2rem" }}
               >
-                <div
-                  className="dropdown-item"
-                  onClick={() => this.challenge(this.props.ownProps.id)}
-                >
-                  Challenge {this.props.ownProps.id}
-                </div>
+                {this.props.ownProps.onlineStatus === "online" ? (
+                  <div
+                    className="dropdown-item"
+                    onClick={() => this.challenge(this.props.ownProps.id)}
+                  >
+                    Challenge
+                  </div>
+                ) : (
+                  <div
+                    className="dropdown-item text-muted"
+                    // onClick={() => this.challenge(this.props.ownProps.id)}
+                  >
+                    Challenge
+                  </div>
+                )}
                 <div
                   className="dropdown-item"
                   onClick={() => this.removeFriend(this.props.ownProps.id)}
                 >
-                  Remove {this.props.ownProps.id}
+                  Remove
                 </div>
               </div>
             </div>

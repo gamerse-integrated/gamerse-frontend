@@ -13,6 +13,47 @@ const pubnub = new PubNub({
   uuid: process.env.REACT_APP_TITLE,
 });
 
+function fallbackCopyTextToClipboard(text) {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+
+  // Avoid scrolling to bottom
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand("copy");
+    var msg = successful ? "successful" : "unsuccessful";
+    console.log("Fallback: Copying text command was " + msg);
+    NotificationManager.info("Copied the code to clipboard");
+  } catch (err) {
+    console.error("Fallback: Oops, unable to copy", err);
+  }
+
+  document.body.removeChild(textArea);
+}
+
+function copyTextToClipboard(text) {
+  if (!navigator.clipboard) {
+    fallbackCopyTextToClipboard(text);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(
+    function () {
+      console.log("Async: Copying to clipboard was successful!");
+      NotificationManager.info("Copied the code to clipboard");
+    },
+    function (err) {
+      console.error("Async: Could not copy text: ", err);
+    }
+  );
+}
+
 export class ChatComponent extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +109,7 @@ export class ChatComponent extends Component {
             " / " +
             new Date().toISOString() +
             " / " +
+            "message / " +
             message,
         })
         .then(() => {
@@ -80,6 +122,7 @@ export class ChatComponent extends Component {
                 " / " +
                 new Date().toISOString() +
                 " / " +
+                "message / " +
                 message,
             })
             .then((res) => {
@@ -167,7 +210,8 @@ export class ChatComponent extends Component {
               let printTime = `${
                 days[timestamp.getDay()]
               }, ${timestamp.toLocaleString()}`;
-              let content = Array.from(messageParts).splice(2).join(" / ");
+              let message_type = messageParts[2];
+              let content = Array.from(messageParts).splice(3).join(" / ");
               return (
                 <div
                   className="shadow-sm"
@@ -189,7 +233,27 @@ export class ChatComponent extends Component {
                   >
                     {sender}
                   </small>
-                  <span style={{ userSelect: "text" }}>{content}</span>
+                  {message_type === "code" ? (
+                    <div>
+                      <h4 className="text-warning">Challenge</h4>
+                      <div className="text-info pb-2">
+                        <small>
+                          Click the button to copy the code to clipboard. Then
+                          you may paste the code in join room option to play
+                          with your friend.
+                        </small>
+                      </div>
+                      {/* <p>{content}</p> */}
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => copyTextToClipboard(content)}
+                      >
+                        Copy code
+                      </button>
+                    </div>
+                  ) : (
+                    <span style={{ userSelect: "text" }}>{content}</span>
+                  )}
                   <small className="text-muted text-right d-block">
                     {printTime}
                   </small>
