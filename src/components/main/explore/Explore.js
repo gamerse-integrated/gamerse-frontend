@@ -7,10 +7,12 @@ import { NotificationManager } from "react-notifications";
 import { connect } from "react-redux";
 import { Route } from "react-router";
 import BackgroundImage from "@assets/4.webp";
+import Loading from "@components/shared/Loading";
 export class Explore extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       userName: null,
       players: [],
       q: "",
@@ -47,6 +49,7 @@ export class Explore extends Component {
 
     players = players.filter((p) => !friends.includes(p["userName"]));
     this.setState({
+      loading: false,
       userName: userName,
       players: players.filter((p) => p["userName"] !== userName),
     });
@@ -66,6 +69,7 @@ export class Explore extends Component {
       .catch((e) => NotificationManager.error("Error sending friend request"));
   }
   render() {
+    if (this.state.loading) return <Loading />;
     return (
       <div>
         <Route component={(props) => <Header {...props} />} />
