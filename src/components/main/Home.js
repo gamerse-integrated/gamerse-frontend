@@ -3,7 +3,10 @@ import { auth } from "@config/firebaseConfig";
 import GlobalChat from "./GlobalChat";
 import "./Home.scss";
 import SnakesImage from "./snakes.jpg";
-import $ from "jquery";
+// import $ from "jquery";
+import BackgroundImage from "@assets/3.webp";
+import { Route } from "react-router";
+import Header from "@components/shared/Header";
 
 // import multiavatar from "@multiavatar/multiavatar/esm";
 
@@ -22,97 +25,28 @@ export default class Home extends Component {
     return (
       <div className="min-vh-100 d-flex">
         <div
+          className="w-100"
+          style={{
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: 0,
+            top: 0,
+            left: 0,
+            background: `url(${BackgroundImage})`,
+            backgroundPosition: `center`,
+            backgroundSize: `cover`,
+            backgroundColor: `#000000ff`,
+          }}
+        />
+        <div
           className="col-md-8 col-12 d-flex flex-column min-vh-100 px-md-5 py-md-3"
           id="home-controls"
         >
           {/* dashboard nav */}
-          <div className="nav" id="dashboard-nav">
-            <div id="logo">
-              <h1 style={{ fontFamily: "serif" }}>Gamerse</h1>
-            </div>
-            <div className="dropdown">
-              <img
-                src={auth.currentUser.photoURL}
-                alt="Profile"
-                className="img-responsive rounded-circle shadow"
-                style={{
-                  width: "3.2em",
-                  height: "3.2em",
-                }}
-                role="button"
-                data-toggle="dropdown"
-              />
-              <div className="dropdown-menu dropdown-menu-right border-0 shadow p-0 mt-2 text-cente overflow-hidden">
-                <div
-                  className="dropdown-item"
-                  role="button"
-                  data-toggle="modal"
-                  data-target="#changePassword"
-                  data-backdrop="false"
-                >
-                  Change password
-                </div>
+          <Route
+            component={(props) => <Header {...props} color="white"></Header>}
+          ></Route>
 
-                <div
-                  className="dropdown-item"
-                  role="button"
-                  onClick={() =>
-                    auth.signOut().then((e) => global.worker.terminate())
-                  }
-                >
-                  Logout
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="modal"
-            id="changePassword"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="changePasswordLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div
-                className="modal-content border-0 shadow animate__animated animate__fadeIn"
-                style={{
-                  borderRadius: "2rem",
-                  backdropFilter: `blur(10px)`,
-                  background: `rgba(255,255,255,.7)`,
-                }}
-              >
-                <div className="modal-header">
-                  <h5 className="modal-title" id="changePasswordLabel">
-                    Change password
-                  </h5>
-                  <button
-                    type="button"
-                    className="close d-none"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <p>Form here</p>
-                </div>
-                <div className="modal-footer justify-content-around">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button type="button" className="btn btn-primary">
-                    Change
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
           {/* game carousel */}
           <div className="col p-0" id="dashboard-game-carousel">
             <div
@@ -136,7 +70,7 @@ export default class Home extends Component {
                   />
                 </div>
                 <div
-                  className="carousel-item text-center"
+                  className="carousel-item text-center bg-white"
                   onClick={() => this.props.history.push("/tictactoe")}
                   role="button"
                 >
@@ -195,6 +129,7 @@ export default class Home extends Component {
                 alt="Placeholder"
                 className="img-responsive rounded- shadow-"
                 style={{
+                  filter: "invert(1)",
                   width: "4em",
                   height: "4em",
                 }}
@@ -215,6 +150,7 @@ export default class Home extends Component {
                 alt="Placeholder"
                 className="img-responsive rounded- shadow-"
                 style={{
+                  filter: "invert(1)",
                   width: "4em",
                   height: "4em",
                 }}
@@ -225,7 +161,16 @@ export default class Home extends Component {
             </span>
           </div>
         </div>
-        <div className="col-md-4 d-md-block d-none" id="global-chat">
+        <div
+          className="col-md-4 d-md-block d-none"
+          id="global-chat"
+          style={{
+            zIndex: 1,
+            backdropFilter: `blur(10px)`,
+            background: `rgba(255,255,255,.8)`,
+            borderRadius: `1rem 0 0 1rem`,
+          }}
+        >
           <GlobalChat userName={this.props.userName}></GlobalChat>
         </div>
       </div>

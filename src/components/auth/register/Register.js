@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { auth, db } from "@config/firebaseConfig";
-import RegisterSvg from "@assets/Register.jpg";
+import RegisterImage from "@assets/Register.jpg";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import { Loading } from "@components/shared/Loading";
@@ -146,7 +146,7 @@ export class Register extends Component {
             zIndex: 0,
             top: 0,
             left: 0,
-            background: `url(${RegisterSvg})`,
+            background: `url(${RegisterImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
             backgroundColor: `#000000ff`,

@@ -1,18 +1,60 @@
 import { auth } from "@config/firebaseConfig";
 import React, { Component } from "react";
+import { NotificationManager } from "react-notifications";
 import { connect } from "react-redux";
 
 export class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+      new_password: "",
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ loading: false });
+  }
+
+  validatePassword = (password) =>
+    password.match(/[a-z]/g) &&
+    password.match(/[A-Z]/g) &&
+    password.match(/[0-9]/g) &&
+    password.match(/[^a-zA-Z\d]/g) &&
+    password.length >= 6 &&
+    password.length <= 20;
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    if (this.validatePassword(this.state.new_password))
+      this.setState({ loading: true }, () => {
+        auth.currentUser
+          .updatePassword(this.state.new_password)
+          .then(() => {
+            this.setState({ loading: false }, () =>
+              NotificationManager.success("Password changed")
+            );
+          })
+          .catch(({ message }) =>
+            this.setState({ loading: false }, () =>
+              NotificationManager.error(message)
+            )
+          );
+      });
+    else NotificationManager.error("Password not strong");
+  };
   render() {
+    if (this.state.loading) return "Processing";
     return (
       <header>
-        <div className="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3">
+        <div className="navbar navbar-expand-lg navbar-light bg- shadow- mb-3">
           <div
             onClick={() => this.props.history.push("/")}
             className="navbar-brand"
             role="button"
           >
-            <h1>Gamerse</h1>
+            <h1 className={`text-${this.props.color || ""}`}>Gamerse</h1>
           </div>
 
           <div className="ml-auto dropdown nav-item">
@@ -59,7 +101,12 @@ export class Header extends Component {
           aria-labelledby="changePasswordLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog modal-dialog-centered" role="document">
+          <form
+            autoComplete="off"
+            onSubmit={this.handleSubmit}
+            className="modal-dialog modal-dialog-centered"
+            role="document"
+          >
             <div
               className="modal-content border-0 shadow animate__animated animate__fadeIn"
               style={{
@@ -82,7 +129,29 @@ export class Header extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <p>Form here</p>
+                <div className="form-group">
+                  <div className="form-group">
+                    {/* <label for="new_password">Change password</label> */}
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="new_password"
+                      id="new_password"
+                      aria-describedby="newPasswordGuide"
+                      placeholder="Enter new password"
+                      onChange={(e) =>
+                        this.setState({ new_password: e.target.value })
+                      }
+                    />
+                    <small
+                      id="newPasswordGuide"
+                      className="form-text text-muted"
+                    >
+                      Password should be of length 6-20 and should contain one
+                      capital and one numeric character and any symbol
+                    </small>
+                  </div>
+                </div>
               </div>
               <div className="modal-footer justify-content-around">
                 <button
@@ -97,7 +166,7 @@ export class Header extends Component {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </header>
     );

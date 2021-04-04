@@ -7,56 +7,46 @@ import Header from "@shared/Header";
 import friends from "./friends.svg";
 import { Route } from "react-router-dom";
 import { JoinRoom } from "./tictactoe/JoinRoom";
+// import BackgroundImage from "@assets/Login.jpg";
 export default class TicTacToeRouter extends Component {
   render() {
     return (
       <div>
         <div className="d-flex flex-column min-vh-100">
-          <header>
-            {/* <div className="navbar navbar-light bg-light border-bottom">
-              <div className="navbar-brand">
-                <h1>Gamerse</h1>
-              </div>
-              <div className="dropdown">
-                <img
-                  // src="https://via.placeholder.com/150"
-                  src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
-                  alt="Profile"
-                  className="img-responsive rounded-circle shadow"
-                  style={{
-                    width: "3.6em",
-                    height: "3.6em",
-                  }}
-                  role="button"
-                  data-toggle="dropdown"
-                />
-                <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-item">Profile</div>
-                  <div className="dropdown-item" onClick={() => auth.signOut()}>
-                    Logout
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            <Route component={(props) => <Header {...props}></Header>}></Route>
-          </header>
-          <div className="d-flex flex-row flex-grow-1 ">
-            <div className="d-flex flex-column flex-grow-1 border col-3">
-              <Link to="ttteasy">
+          {/* <div
+            className="w-100"
+            style={{
+              position: `absolute`,
+              height: `100vh`,
+              zIndex: 0,
+              top: 0,
+              left: 0,
+              background: `url(${BackgroundImage})`,
+              backgroundPosition: `center`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: `contain`,
+              backgroundColor: `#fff`,
+            }}
+          /> */}
+
+          <Route component={(props) => <Header {...props}></Header>}></Route>
+          <div className="d-flex flex-row flex-grow-1 text-dark">
+            <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <Link className="stretched-link" to="ttteasy">
                 <p>Easy</p>
               </Link>
             </div>
-            <div className="d-flex flex-column flex-grow-1 border col-3">
-              <Link to="tttai">
+            <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <Link className="stretched-link" to="tttai">
                 <p>Impossible (against AI)</p>
               </Link>
             </div>
-            <div className="d-flex flex-column flex-grow-1 border col-3">
-              <Link to="ttthuman">
+            <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <Link className="stretched-link" to="ttthuman">
                 <p>Against Random Player</p>
               </Link>
             </div>
-            <div className="d-flex flex-column flex-grow-1 border col-3 align-items-center">
+            <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3 align-items-center">
               <p>VS Friend</p>
               <img
                 src={friends}

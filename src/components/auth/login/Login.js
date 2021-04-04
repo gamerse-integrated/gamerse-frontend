@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
 import { Link } from "react-router-dom";
 import voca from "voca";
-import LoginImage from "@assets/Login.jpg";
+import LoginImage from "@assets/1.png";
 import { auth } from "@config/firebaseConfig";
 import Loading from "@components/shared/Loading";
 

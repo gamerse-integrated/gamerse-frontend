@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NotificationManager } from "react-notifications";
 import { Link } from "react-router-dom";
 import voca from "voca";
-import ForgotSvg from "./Forgot.svg";
+import BackgroundImage from "@assets/3.webp";
 import { auth, rcv } from "@config/firebaseConfig";
 
 function ForgotPassword() {
@@ -26,29 +26,41 @@ function ForgotPassword() {
 
   return (
     <div>
-      <div className="min-vh-100 d-flex">
+      <div className="min-vh-100 d-flex justify-content-center align-items-center">
         {/* Image */}
-        <div className="d-xl-flex d-none col-xl-7 justify-content-center align-items-end">
-          <img
-            src={ForgotSvg}
-            alt="Forgot password"
-            className="img-responsive w-100 px-5"
-          />
-        </div>
+        <div
+          className="w-100"
+          style={{
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: 0,
+            top: 0,
+            left: 0,
+            background: `url(${BackgroundImage})`,
+            backgroundPosition: `center`,
+            backgroundSize: `cover`,
+            backgroundColor: `#000000ff`,
+          }}
+        />
 
         {/* Form */}
         <form
           className="col-xl-5 col-12 d-flex flex-column p-xl-5 justify-content-center"
           autoComplete="off"
           onSubmit={submit}
+          style={{
+            borderRadius: "2rem",
+            backdropFilter: `blur(10px)`,
+            background: `rgba(255,255,255,.7)`,
+          }}
         >
           {/* Title */}
-          <div
-            className="h1 p-4 text-center"
+          <h1
+            className="p-4 text-center"
             // style={{ fontSize: "3rem" }}
           >
             Gamerse
-          </div>
+          </h1>
 
           {/* Email */}
           <div className="form-group">

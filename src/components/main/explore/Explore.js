@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
 import { connect } from "react-redux";
 import { Route } from "react-router";
+import BackgroundImage from "@assets/4.webp";
 export class Explore extends Component {
   constructor(props) {
     super(props);
@@ -67,12 +68,29 @@ export class Explore extends Component {
     return (
       <div>
         <Route component={(props) => <Header {...props} />} />
+        <div
+          className="w-100"
+          style={{
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: -1,
+            top: 0,
+            left: 0,
+            background: `url(${BackgroundImage})`,
+            backgroundPosition: `center`,
+            backgroundSize: `cover`,
+            backgroundColor: `#000000ff`,
+          }}
+        />
         <div className="container">
+          <h1 className="text-center text-white">Explore</h1>
           <form className="text-center mx-auto my-5">
             <input
               type="search"
               name="q"
               id="q"
+              placeholder="Search players"
+              // onChange={}
               className="form-control w-50 mx-auto"
             />
           </form>
@@ -85,6 +103,8 @@ export class Explore extends Component {
                     borderRadius: `1rem`,
                     width: `16vw`,
                     height: `40vh`,
+                    backdropFilter: `blur(10px)`,
+                    background: `rgba(255,255,255,.7)`,
                   }}
                 >
                   <div

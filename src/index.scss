@@ -45,8 +45,11 @@ a:focus {
 h1,
 h2,
 h3 {
+  font-family: "Roboto Slab", serif;
   text-rendering: optimizeLegibility;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap");
 
 .dropdown-menu {
   border: none;

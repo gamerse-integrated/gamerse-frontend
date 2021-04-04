@@ -77,20 +77,9 @@ function Chat({ userName }) {
   }, [pubnub, channels]);
 
   return (
-    <div id="GLOBALCHAT" style={{}} className="d-flex flex-column">
-      {/* <div style={pageStyles} className="flex-grow-1 d-flex flex-column"> */}
-      {/* <div style={chatStyles} className="flex-grow-1"> */}
+    <div id="GLOBALCHAT" className="d-flex flex-column">
       <div style={{}} className="position-relative">
-        {/* <div style={headerStyles}>React Chat Example</div> */}
-        <div
-          // style={{
-          //   background:
-          //     "-webkit-gradient(linear, left top, left bottom, from(#eee), to(#333))",
-          //   WebkitBackgroundClip: "text",
-          //   WebkitTextFillColor: "transparent",
-          // }}
-          className="text-uppercas h1 text-center font-weight-bold"
-        >
+        <div className="text-uppercas h1 text-center font-weight-bold">
           Global Chat
         </div>
         {/* <div style={listStyles}> */}
@@ -134,12 +123,10 @@ function Chat({ userName }) {
             );
           })}
         </div>
-        {/* <div style={footerStyles} className="d-flex"> */}
         <div style={{}} className="d-flex input-group w-100 mt-2">
           <input
             type="text"
             className="form-control"
-            // style={inputStyles}
             placeholder="Type your message"
             value={message}
             onKeyPress={(e) => {
@@ -150,7 +137,6 @@ function Chat({ userName }) {
           />
           <div className="input-group-append">
             <button
-              // style={buttonStyles}
               className="btn btn-primary"
               onClick={(e) => {
                 e.preventDefault();
@@ -175,38 +161,6 @@ function Chat({ userName }) {
   );
 }
 
-const pageStyles = {
-  // alignItems: "center",
-  background: "#282c34",
-  // display: "flex",
-  // justifyContent: "center",
-  maxHeight: "100%",
-};
-
-const chatStyles = {
-  display: "flex",
-  flexDirection: "column",
-  // height: "50vh",
-  // width: "50%",
-};
-
-const headerStyles = {
-  background: "#323742",
-  color: "white",
-  fontSize: "1.4rem",
-  padding: "10px 15px",
-};
-
-const listStyles = {
-  alignItems: "flex-start",
-  backgroundColor: "white",
-  display: "flex",
-  flexDirection: "column",
-  flexGrow: 1,
-  overflowY: "auto",
-  // padding: "10px",
-};
-
 const messageStyles = {
   backgroundColor: "#fff",
   borderRadius: "1rem",
@@ -214,21 +168,6 @@ const messageStyles = {
   fontSize: "1.1rem",
   margin: "5px",
   padding: "8px 15px",
-};
-
-const footerStyles = {
-  display: "flex",
-};
-
-const inputStyles = {
-  flexGrow: 1,
-  fontSize: "1.1rem",
-  padding: "10px 15px",
-};
-
-const buttonStyles = {
-  fontSize: "1.1rem",
-  padding: "10px 15px",
 };
 
 export default Chatbox;

@@ -26,6 +26,11 @@ export default class App extends Component {
     }
   };
   componentDidMount() {
+    window.addEventListener("offline", () => {
+      NotificationManager.warning(
+        "You are offline but you can still continue to enjoy the app"
+      );
+    });
     auth.onAuthStateChanged(async (user) => {
       if (user && user.emailVerified) {
         if (await this.checkData(user.uid)) {
