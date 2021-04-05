@@ -4,6 +4,8 @@ import Poison from "./Poison";
 import "./Snakes.scss";
 import { Component } from "react";
 import { connect } from "react-redux";
+import php from "@config/php.js";
+
 // import { updateScore } from "../../../actionCreator";
 
 const getRandomCoordinates = () => {
@@ -154,6 +156,7 @@ export class SnakeGame extends Component {
       this.enlargeSnake();
       this.increaseSpeed();
       this.s = this.s + 20;
+      this.props.updateScore(this.s);
     }
   }
   checkIfEatPoison() {
@@ -167,6 +170,7 @@ export class SnakeGame extends Component {
       this.enlargeSnake();
       this.increaseSpeed();
       this.s = this.s - 40;
+      this.props.updateScore(this.s);
     }
   }
 
@@ -196,9 +200,16 @@ export class SnakeGame extends Component {
   onGameOver() {
     this.score = "your score is " + this.s;
     this.game = "Game-Over";
+    php
+      .post("snake-api.php/", { userName: this.props.userName, score: this.s })
+      .then((res) => console.log(res))
+      .catch((err) => console.log("err from snake game:" + err));
     // this.props.updateScore(0);
+
     this.s = 0;
+    this.props.updateScore(this.s);
     this.setState(initialState);
+    this.props.updateHighScore();
   }
   gen_food() {
     let food = getRandomCoordinates();

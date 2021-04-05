@@ -7,9 +7,9 @@ export class AgainstHumanScoreBoard extends Component {
       <div
         className="text-dark d-flex flex-column align-items-center justify-content-center shadow"
         style={{
-          position: "fixed",
-          top: "30vh",
-          left: "3rem",
+          position: "relative",
+          // top: "30vh",
+          // left: "3rem",
           borderRadius: `1rem`,
           width: `25vw`,
           height: `50vh`,

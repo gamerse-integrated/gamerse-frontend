@@ -26,12 +26,12 @@ export default class App extends Component {
     }
   };
   componentWillUnmount() {
-    clearInterval(this.consoleClear);
+    // clearInterval(this.consoleClear);
   }
   componentDidMount() {
-    this.consoleClear = setInterval(() => {
-      console.clear();
-    }, 1000);
+    // this.consoleClear = setInterval(() => {
+    //   console.clear();
+    // }, 1000);
     window.addEventListener("offline", () => {
       NotificationManager.warning(
         "You are offline but you can still continue to enjoy the app"

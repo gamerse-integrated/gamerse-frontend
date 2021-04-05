@@ -14,7 +14,7 @@ import WalkImage from "./Walk.svg";
 
 export class FriendsMainContent extends Component {
   async componentDidMount() {
-    setInterval(async () => {
+    this.friendDataFetcher = setInterval(async () => {
       let friends, userName, requests, t, t_all;
       try {
         let res1 = await php.get("player.php", {
@@ -108,6 +108,7 @@ export class FriendsMainContent extends Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.friendDataFetcher);
     this.props.changeChatWindow(null);
   }
 

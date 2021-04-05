@@ -1,141 +1,177 @@
-import { Header } from "@components/shared/Header";
+import Header from "@components/shared/Header";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Route } from "react-router";
-import InGameChat from "../InGameChat";
-import TicTacToe from "./TicTacToe";
-// import BG from "./grass4.png";
+import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
+import AppProvider, { AppContext } from "./AppProvider";
+import { GAME_TYPES } from "./common";
+import TicTacToeMainFriend from "./TicTacToeMainFriend";
+import $ from "jquery";
+import { resetScore } from "@redux/actionCreators/tictactoe";
+import php from "@config/php";
+import { auth } from "@config/firebaseConfig";
+import _ from "lodash";
+import PubNub from "pubnub";
+import { PubNubProvider } from "pubnub-react";
+import Loading from "@components/shared/Loading";
 
-export default class TTTfriend extends Component {
+const pubnub = new PubNub({
+  publishKey: process.env.REACT_APP_PUBNUB_PUB,
+  subscribeKey: process.env.REACT_APP_PUBNUB_SUB,
+  uuid: process.env.REACT_APP_TITLE,
+});
+export class TTTfriend extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: true,
       friendId: this.props.match.params.id,
+      friend: null,
+      userName: null,
+      icon: null,
     };
   }
 
-  componentDidMount() {
-    // php
-    //   .post("friends.php", {
-    //     id: this.props.friendId,
-    //   })
-    //   .then(({ data }) => {
-    //     this.setState({ id: data.id });
-    //   })
-    //   .catch((e) => console.log(e));
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.friend !== this.state.friend) {
+      this.setState({ loading: false });
+    }
   }
 
+  async componentDidMount() {
+    $("#SetGameTypeHuman").click();
+    let friends, userName, t;
+    try {
+      let res1 = await php.get("player.php", {
+        params: {
+          email: auth.currentUser.email,
+        },
+      });
+      userName = res1.data["userName"];
+      // console.log(userName);
+      let res2 = await php.get("friends.php", {
+        params: {
+          userName: userName,
+        },
+      });
+      friends = res2.data;
+    } catch (e) {
+      friends = this.props.friends;
+    }
+
+    // fetch friend data
+
+    try {
+      let res4 = await php.get("player.php");
+      t = res4.data;
+      t = _.map(
+        t,
+        _.partialRight(_.pick, ["userName", "onlineStatus", "photoURL"])
+      );
+      let fl = friends.filter((f) => f["status"] === "F");
+      let flnames = _.map(fl, "friend");
+      t = t.filter((p) => flnames.includes(p["userName"]));
+      fl = fl.map((p) => ({
+        userName: p["friend"],
+        id: p["id"],
+        status: p["status"],
+      }));
+      let merged = _.merge(_.keyBy(t, "userName"), _.keyBy(fl, "userName"));
+      let values = _.values(merged);
+      friends = values
+        .map((p) => ({
+          friend: p["userName"],
+          id: p["id"],
+          status: p["status"],
+          photoURL: p["photoURL"],
+          onlineStatus:
+            new Date(parseInt(p["onlineStatus"])).getTime() + 6 * 1000 >
+            new Date().getTime()
+              ? "online"
+              : "offline",
+        }))
+        .filter((f) => f["id"] === this.state.friendId);
+
+      let icon =
+        String(userName).localeCompare(String(friends[0].friend)) === 1
+          ? "X"
+          : "O";
+
+      this.setState({ friend: friends[0], userName: userName, icon: icon });
+    } catch (e) {
+      // error fetching friend data ==>  abort
+    }
+  }
+  componentWillUnmount() {
+    this.props.resetScore();
+  }
   render() {
+    if (this.state.loading) return <Loading />;
     return (
-      <div id="ttteasy" className="bg min-vh-100 d-flex flex-column">
-        <Route component={(props) => <Header {...props}></Header>}></Route>
-
-        {/* chat box */}
-
-        {/* <div
-          id="chatbox"
-          style={{
-            backgroundColor: "white",
-            width: "30vw",
-            height: "60vh",
-            position: "absolute",
-            bottom: "0",
-            right: "1rem",
-            zIndex: "2",
-            borderRadius: "1.2rem 1.2rem 0 0",
-            padding: "2rem",
-          }}
-        >
-          <p>Chat box</p>
-        </div> */}
-
-        {/* game */}
-        <div className="d-flex flex-row flex-grow-1">
-          <div className="col-7 d-flex justify-content-center align-items-center">
-            <div
-              id="ttt"
-              className="shadow p-3 bg-white"
-              style={{ borderRadius: "1.2rem" }}
-            >
-              <TicTacToe></TicTacToe>
-            </div>
-          </div>
-          <div className="col-5 d-flex flex-column justify-content-around align-items-center p-5">
-            <div
-              className="d-flex justify-content-between align-items-center flex-shrink-1 shadow px-4 pt-4 text-black mb-4"
-              style={{
-                borderRadius: "1.4rem",
-                width: "80%",
-                backgroundColor: "#ffffffaa",
-              }}
-            >
-              <div className="d-flex flex-column justify-content-between">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7uvXoS3qjbJf_hCsQEi7vFBYCBPifsDl34w&usqp=CAU"
-                  alt="You"
-                  className="img-responsive d-block rounded-circle shadow"
-                  style={{
-                    width: "6rem",
-                    height: "6rem",
-                  }}
-                />
-                <p
-                  className="text-center pt-4"
-                  style={{
-                    fontSize: "5rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  3
-                </p>
-              </div>
-              <img
-                src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/a3f544f1-f07b-4aa9-b6f9-824148c31a10/daqrpoq-f7ee01ed-ac8e-4c47-86c9-360f670365d2.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYTNmNTQ0ZjEtZjA3Yi00YWE5LWI2ZjktODI0MTQ4YzMxYTEwXC9kYXFycG9xLWY3ZWUwMWVkLWFjOGUtNGM0Ny04NmM5LTM2MGY2NzAzNjVkMi5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.37GhMgHrxdiLQPB8OPtK_04vGDSUum7EM4vxWzmkzYY"
-                alt="VS"
-                className="img-responsive"
-                style={{ width: "4rem", height: "4rem" }}
-              ></img>
-              <div className="d-flex flex-column justify-content-between">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzhZFZ6AFPFQZl3z3e9snwPNMlDV1qJqVz2g&usqp=CAU"
-                  alt="Computer"
-                  className="img-responsive d-block rounded-circle shadow"
-                  style={{
-                    width: "6rem",
-                    height: "6rem",
-                  }}
-                />
-                <p
-                  className="text-center pt-4"
-                  style={{
-                    fontSize: "5rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  2
-                </p>
+      <div>
+        <AppProvider>
+          <PubNubProvider client={pubnub}>
+            <div className="d-flex min-vh-100 flex-column">
+              <Route
+                component={(props) => <Header color="" {...props}></Header>}
+              ></Route>
+              <div className="flex-grow-1 d-flex flex-row">
+                <div className="col-6 mx-auto d-flex bg-warning flex-row flex-grow-1">
+                  <TicTacToeMainFriend
+                    pubnub={pubnub}
+                    userName={this.state.userName}
+                    friendId={this.state.friendId}
+                    friend={this.state.friend}
+                    icon={this.state.icon}
+                  />
+                </div>
+                <div className="col d-flex flex-column flex-grow-1">
+                  <AgainstHumanScoreBoard
+                    pubnub={pubnub}
+                    friend={this.state.friend}
+                  />
+                  <AppContext.Consumer>
+                    {(context) => (
+                      <>
+                        <button
+                          id="SetGameTypeHuman"
+                          className="btn btn-primary"
+                          style={{}}
+                          onClick={() => {
+                            context.changeType(GAME_TYPES.TWO_PLAYERS);
+                            context.newGameHuman();
+                          }}
+                        >
+                          New Game
+                        </button>
+                        <button
+                          className="btn btn-primary mt-5"
+                          style={{}}
+                          onClick={this.props.resetScore}
+                        >
+                          Reset score
+                        </button>
+                      </>
+                    )}
+                  </AppContext.Consumer>
+                  <div className="">Chat</div>
+                </div>
               </div>
             </div>
-            <div
-              id="chatbox"
-              className="flex-grow-1 shadow-lg border-0"
-              style={{
-                backgroundColor: "#ffffffee",
-                width: "100%",
-                // height: "60vh",
-                // position: "absolute",
-                // bottom: "0",
-                // right: "1rem",
-                // zIndex: "2",
-                borderRadius: "1.2rem",
-                padding: "2rem",
-              }}
-            >
-              <InGameChat id={this.state.friendId}></InGameChat>
-            </div>
-          </div>
-        </div>
+          </PubNubProvider>
+        </AppProvider>
       </div>
     );
   }
 }
+
+TTTfriend.contextType = AppContext;
+
+const mapStateToProps = ({ tictactoe }) => ({});
+
+const mapDispatchToProps = {
+  resetScore,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TTTfriend);
