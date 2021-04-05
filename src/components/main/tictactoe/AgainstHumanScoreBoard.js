@@ -5,8 +5,8 @@ export class AgainstHumanScoreBoard extends Component {
   render() {
     return (
       <div className="text-white">
-        <p>X:{this.props.score_x}</p>
-        <p>O:{this.props.score_o}</p>
+        <p>X:{this.props.score_x / 2}</p>
+        <p>O:{this.props.score_o / 2}</p>
       </div>
     );
   }

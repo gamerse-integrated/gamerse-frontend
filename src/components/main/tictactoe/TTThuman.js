@@ -8,10 +8,12 @@ import { Route } from "react-router-dom";
 import $ from "jquery";
 import "./TTTbg.scss";
 import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
+import { connect } from "react-redux";
+import { resetScore } from "@redux/actionCreators/tictactoe";
 
 // import BG from "./grass4.png";
 
-export default class TTThuman extends Component {
+export class TTThuman extends Component {
   componentDidMount() {
     $("#SetGameTypeHuman").click();
   }
@@ -30,21 +32,34 @@ export default class TTThuman extends Component {
             <Main></Main>
             <AppContext.Consumer>
               {(context) => (
-                <button
-                  id="SetGameTypeHuman"
-                  className="btn btn-primary"
-                  style={{
-                    position: "fixed",
-                    right: "2rem",
-                    top: "48vh",
-                  }}
-                  onClick={() => {
-                    context.changeType(GAME_TYPES.TWO_PLAYERS);
-                    context.newGameHuman();
-                  }}
-                >
-                  New Game
-                </button>
+                <>
+                  <button
+                    id="SetGameTypeHuman"
+                    className="btn btn-primary"
+                    style={{
+                      position: "fixed",
+                      right: "2rem",
+                      top: "48vh",
+                    }}
+                    onClick={() => {
+                      context.changeType(GAME_TYPES.TWO_PLAYERS);
+                      context.newGameHuman();
+                    }}
+                  >
+                    New Game
+                  </button>
+                  <button
+                    className="btn btn-primary mt-5"
+                    style={{
+                      position: "fixed",
+                      right: "2rem",
+                      top: "52vh",
+                    }}
+                    onClick={this.props.resetScore}
+                  >
+                    Reset score
+                  </button>
+                </>
               )}
             </AppContext.Consumer>
             <AgainstHumanScoreBoard />
@@ -56,3 +71,10 @@ export default class TTThuman extends Component {
 }
 
 TTThuman.contextType = AppContext;
+const mapStateToProps = ({ tictactoe }) => ({});
+
+const mapDispatchToProps = {
+  resetScore,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TTThuman);
