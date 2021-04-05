@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import Header from "@shared/Header";
 // import React, { Component } from "react";
 // import { connect } from "react-redux";
-import friends from "./friends.svg";
+import EasyImage from "@assets/EasyImage.svg";
+import AgainstFriendImage from "@assets/friends.svg";
+import SideBySideImage from "@assets/SideBySide.svg";
+import AIImage from "@assets/AI.svg";
 import { Route } from "react-router-dom";
 import { JoinRoom } from "./tictactoe/JoinRoom";
 // import BackgroundImage from "@assets/Login.jpg";
@@ -32,24 +35,53 @@ export default class TicTacToeRouter extends Component {
           <Route component={(props) => <Header {...props}></Header>}></Route>
           <div className="d-flex flex-row flex-grow-1 text-dark">
             <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <img
+                src={EasyImage}
+                className="w-100 img-responsive"
+                alt="Snakes"
+                style={
+                  {
+                    // height: "100%",
+                  }
+                }
+              />
               <Link className="stretched-link" to="ttteasy">
                 <p>Easy</p>
               </Link>
             </div>
             <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <img
+                src={AIImage}
+                className="w-100 img-responsive"
+                alt="Snakes"
+                style={
+                  {
+                    // height: "100%",
+                  }
+                }
+              />
               <Link className="stretched-link" to="tttai">
                 <p>Impossible (against AI)</p>
               </Link>
             </div>
             <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3">
+              <img
+                src={SideBySideImage}
+                className="w-100 img-responsive"
+                alt="Snakes"
+                style={
+                  {
+                    // height: "100%",
+                  }
+                }
+              />
               <Link className="stretched-link" to="ttthuman">
-                <p>Against Random Player</p>
+                <p>Player side-by-side</p>
               </Link>
             </div>
             <div className="d-flex flex-column flex-grow-1 text-center justify-content-around col-3 align-items-center">
-              <p>VS Friend</p>
               <img
-                src={friends}
+                src={AgainstFriendImage}
                 className="w-100 img-responsive"
                 alt="Snakes"
                 style={

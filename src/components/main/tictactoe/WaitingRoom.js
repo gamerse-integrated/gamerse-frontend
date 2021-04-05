@@ -88,6 +88,7 @@ else:
 
   componentWillUnmount() {
     // console.log("component unmounted");
+    clearInterval(this.wait_check);
     this.waiter();
   }
 
@@ -112,9 +113,10 @@ else:
     // };
 
     let friendId = this.props.match.params.id;
-    // if (friendId.length !== 96) {
-    //   this.props.history.goBack();
-    // }
+    if (friendId.length < 64) {
+      NotificationManager.error("Code invalid", "OH NO!");
+      this.props.history.goBack();
+    }
 
     let reb64 = CryptoJS.enc.Hex.parse(friendId);
     let bytes = reb64.toString(CryptoJS.enc.Base64);
@@ -143,7 +145,6 @@ else:
   }
 
   cancelRequest = () => {
-    clearInterval(this.wait_check);
     // reset challenger, challengee, challenge
     db.collection("chats")
       .doc(this.state.code)
