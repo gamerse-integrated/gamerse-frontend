@@ -45,7 +45,7 @@ export const checkGameState = (cells) => {
       if (i >= 0 && i <= 2) position = `h h${i}`;
       else if (i >= 3 && i <= 5) position = `v v${i - 3}`;
       else position = `d${i - 6}`;
-      console.log(position, cells[a]);
+      // console.log(position, cells[a]);
       return {
         position,
         iconType: cells[a],

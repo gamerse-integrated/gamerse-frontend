@@ -11,15 +11,19 @@ import {
 
 const THINKING_TIME = 500;
 
-export const AppContext = React.createContext();
+export const TTTFriendAppContext = React.createContext();
 
-export default class AppProvider extends Component {
+export default class TTTFriendAppProvider extends Component {
   initState = {
-    gameType: GAME_TYPES.VERSUS_COMPUTER,
-    currentIcon: getRandom(0, 2),
-    playerTurn: getRandom(0, 2),
-    // currentIcon: 0,
-    // playerTurn: 0,
+    gameType: GAME_TYPES.TWO_PLAYERS,
+    // currentIcon: this.props.icon === "X" ? 1 : 0,
+    // 1 == X,
+    // ! game begins with X
+    currentIcon: 1,
+    // currentIcon: new Date().getDate() % 2,
+    // ! turn of X at beginning
+    playerTurn: this.props.icon === "X" ? 1 : 0,
+    // playerTurn: 1,
     cells: new Array(9).fill(null),
     gameState: {
       position: "",
@@ -72,8 +76,8 @@ export default class AppProvider extends Component {
       () => {
         return {
           gameType: type,
-          currentIcon: getRandom(0, 2),
-          playerTurn: getRandom(0, 2),
+          currentIcon: this.initState.currentIcon,
+          playerTurn: this.initState.playerTurn,
           cells: this.initState.cells,
           gameState: this.initState.gameState,
         };
@@ -151,9 +155,9 @@ export default class AppProvider extends Component {
 
   render() {
     return (
-      <AppContext.Provider value={this.state}>
+      <TTTFriendAppContext.Provider value={this.state}>
         {this.props.children}
-      </AppContext.Provider>
+      </TTTFriendAppContext.Provider>
     );
   }
 }

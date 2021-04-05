@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { updateScore } from "../../../actionCreator";
-import php from "@config/php.js";
 
 export class SnakesScore extends Component {
   constructor(props) {

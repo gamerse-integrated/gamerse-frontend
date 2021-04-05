@@ -1,43 +1,42 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import $ from "jquery";
-
+import { Loading } from "@components/shared/Loading";
 import {
   resetScore,
   updateScoreO,
   updateScoreTie,
   updateScoreX,
 } from "@redux/actionCreators/tictactoe";
-
-import { AppContext } from "./AppProvider";
-import { GAME_TYPES, ICON_CHARS, PLAYER_TURNS } from "./common";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { TTTFriendAppContext } from "./TTTFriendAppProvider";
+import { GAME_TYPES, ICON_CHARS } from "./common";
 import "./Main.css";
-import { Loading } from "@components/shared/Loading";
+import $ from "jquery";
 
-const ICON_PLACE_HOLDDER = "_";
+const ICON_PLACE_HOLDER = "_";
 
 const Cell = ({ sendMessage, index }) => {
   return (
-    <AppContext.Consumer>
+    <TTTFriendAppContext.Consumer>
       {(context) => {
         const value = context.cells[index];
-        const icon = value !== null ? ICON_CHARS[value] : ICON_PLACE_HOLDDER;
+        const icon = value !== null ? ICON_CHARS[value] : ICON_PLACE_HOLDER;
         const isDoneClass =
-          icon !== ICON_PLACE_HOLDDER ? "done text-dark" : " text-white";
+          icon !== ICON_PLACE_HOLDER ? "done text-dark" : " text-white";
 
         return (
           <button
+            id={`cell-tttfriend-id-${index}`}
             className={`cell cell-${index} ${isDoneClass}`}
             onClick={() => {
               context.humanPlay(index);
-              sendMessage();
+              icon === ICON_PLACE_HOLDER && sendMessage(index);
             }}
           >
             {icon}
           </button>
         );
       }}
-    </AppContext.Consumer>
+    </TTTFriendAppContext.Consumer>
   );
 };
 
@@ -84,49 +83,52 @@ class Board extends Component {
     );
   }
 }
-Board.contextType = AppContext;
+Board.contextType = TTTFriendAppContext;
 
 export class TicTacToeMainFriend extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      messages: [],
-      message: "",
+      moves: [],
       loading: true,
-      icon: null,
+      channels: [this.props.friendId],
+      flag: 0,
+      index: null,
     };
   }
 
-  sendMessage = () =>
+  sendMessage = (location) =>
     this.props.pubnub.publish({
       channel: this.props.friendId,
-      message: this.props.icon,
+      message: `${this.props.icon} ${location}`,
     });
 
   handleMessage = (event) => {
-    const message = event.message;
-    if (typeof message === "string" || message.hasOwnProperty("text")) {
-      const text = message.text || message;
-      this.setState((prevState) => {
-        return { messages: [...prevState.messages, text] };
-      });
+    if (event.channel === this.props.friendId) {
+      const message = event.message;
+      // console.log(event);
+      if (typeof message === "string" || message.hasOwnProperty("text")) {
+        const text = message.text || message;
+        let index = text.split(" ")[1];
+        // this.context.humanPlay(index);
+        $(`#cell-tttfriend-id-${index}`).click();
+        this.setState(
+          (prevState) => {
+            return {
+              moves: [...prevState.moves, text],
+            };
+          },
+          () => {}
+        );
+      }
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.icon !== this.props.icon) {
-      this.setState(
-        {
-          icon: this.props.icon,
-          loading: false,
-        },
-        () => {
-          this.props.pubnub.addListener({ message: this.handleMessage });
-          this.props.pubnub.subscribe({ channels: [this.props.friendId] });
-        }
-      );
-    }
+  componentDidMount() {
+    this.props.pubnub.addListener({ message: this.handleMessage });
+    this.props.pubnub.subscribe({ channels: [this.props.friendId] });
+    this.setState({ loading: false });
   }
 
   render() {
@@ -139,32 +141,31 @@ export class TicTacToeMainFriend extends Component {
     } else {
       if (this.context.gameType === GAME_TYPES.TWO_PLAYERS) {
         if (this.context.gameState.position === "") {
-          textInfo = `It's player(${ICON_CHARS[currentIconType]}) turn`;
-        } else {
-          textInfo = `Player(${ICON_CHARS[1 - currentIconType]}) wins!`;
-          let winIcon = ICON_CHARS[1 - currentIconType];
-          if (winIcon === "X") this.props.updateScoreX();
-          else this.props.updateScoreO();
-        }
-      } else {
-        if (this.context.gameState.position === "") {
-          if (this.context.playerTurn === PLAYER_TURNS.HUMAN)
-            textInfo = `It's your turn`;
-          else textInfo = `It's computer turn`;
-        } else {
-          if (this.context.playerTurn === PLAYER_TURNS.HUMAN) {
-            textInfo = `Computer win!`;
-            this.props.updateScoreX();
+          let icon = ICON_CHARS[currentIconType];
+          if (icon === this.props.icon) {
+            textInfo = `Its your(${icon}) turn`;
           } else {
-            textInfo = `You win!`;
-            this.props.updateScoreO();
+            textInfo = `Its ${this.props.friend["friend"]}'s(${icon}) turn`;
+            // lock game here
+            for (let i = 1; i <= 9; i++) {
+              $(`#cell-tttfriend-id-${i}`).prop("disabled", true);
+            }
           }
+        } else {
+          let icon = ICON_CHARS[1 - currentIconType];
+          if (icon === this.props.icon) {
+            textInfo = `You Win!`;
+          } else {
+            textInfo = `${this.props.friend["friend"]} Wins!`;
+          }
+          if (icon === "X") this.props.updateScoreX();
+          else this.props.updateScoreO();
         }
       }
     }
     if (this.state.loading) return <Loading height=" " />;
     return (
-      <main className="main">
+      <main className="main mx-auto">
         <h1 className="info">{textInfo}</h1>
         <Board sendMessage={this.sendMessage} />
       </main>
@@ -172,7 +173,7 @@ export class TicTacToeMainFriend extends Component {
   }
 }
 
-TicTacToeMainFriend.contextType = AppContext;
+TicTacToeMainFriend.contextType = TTTFriendAppContext;
 
 const mapStateToProps = ({ tictactoe }) => ({});
 

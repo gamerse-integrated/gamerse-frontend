@@ -214,7 +214,7 @@ export class ChatComponent extends Component {
               let content = Array.from(messageParts).splice(3).join(" / ");
               return (
                 <div
-                  className="shadow-sm"
+                  className="shadow-sm animate__animated animate__fadeIn"
                   key={`message-${sender}-${timestamp.getTime()}`}
                   style={{
                     backgroundColor: "#fff",
