@@ -104,10 +104,10 @@ export class Explore extends Component {
             />
           </form>
           <div
-            className="pt-2 pl-4"
+            className="pt-2 px-5"
             style={{
               // width: `inherit`,
-              height: `43vh`,
+              height: `48vh`,
               overflow: "hidden",
             }}
           >
@@ -129,7 +129,7 @@ export class Explore extends Component {
                   .filter((p) => p["userName"].includes(this.state.q))
                   .map((u) => (
                     <div
-                      className="col-2 mr-3 d-flex flex-column justify-content-around align-items-center shadow"
+                      className="col-2 mx-2 d-flex flex-column justify-content-around align-items-center shadow"
                       style={{
                         borderRadius: `1rem`,
                         width: `16vw`,
