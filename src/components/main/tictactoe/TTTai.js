@@ -59,7 +59,7 @@ export class TTTai extends Component {
                     }}
                     onClick={() => {
                       context.changeType(GAME_TYPES.VERSUS_COMPUTER);
-                      context.newGameHuman();
+                      context.newGame();
                     }}
                   >
                     New Game
