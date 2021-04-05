@@ -10,7 +10,7 @@ import "./TTTbg.scss";
 import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
 import { connect } from "react-redux";
 import { resetScore } from "@redux/actionCreators/tictactoe";
-
+import BackgroundImage from "@assets/7.jpg";
 // import BG from "./grass4.png";
 
 export class TTThuman extends Component {
@@ -25,6 +25,21 @@ export class TTThuman extends Component {
             component={(props) => <Header color="" {...props}></Header>}
           ></Route>
           <div className="d-flex flex-row mx-auto flex-grow-">
+            <div
+              className="w-100"
+              style={{
+                position: `absolute`,
+                height: `100vh`,
+                zIndex: -1,
+                top: 0,
+                left: 0,
+                background: `url(${BackgroundImage})`,
+                backgroundPosition: `center`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: `cover`,
+                backgroundColor: `#fff`,
+              }}
+            />
             <Main></Main>
             <AppContext.Consumer>
               {(context) => (

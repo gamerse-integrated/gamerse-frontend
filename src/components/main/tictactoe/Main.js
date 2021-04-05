@@ -9,7 +9,7 @@ import {
   resetScore,
 } from "@redux/actionCreators/tictactoe";
 
-const ICON_PLACE_HOLDDER = "I";
+const ICON_PLACE_HOLDDER = "_";
 
 const Cell = (props) => {
   return (

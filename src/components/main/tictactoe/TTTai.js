@@ -7,7 +7,7 @@ import Header from "@shared/Header";
 import { Route } from "react-router-dom";
 // import $ from "jquery";
 import "./TTTbg.scss";
-
+import BackgroundImage from "@assets/7.jpg";
 // import BG from "./grass4.png";
 
 export default class TTTai extends Component {
@@ -23,6 +23,21 @@ export default class TTTai extends Component {
             component={(props) => <Header color="" {...props}></Header>}
           ></Route>
           <div className="d-flex flex-row mx-auto flex-grow-">
+            <div
+              className="w-100"
+              style={{
+                position: `absolute`,
+                height: `100vh`,
+                zIndex: -1,
+                top: 0,
+                left: 0,
+                background: `url(${BackgroundImage})`,
+                backgroundPosition: `center`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: `cover`,
+                backgroundColor: `#fff`,
+              }}
+            />
             <Main></Main>
             <AppContext.Consumer>
               {(context) => (
