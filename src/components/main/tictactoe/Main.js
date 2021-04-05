@@ -104,6 +104,9 @@ class Main extends Component {
           if (this.context.playerTurn === PLAYER_TURNS.HUMAN)
             textInfo = `Computer win!`;
           else textInfo = `You win!`;
+          let winIcon = ICON_CHARS[1 - currentIconType];
+          if (winIcon === "X") this.props.updateScoreX();
+          else this.props.updateScoreO();
         }
       }
     }

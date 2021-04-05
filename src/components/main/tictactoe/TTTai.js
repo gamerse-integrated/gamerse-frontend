@@ -7,10 +7,14 @@ import Header from "@shared/Header";
 import { Route } from "react-router-dom";
 // import $ from "jquery";
 import "./TTTbg.scss";
-import BackgroundImage from "@assets/7.jpg";
+import BackgroundImage from "@assets/6.webp";
+import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
 // import BG from "./grass4.png";
 
 export default class TTTai extends Component {
+  componentWillUnmount() {
+    this.props.resetScore();
+  }
   render() {
     return (
       <AppProvider>
@@ -20,12 +24,14 @@ export default class TTTai extends Component {
           // style={{ background: "black" }}
         >
           <Route
-            component={(props) => <Header color="" {...props}></Header>}
+            component={(props) => <Header color="white" {...props}></Header>}
           ></Route>
           <div className="d-flex flex-row mx-auto flex-grow-">
             <div
               className="w-100"
               style={{
+                // filter: "blur(4px)",
+                boxShadow: "0 0 100rem 1rem black inset",
                 position: `absolute`,
                 height: `100vh`,
                 zIndex: -1,
@@ -38,6 +44,7 @@ export default class TTTai extends Component {
                 backgroundColor: `#fff`,
               }}
             />
+            <AgainstHumanScoreBoard against="computer" />
             <Main></Main>
             <AppContext.Consumer>
               {(context) => (
