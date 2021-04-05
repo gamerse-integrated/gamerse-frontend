@@ -27,19 +27,19 @@ export class AgainstHumanScoreBoard extends Component {
             <div>
               <h1 className="d-inline-block"> X:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.score_x / 2}
+                {this.props.score_x}
               </span>
             </div>
             <div>
               <h1 className="d-inline-block"> O:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.score_o / 2}
+                {this.props.score_o}
               </span>
             </div>
             <div>
               <h1 className="d-inline-block"> Tie:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.tie / 2}
+                {this.props.tie}
               </span>
             </div>
           </>
@@ -48,19 +48,19 @@ export class AgainstHumanScoreBoard extends Component {
             <div>
               <h1 className="d-inline-block"> AI:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.score_x / 2}
+                {this.props.score_x}
               </span>
             </div>
             <div>
               <h1 className="d-inline-block"> You:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.score_o / 2}
+                {this.props.score_o}
               </span>
             </div>
             <div>
               <h1 className="d-inline-block"> Tie:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
-                {this.props.tie / 2}
+                {this.props.tie}
               </span>
             </div>
           </>
