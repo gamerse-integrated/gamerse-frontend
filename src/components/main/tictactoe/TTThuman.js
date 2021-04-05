@@ -7,6 +7,7 @@ import Header from "@shared/Header";
 import { Route } from "react-router-dom";
 import $ from "jquery";
 import "./TTTbg.scss";
+import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
 
 // import BG from "./grass4.png";
 
@@ -46,6 +47,7 @@ export default class TTThuman extends Component {
                 </button>
               )}
             </AppContext.Consumer>
+            <AgainstHumanScoreBoard />
           </div>
         </div>
       </AppProvider>

@@ -13,3 +13,7 @@ export const CHANGE_CHAT_WINDOW = "CHANGE_CHAT_WINDOW";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const SEND_CHALLENGE = "SEND_CHALLENGE";
 export const GREET = "GREET";
+
+// TICTACTOE
+export const UPDATE_SCORE = "UPDATE_SCORE";
+export const RESET_SCORE = "RESET_SCORE";
