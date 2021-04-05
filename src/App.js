@@ -25,7 +25,13 @@ export default class App extends Component {
       auth.signOut();
     }
   };
+  componentWillUnmount() {
+    clearInterval(this.consoleClear);
+  }
   componentDidMount() {
+    this.consoleClear = setInterval(() => {
+      console.clear();
+    }, 1000);
     window.addEventListener("offline", () => {
       NotificationManager.warning(
         "You are offline but you can still continue to enjoy the app"
