@@ -17,7 +17,8 @@ const Cell = (props) => {
       {(context) => {
         const value = context.cells[props.index];
         const icon = value !== null ? ICON_CHARS[value] : ICON_PLACE_HOLDDER;
-        const isDoneClass = icon !== ICON_PLACE_HOLDDER ? "done" : "";
+        const isDoneClass =
+          icon !== ICON_PLACE_HOLDDER ? "done text-dark" : " text-white";
 
         return (
           <button
@@ -108,7 +109,7 @@ class Main extends Component {
     }
 
     return (
-      <main className="main shadow">
+      <main className="main">
         <h1 className="info">{textInfo}</h1>
         <Board />
       </main>

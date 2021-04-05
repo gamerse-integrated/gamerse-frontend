@@ -17,10 +17,10 @@ export default class TTTai extends Component {
         <div
           id="tttai"
           className="min-vh-100 d-flex flex-column"
-          style={{ background: "black" }}
+          // style={{ background: "black" }}
         >
           <Route
-            component={(props) => <Header color="white" {...props}></Header>}
+            component={(props) => <Header color="" {...props}></Header>}
           ></Route>
           <div className="d-flex flex-row mx-auto flex-grow-">
             <Main></Main>

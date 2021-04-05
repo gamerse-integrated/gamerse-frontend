@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 export class AgainstHumanScoreBoard extends Component {
   render() {
     return (
-      <div className="text-white">
+      <div className="text-dark">
         <p>X:{this.props.score_x / 2}</p>
         <p>O:{this.props.score_o / 2}</p>
       </div>

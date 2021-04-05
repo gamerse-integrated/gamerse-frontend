@@ -20,13 +20,9 @@ export class TTThuman extends Component {
   render() {
     return (
       <AppProvider>
-        <div
-          id="ttthuman"
-          className="min-vh-100 d-flex flex-column"
-          style={{ background: "black" }}
-        >
+        <div id="ttthuman" className="min-vh-100 d-flex flex-column">
           <Route
-            component={(props) => <Header color="white" {...props}></Header>}
+            component={(props) => <Header color="" {...props}></Header>}
           ></Route>
           <div className="d-flex flex-row mx-auto flex-grow-">
             <Main></Main>
