@@ -79,7 +79,6 @@ export class Login extends Component {
               background: `url(${LoginImage})`,
               backgroundPosition: `center`,
               backgroundSize: `cover`,
-              backgroundColor: `#000000ff`,
             }}
           />
 

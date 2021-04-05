@@ -27,7 +27,6 @@ export class Friends extends Component {
               background: `url(${BackgroundImage})`,
               backgroundPosition: `center`,
               backgroundSize: `cover`,
-              backgroundColor: `#000000ff`,
             }}
           />
           <Route component={(props) => <Header {...props}></Header>}></Route>

@@ -149,7 +149,6 @@ export class Register extends Component {
             background: `url(${RegisterImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
-            backgroundColor: `#000000ff`,
           }}
         />
         {/* Form */}

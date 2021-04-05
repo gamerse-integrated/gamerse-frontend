@@ -34,7 +34,6 @@ export default class Home extends Component {
             background: `url(${BackgroundImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
-            backgroundColor: `#000000ff`,
           }}
         />
         <div
