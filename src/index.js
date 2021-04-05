@@ -3,8 +3,7 @@ import ReactDOM from "react-dom";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "@fortawesome/fontawesome-free/js/all";
 import "react-notifications/lib/notifications.css";
-import "./fonts/FiraCode.css";
-import "./fonts/Inter.css";
+import "./fonts/stylesheet.css";
 import "./index.scss";
 
 import App from "./App";
