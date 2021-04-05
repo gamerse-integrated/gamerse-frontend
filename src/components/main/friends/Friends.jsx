@@ -1,11 +1,10 @@
-import { Loading } from "@components/shared/Loading";
+import BackgroundImage from "@assets/5.jpg";
 import Header from "@shared/Header";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import "./Friends.scss";
 import FriendsMainContent from "./FriendsMainContent";
-import BackgroundImage from "@assets/5.jpg";
 
 // chatbox
 // www.npmjs.com/package/chat-ui-react ==> using cdn

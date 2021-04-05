@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import ScoreBoard from "./Scoreboard";
-import "./TicTacToe.css";
 import $ from "jquery";
+import React, { Component } from "react";
+import "./TicTacToe.css";
 class TicTacToe extends Component {
   constructor() {
     super();
@@ -70,12 +69,12 @@ class TicTacToe extends Component {
       );
     }
 
-    if (this.gameState.turn == "O" && !this.gameState.gameEnded) {
+    if (this.gameState.turn === "O" && !this.gameState.gameEnded) {
       this.gameState.gameLocked = true;
       setTimeout(() => {
         do {
           var random = Math.floor(Math.random() * 9);
-        } while (this.gameState.board[random] != "");
+        } while (this.gameState.board[random] !== "");
         this.gameState.gameLocked = false;
         this.clicked(document.querySelectorAll(".square")[random]);
       }, 500);

@@ -1,10 +1,9 @@
-import { connect } from "react-redux";
-import React, { Component } from "react";
-import php from "@config/php";
-import { NotificationManager as nm } from "react-notifications";
 import { db } from "@config/firebaseConfig";
-import _ from "lodash";
+import php from "@config/php";
 import { acceptRequest, rejectRequest } from "@redux/actionCreators/chat";
+import React, { Component } from "react";
+import { NotificationManager as nm } from "react-notifications";
+import { connect } from "react-redux";
 class PendingListItem extends Component {
   addFriend = (id) => {
     php

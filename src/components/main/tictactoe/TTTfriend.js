@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import { auth } from "@config/firebaseConfig";
-import TicTacToe from "./TicTacToe";
-import InGameChat from "../InGameChat";
-import php from "@config/php";
-import { Route } from "react-router";
 import { Header } from "@components/shared/Header";
+import React, { Component } from "react";
+import { Route } from "react-router";
+import InGameChat from "../InGameChat";
+import TicTacToe from "./TicTacToe";
 // import BG from "./grass4.png";
 
 export default class TTTfriend extends Component {

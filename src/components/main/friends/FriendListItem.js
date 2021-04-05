@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import php from "@config/php";
-import { NotificationManager } from "react-notifications";
 import { auth, db } from "@config/firebaseConfig";
+import php from "@config/php";
 import {
   changeChatWindow,
   removeFriend,
   sendChallenge,
 } from "@redux/actionCreators/chat";
 import CryptoJS from "crypto-js";
+import React, { Component } from "react";
+import { NotificationManager } from "react-notifications";
+import { connect } from "react-redux";
 
 export class FriendListItem extends Component {
   removeFriend = (id) =>

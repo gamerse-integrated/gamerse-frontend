@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-// import { auth } from "@config/firebaseConfig";
-import Header from "@shared/Header";
+import AIImage from "@assets/AI.svg";
 // import React, { Component } from "react";
 // import { connect } from "react-redux";
 import EasyImage from "@assets/EasyImage.svg";
 import AgainstFriendImage from "@assets/friends.svg";
 import SideBySideImage from "@assets/SideBySide.svg";
-import AIImage from "@assets/AI.svg";
-import { Route } from "react-router-dom";
+// import { auth } from "@config/firebaseConfig";
+import Header from "@shared/Header";
+import React, { Component } from "react";
+import { Link, Route } from "react-router-dom";
 import { JoinRoom } from "./tictactoe/JoinRoom";
 // import BackgroundImage from "@assets/Login.jpg";
 export default class TicTacToeRouter extends Component {

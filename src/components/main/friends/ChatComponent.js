@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PubNub from "pubnub";
+import { db } from "@config/firebaseConfig";
 import php from "@config/php";
 import $ from "jquery";
 import _ from "lodash";
-import { db } from "@config/firebaseConfig";
+import PubNub from "pubnub";
+import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
+import { connect } from "react-redux";
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUB,

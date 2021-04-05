@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { AppContext } from "./AppProvider";
-import { GAME_TYPES, PLAYER_TURNS, ICON_CHARS } from "./common";
-import "./Main.css";
-import { connect } from "react-redux";
 import {
-  updateScoreX,
-  updateScoreO,
   resetScore,
+  updateScoreO,
   updateScoreTie,
+  updateScoreX,
 } from "@redux/actionCreators/tictactoe";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { AppContext } from "./AppProvider";
+import { GAME_TYPES, ICON_CHARS, PLAYER_TURNS } from "./common";
+import "./Main.css";
 
 const ICON_PLACE_HOLDDER = "_";
 

@@ -1,13 +1,12 @@
-import { auth, db } from "@config/firebaseConfig";
-import php from "@config/php";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Header from "@shared/Header";
-import { Loading } from "@components/shared/Loading";
-import CryptoJS from "crypto-js";
-import { Route } from "react-router";
-import { NotificationManager } from "react-notifications";
 import BackgroundImage from "@assets/7.jpg";
+import { Loading } from "@components/shared/Loading";
+import { auth, db } from "@config/firebaseConfig";
+import Header from "@shared/Header";
+import CryptoJS from "crypto-js";
+import React, { Component } from "react";
+import { NotificationManager } from "react-notifications";
+import { connect } from "react-redux";
+import { Route } from "react-router";
 
 export class WaitingRoom extends Component {
   constructor(props) {

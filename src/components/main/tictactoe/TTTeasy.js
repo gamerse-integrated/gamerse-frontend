@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { auth } from "@config/firebaseConfig";
-import TicTacToe from "./TicTacToe";
-import Header from "@shared/Header";
-import { Route } from "react-router-dom";
 import BackgroundImage from "@assets/5.jpg";
+import { auth } from "@config/firebaseConfig";
+import Header from "@shared/Header";
+import React, { Component } from "react";
+import { Route } from "react-router-dom";
+import TicTacToe from "./TicTacToe";
 
 // import BG from "./grass4.png";
 

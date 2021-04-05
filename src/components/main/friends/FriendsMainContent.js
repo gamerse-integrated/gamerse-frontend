@@ -1,16 +1,16 @@
+import { Loading } from "@components/shared/Loading";
+import { auth } from "@config/firebaseConfig";
+import php from "@config/php";
+import { changeChatWindow, fetchData } from "@redux/actionCreators/chat";
+import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import WalkImage from "./Walk.svg";
-import TalkImage from "./TalkImage.svg";
-import PendingListItem from "./PendingListItem";
-import FriendListItem from "./FriendListItem";
-import Chat from "./Chat";
 import { Route } from "react-router-dom";
-import php from "@config/php";
-import { auth } from "@config/firebaseConfig";
-import { Loading } from "@components/shared/Loading";
-import _ from "lodash";
-import { fetchData, changeChatWindow } from "@redux/actionCreators/chat";
+import Chat from "./Chat";
+import FriendListItem from "./FriendListItem";
+import PendingListItem from "./PendingListItem";
+import TalkImage from "./TalkImage.svg";
+import WalkImage from "./Walk.svg";
 
 export class FriendsMainContent extends Component {
   async componentDidMount() {

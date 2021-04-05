@@ -1,12 +1,11 @@
+// import $ from "jquery";
+import BackgroundImage from "@assets/3.webp";
+import Header from "@components/shared/Header";
 import React, { Component } from "react";
-import { auth } from "@config/firebaseConfig";
+import { Route } from "react-router";
 import GlobalChat from "./GlobalChat";
 import "./Home.scss";
 import SnakesImage from "./snakes.jpg";
-// import $ from "jquery";
-import BackgroundImage from "@assets/3.webp";
-import { Route } from "react-router";
-import Header from "@components/shared/Header";
 
 // import multiavatar from "@multiavatar/multiavatar/esm";
 

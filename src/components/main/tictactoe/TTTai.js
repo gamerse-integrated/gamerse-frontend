@@ -1,15 +1,14 @@
-import React, { Component } from "react";
-import AppProvider from "./AppProvider";
-import Main from "./Main";
-import { AppContext } from "./AppProvider";
-import { GAME_TYPES } from "./common";
-import Header from "@shared/Header";
-import { Route } from "react-router-dom";
 // import $ from "jquery";
 import BackgroundImage from "@assets/6.webp";
-import { connect } from "react-redux";
 import { resetScore } from "@redux/actionCreators/tictactoe";
+import Header from "@shared/Header";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Route } from "react-router-dom";
 import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
+import AppProvider, { AppContext } from "./AppProvider";
+import { GAME_TYPES } from "./common";
+import Main from "./Main";
 // import BG from "./grass4.png";
 
 export class TTTai extends Component {
