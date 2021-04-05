@@ -7,6 +7,7 @@ import {
   updateScoreX,
   updateScoreO,
   resetScore,
+  updateScoreTie,
 } from "@redux/actionCreators/tictactoe";
 
 const ICON_PLACE_HOLDDER = "_";
@@ -85,6 +86,7 @@ class Main extends Component {
 
     if (this.context.gameState.isTie) {
       textInfo = "Tie!";
+      this.props.updateScoreTie();
     } else {
       if (this.context.gameType === GAME_TYPES.TWO_PLAYERS) {
         if (this.context.gameState.position === "") {
@@ -101,12 +103,13 @@ class Main extends Component {
             textInfo = `It's your turn`;
           else textInfo = `It's computer turn`;
         } else {
-          if (this.context.playerTurn === PLAYER_TURNS.HUMAN)
+          if (this.context.playerTurn === PLAYER_TURNS.HUMAN) {
             textInfo = `Computer win!`;
-          else textInfo = `You win!`;
-          let winIcon = ICON_CHARS[1 - currentIconType];
-          if (winIcon === "X") this.props.updateScoreX();
-          else this.props.updateScoreO();
+            this.props.updateScoreX();
+          } else {
+            textInfo = `You win!`;
+            this.props.updateScoreO();
+          }
         }
       }
     }
@@ -125,6 +128,7 @@ const mapStateToProps = ({ tictactoe }) => ({});
 const mapDispatchToProps = {
   updateScoreX,
   updateScoreO,
+  updateScoreTie,
   resetScore,
 };
 

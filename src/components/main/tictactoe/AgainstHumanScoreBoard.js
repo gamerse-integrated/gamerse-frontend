@@ -11,8 +11,8 @@ export class AgainstHumanScoreBoard extends Component {
           top: "30vh",
           left: "3rem",
           borderRadius: `1rem`,
-          width: `20vw`,
-          height: `40vh`,
+          width: `25vw`,
+          height: `50vh`,
           backdropFilter: `blur(10px)`,
           background: `rgba(255,255,255,.7)`,
         }}
@@ -36,19 +36,31 @@ export class AgainstHumanScoreBoard extends Component {
                 {this.props.score_o / 2}
               </span>
             </div>
+            <div>
+              <h1 className="d-inline-block"> Tie:</h1>
+              <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
+                {this.props.tie / 2}
+              </span>
+            </div>
           </>
         ) : (
           <>
             <div>
-              <h1 className="d-inline-block"> X:</h1>
+              <h1 className="d-inline-block"> AI:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
                 {this.props.score_x / 2}
               </span>
             </div>
             <div>
-              <h1 className="d-inline-block"> O:</h1>
+              <h1 className="d-inline-block"> You:</h1>
               <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
                 {this.props.score_o / 2}
+              </span>
+            </div>
+            <div>
+              <h1 className="d-inline-block"> Tie:</h1>
+              <span className="ml-5 lead" style={{ fontSize: "4rem" }}>
+                {this.props.tie / 2}
               </span>
             </div>
           </>
@@ -61,6 +73,7 @@ export class AgainstHumanScoreBoard extends Component {
 const mapStateToProps = ({ tictactoe }) => ({
   score_x: tictactoe.score_x,
   score_o: tictactoe.score_o,
+  tie: tictactoe.tie,
 });
 
 const mapDispatchToProps = {};

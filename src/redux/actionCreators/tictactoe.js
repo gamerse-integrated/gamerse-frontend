@@ -8,6 +8,10 @@ export const updateScoreO = (data) => ({
   type: actions.UPDATE_SCORE_O,
   payload: data,
 });
+export const updateScoreTie = (data) => ({
+  type: actions.UPDATE_SCORE_TIE,
+  payload: data,
+});
 export const resetScore = (data) => ({
   type: actions.RESET_SCORE,
   payload: data,
