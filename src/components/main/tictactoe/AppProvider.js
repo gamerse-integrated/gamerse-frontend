@@ -15,7 +15,7 @@ export const AppContext = React.createContext();
 
 export default class AppProvider extends Component {
   initState = {
-    gameType: GAME_TYPES.TWO_PLAYERS,
+    gameType: GAME_TYPES.VERSUS_COMPUTER,
     currentIcon: getRandom(0, 2),
     playerTurn: getRandom(0, 2),
     cells: new Array(9).fill(null),
@@ -43,6 +43,9 @@ export default class AppProvider extends Component {
     },
     newGame: () => {
       this.initNewGame(this.state.gameType);
+    },
+    newGameHuman: () => {
+      this.initNewGame(GAME_TYPES.TWO_PLAYERS);
     },
   };
 

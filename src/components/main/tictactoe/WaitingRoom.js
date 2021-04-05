@@ -129,14 +129,6 @@ else:
     this.setState({ code: code }, () => {
       this.wait_check = setInterval(() => {
         NotificationManager.info("It seems to be taking too long", "Umm...");
-        console.log(
-          parseInt(timestamp),
-          parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY),
-          new Date().getTime(),
-          parseInt(timestamp) +
-            parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY) <
-            new Date().getTime()
-        );
         if (
           parseInt(timestamp) +
             parseInt(process.env.REACT_APP_CODE_EXPIRE_DELAY) <

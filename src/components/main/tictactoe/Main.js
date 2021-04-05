@@ -99,8 +99,8 @@ class Main extends Component {
     }
 
     return (
-      <main className="main">
-        <div className="info">{textInfo}</div>
+      <main className="main shadow">
+        <h1 className="info">{textInfo}</h1>
         <Board />
       </main>
     );

@@ -13,7 +13,7 @@ export default class TTTfriend extends Component {
     super(props);
 
     this.state = {
-      id: null,
+      friendId: this.props.match.params.id,
     };
   }
 
@@ -134,7 +134,7 @@ export default class TTTfriend extends Component {
                 padding: "2rem",
               }}
             >
-              <InGameChat id={this.state.id}></InGameChat>
+              <InGameChat id={this.state.friendId}></InGameChat>
             </div>
           </div>
         </div>
