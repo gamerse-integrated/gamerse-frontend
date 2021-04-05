@@ -1,7 +1,11 @@
 import * as actions from "@redux/actions";
 
-export const updateScore = (data) => ({
-  type: actions.UPDATE_SCORE,
+export const updateScoreX = (data) => ({
+  type: actions.UPDATE_SCORE_X,
+  payload: data,
+});
+export const updateScoreO = (data) => ({
+  type: actions.UPDATE_SCORE_O,
   payload: data,
 });
 export const resetScore = (data) => ({

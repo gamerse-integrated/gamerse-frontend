@@ -15,5 +15,6 @@ export const SEND_CHALLENGE = "SEND_CHALLENGE";
 export const GREET = "GREET";
 
 // TICTACTOE
-export const UPDATE_SCORE = "UPDATE_SCORE";
+export const UPDATE_SCORE_X = "UPDATE_SCORE_X";
+export const UPDATE_SCORE_O = "UPDATE_SCORE_O";
 export const RESET_SCORE = "RESET_SCORE";

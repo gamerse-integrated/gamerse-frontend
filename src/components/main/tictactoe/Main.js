@@ -3,7 +3,11 @@ import { AppContext } from "./AppProvider";
 import { GAME_TYPES, PLAYER_TURNS, ICON_CHARS } from "./common";
 import "./Main.css";
 import { connect } from "react-redux";
-import { updateScore, resetScore } from "@redux/actionCreators/tictactoe";
+import {
+  updateScoreX,
+  updateScoreO,
+  resetScore,
+} from "@redux/actionCreators/tictactoe";
 
 const ICON_PLACE_HOLDDER = "I";
 
@@ -74,15 +78,6 @@ class Board extends Component {
 Board.contextType = AppContext;
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      score_x: this.props.score_x,
-      score_o: this.props.score_o,
-    };
-  }
-
   render() {
     let textInfo = "";
     const currentIconType = this.context.currentIcon;
@@ -96,16 +91,8 @@ class Main extends Component {
         } else {
           textInfo = `Player(${ICON_CHARS[1 - currentIconType]}) wins!`;
           let winIcon = ICON_CHARS[1 - currentIconType];
-          if (winIcon === "X")
-            this.props.updateScore({
-              score_x: this.state.score_x + 1,
-              score_o: this.state.score_o + 0,
-            });
-          else
-            this.props.updateScore({
-              score_x: this.state.score_x + 0,
-              score_o: this.state.score_o + 1,
-            });
+          if (winIcon === "X") this.props.updateScoreX();
+          else this.props.updateScoreO();
         }
       } else {
         if (this.context.gameState.position === "") {
@@ -129,13 +116,11 @@ class Main extends Component {
   }
 }
 Main.contextType = AppContext;
-const mapStateToProps = ({ tictactoe }) => ({
-  score_x: tictactoe.score_x,
-  score_o: tictactoe.score_o,
-});
+const mapStateToProps = ({ tictactoe }) => ({});
 
 const mapDispatchToProps = {
-  updateScore,
+  updateScoreX,
+  updateScoreO,
   resetScore,
 };
 
