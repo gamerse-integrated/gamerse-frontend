@@ -215,7 +215,7 @@ export class ChatComponent extends Component {
               return (
                 <div
                   className="shadow-sm"
-                  key={`message-${index}`}
+                  key={`message-${sender}-${timestamp.getTime()}`}
                   style={{
                     backgroundColor: "#fff",
                     borderRadius: "1rem",

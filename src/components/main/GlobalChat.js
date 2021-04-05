@@ -103,7 +103,7 @@ function Chat({ userName }) {
             return (
               <div
                 className="shadow-sm animate__animated animate__fadeIn"
-                key={`message-${index}`}
+                key={`message-${sender}-${timestamp.getTime()}`}
                 style={messageStyles}
               >
                 <small

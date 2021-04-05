@@ -47,12 +47,11 @@ export class Login extends Component {
               true
             );
             auth.signOut();
+            this.setState({ loading: false });
           }
         })
         .catch((e) => {
           NotificationManager.error(e.message);
-        })
-        .finally(() => {
           this.setState({ loading: false });
         });
     });

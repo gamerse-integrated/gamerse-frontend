@@ -7,7 +7,9 @@ const Snake = (props) => {
           left: `${dot[0]}%`,
           top: `${dot[1]}%`,
         };
-        return <div className="snake-dot" key={i} style={style}></div>;
+        return (
+          <div className="snake-dot" key={`snakedot-${i}`} style={style}></div>
+        );
       })}
     </div>
   );

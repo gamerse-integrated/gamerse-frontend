@@ -128,7 +128,7 @@ export class Explore extends Component {
                   .filter((p) => p["userName"].includes(this.state.q))
                   .map((u) => (
                     <div
-                      key={u["userName"]}
+                      key={`requestcard-${u["userName"]}`}
                       className="col-2 mx-2 d-flex flex-column justify-content-around align-items-center shadow"
                       style={{
                         borderRadius: `1rem`,

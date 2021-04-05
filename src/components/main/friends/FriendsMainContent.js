@@ -128,7 +128,7 @@ export class FriendsMainContent extends Component {
                           <FriendListItem
                             {...props}
                             chatWith={this.chatWith}
-                            key={i}
+                            key={`${friend.friend}-${i}`}
                             photoURL={friend.photoURL}
                             id={friend.id}
                             onlineStatus={friend.onlineStatus}
@@ -191,7 +191,7 @@ export class FriendsMainContent extends Component {
                 this.props.requests.map((request, i) => {
                   return (
                     <PendingListItem
-                      key={i}
+                      key={`${request.id}-${i}`}
                       id={request.id}
                       userName={request.pid1}
                       photoURL={request.photoURL}
