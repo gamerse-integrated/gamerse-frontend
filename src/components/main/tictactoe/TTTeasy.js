@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { auth } from "@config/firebaseConfig";
 import TicTacToe from "./TicTacToe";
-import "./TTTbg.scss";
 import Header from "@shared/Header";
 import { Route } from "react-router-dom";
+import BackgroundImage from "@assets/5.jpg";
 
 // import BG from "./grass4.png";
 
@@ -23,16 +23,37 @@ export default class TTTeasy extends Component {
   };
   render() {
     return (
-      <div id="ttteasy" className="bg min-vh-100 d-flex flex-column">
-        <header>
-          <Route component={(props) => <Header {...props}></Header>}></Route>
-        </header>
+      <div id="ttteasy" className="min-vh-100 d-flex flex-column">
+        <Route
+          component={(props) => <Header color="" {...props}></Header>}
+        ></Route>
+        <div
+          className="w-100"
+          style={{
+            // filter: "blur(4px)",
+            boxShadow: "0 0 100rem 1rem white inset",
+            position: `absolute`,
+            height: `100vh`,
+            zIndex: -1,
+            top: 0,
+            left: 0,
+            background: `url(${BackgroundImage})`,
+            backgroundPosition: `center`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `cover`,
+            backgroundColor: `#fff`,
+          }}
+        />
         <div className="d-flex flex-row flex-grow-1">
           <div className="col-7 d-flex justify-content-center align-items-center">
             <div
               id="ttt"
-              className="shadow p-3 bg-white"
-              style={{ borderRadius: "1.2rem" }}
+              className="shadow p-5 bg-"
+              style={{
+                borderRadius: "1.2rem",
+                backgroundColor: "#ffffffaa",
+                backdropFilter: "blur(10px)",
+              }}
             >
               <TicTacToe
                 ref="tttRef"
@@ -40,18 +61,19 @@ export default class TTTeasy extends Component {
               ></TicTacToe>
             </div>
           </div>
-          <div className="col-5 d-flex justify-content-center align-items-center">
+          <div className="col-5 d-flex justify-content-around align-items-center flex-column">
             <div
               className="d-flex justify-content-between align-items-center  shadow px-4 pt-4 text-black"
               style={{
                 borderRadius: "1.4rem",
                 width: "80%",
                 backgroundColor: "#ffffffaa",
+                backdropFilter: "blur(10px)",
               }}
             >
               <div className="d-flex flex-column justify-content-between">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7uvXoS3qjbJf_hCsQEi7vFBYCBPifsDl34w&usqp=CAU"
+                  src={auth.currentUser.photoURL}
                   alt="You"
                   className="img-responsive d-block rounded-circle shadow"
                   style={{
@@ -77,7 +99,7 @@ export default class TTTeasy extends Component {
               ></img>
               <div className="d-flex flex-column justify-content-between">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzhZFZ6AFPFQZl3z3e9snwPNMlDV1qJqVz2g&usqp=CAU"
+                  src="https://api.multiavatar.com/41ae3276318cb34b82.svg"
                   alt="Computer"
                   className="img-responsive d-block rounded-circle shadow"
                   style={{

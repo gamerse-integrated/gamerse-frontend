@@ -120,7 +120,9 @@ class TicTacToe extends Component {
   render() {
     return (
       <div id="game">
-        <div id="status">{this.state.winnerLine}</div>
+        <h1 id="status" className="pb-3">
+          {this.state.winnerLine}
+        </h1>
         {/* <div id="head">Tic Tac Toe AI Easy</div> */}
         <div id="board" onClick={(e) => this.clicked(e.target)}>
           <div className="square" data-square="0"></div>

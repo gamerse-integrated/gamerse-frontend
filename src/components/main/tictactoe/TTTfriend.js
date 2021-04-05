@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { auth } from "@config/firebaseConfig";
 import TicTacToe from "./TicTacToe";
-import "./TTTbg.scss";
 import InGameChat from "../InGameChat";
 import php from "@config/php";
 import { Route } from "react-router";

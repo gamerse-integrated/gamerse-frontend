@@ -6,7 +6,6 @@ import { GAME_TYPES } from "./common";
 import Header from "@shared/Header";
 import { Route } from "react-router-dom";
 // import $ from "jquery";
-import "./TTTbg.scss";
 import BackgroundImage from "@assets/6.webp";
 import { connect } from "react-redux";
 import { resetScore } from "@redux/actionCreators/tictactoe";
