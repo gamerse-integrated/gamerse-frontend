@@ -8,10 +8,12 @@ import { Route } from "react-router-dom";
 // import $ from "jquery";
 import "./TTTbg.scss";
 import BackgroundImage from "@assets/6.webp";
+import { connect } from "react-redux";
+import { resetScore } from "@redux/actionCreators/tictactoe";
 import AgainstHumanScoreBoard from "./AgainstHumanScoreBoard";
 // import BG from "./grass4.png";
 
-export default class TTTai extends Component {
+export class TTTai extends Component {
   componentWillUnmount() {
     this.props.resetScore();
   }
@@ -48,20 +50,34 @@ export default class TTTai extends Component {
             <Main></Main>
             <AppContext.Consumer>
               {(context) => (
-                <button
-                  className="btn btn-primary"
-                  style={{
-                    position: "fixed",
-                    right: "2rem",
-                    top: "48vh",
-                  }}
-                  onClick={() => {
-                    context.changeType(GAME_TYPES.VERSUS_COMPUTER);
-                    context.newGame();
-                  }}
-                >
-                  New Game
-                </button>
+                <>
+                  <button
+                    id="SetGameTypeHuman"
+                    className="btn btn-primary"
+                    style={{
+                      position: "fixed",
+                      right: "2rem",
+                      top: "48vh",
+                    }}
+                    onClick={() => {
+                      context.changeType(GAME_TYPES.VERSUS_COMPUTER);
+                      context.newGameHuman();
+                    }}
+                  >
+                    New Game
+                  </button>
+                  <button
+                    className="btn btn-primary mt-5"
+                    style={{
+                      position: "fixed",
+                      right: "2rem",
+                      top: "52vh",
+                    }}
+                    onClick={this.props.resetScore}
+                  >
+                    Reset score
+                  </button>
+                </>
               )}
             </AppContext.Consumer>
           </div>
@@ -72,3 +88,11 @@ export default class TTTai extends Component {
 }
 
 TTTai.contextType = AppContext;
+TTTai.contextType = AppContext;
+const mapStateToProps = ({ tictactoe }) => ({});
+
+const mapDispatchToProps = {
+  resetScore,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TTTai);
