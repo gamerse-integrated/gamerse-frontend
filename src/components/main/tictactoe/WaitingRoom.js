@@ -127,7 +127,7 @@ else:
     // console.log(code);
 
     this.setState({ code: code }, () => {
-      setInterval(() => {
+      this.wait_check = setInterval(() => {
         NotificationManager.info("It seems to be taking too long", "Umm...");
         console.log(
           parseInt(timestamp),
@@ -151,6 +151,7 @@ else:
   }
 
   cancelRequest = () => {
+    clearInterval(this.wait_check);
     // reset challenger, challengee, challenge
     db.collection("chats")
       .doc(this.state.code)
