@@ -4,7 +4,7 @@ import WelcomeSvg from "./Welcome.svg";
 import php from "@config/php";
 import { auth, db } from "@config/firebaseConfig";
 import { NotificationManager } from "react-notifications";
-
+import Loading from "@shared/Loading";
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
@@ -91,33 +91,40 @@ export default class Welcome extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault();
-
-    php
-      .post("player.php", {
-        UID: auth.currentUser.uid,
-        userName: this.state.userName,
-        nickName: this.state.nickName,
-        mail: auth.currentUser.email,
-        dob: this.state.dob,
-        gender: this.state.gender,
-        accountStatus: this.state.accountStatus,
-        photoURL: auth.currentUser.photoURL,
-      })
-      .then((res) => {
-        db.collection("users")
-          .doc(auth.currentUser.uid)
-          .update({
-            hasData: true,
-          })
-          .then(() => {
-            this.props.history.replace("/");
-          })
-          .catch(({ message }) => {
-            NotificationManager.error(message);
-          });
-      });
+    this.setState({ loading: true }, () => {
+      php
+        .post("player.php", {
+          UID: auth.currentUser.uid,
+          userName: this.state.userName,
+          nickName: this.state.nickName,
+          mail: auth.currentUser.email,
+          dob: this.state.dob,
+          gender: this.state.gender,
+          accountStatus: this.state.accountStatus,
+          photoURL: auth.currentUser.photoURL,
+        })
+        .then((res) => {
+          db.collection("users")
+            .doc(auth.currentUser.uid)
+            .update({
+              hasData: true,
+            })
+            .then(() => {
+              window.location.reload();
+            })
+            .catch(({ message }) => {
+              NotificationManager.error(message);
+              this.setState({ loading: false });
+            });
+        })
+        .catch(({ message }) => {
+          NotificationManager.error(message);
+          this.setState({ loading: false });
+        });
+    });
   };
   render() {
+    if (this.state.loading) return <Loading />;
     return (
       <div
         className="d-flex flex-column align-items-center w-100  justify-content-center min-vh-100 animate__fadeIn animate__animated"

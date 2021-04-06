@@ -20,9 +20,23 @@ export class SnakesScore extends Component {
   }
   render() {
     return (
-      <div>
-        <p>Current Score: {this.props.score}</p>
-        <p>High Score: {this.props.highScore} </p>
+      <div
+        style={{
+          borderRadius: `1rem`,
+          width: `30vw`,
+          height: `40vh`,
+          backdropFilter: `blur(10px)`,
+          background: `rgba(255,255,255,.7)`,
+        }}
+        className="p-5 shadow"
+      >
+        <p>
+          <h1>Current Score:</h1> <div className="lead">{this.props.score}</div>
+        </p>
+        <p>
+          <h1>High Score:</h1>{" "}
+          <div className="lead">{this.props.highScore} </div>
+        </p>
       </div>
     );
   }
