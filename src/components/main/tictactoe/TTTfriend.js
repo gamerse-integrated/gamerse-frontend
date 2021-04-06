@@ -4,20 +4,18 @@ import Loading from "@components/shared/Loading";
 import { auth } from "@config/firebaseConfig";
 import php from "@config/php";
 import { resetScore } from "@redux/actionCreators/tictactoe";
-import $ from "jquery";
 import _ from "lodash";
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router";
-import { GAME_TYPES } from "./common";
 import InGameChat from "./InGameChat";
+import TicTacToeFriendScoreboard from "./TicTacToeFriendScoreboard";
+import TicTacToeMainFriend from "./TicTacToeMainFriend";
 import TTTFriendAppProvider, {
   TTTFriendAppContext,
 } from "./TTTFriendAppProvider";
-import TicTacToeFriendScoreboard from "./TicTacToeFriendScoreboard";
-import TicTacToeMainFriend from "./TicTacToeMainFriend";
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUB,
