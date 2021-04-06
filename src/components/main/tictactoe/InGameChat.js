@@ -64,7 +64,7 @@ export class InGameChat extends Component {
         let content = Array.from(messageParts).splice(3).join(" / ");
         if (content === "USER_LEFT") {
           NotificationManager.error("The other user has left");
-          // this.props.history.replace("/tictactoe");
+          this.props.history.replace("/tictactoe");
         } else {
           this.setState((prevState) => {
             return { messages: [...prevState.messages, text] };
@@ -100,7 +100,7 @@ export class InGameChat extends Component {
   }
 
   componentWillUnmount() {
-    this.sendMessage("USER_LEFT");
+    // this.sendMessage("USER_LEFT");
     this.props.pubnub.unsubscribe({
       channels: [`${this.props.friendId}_InGameChat`],
     });

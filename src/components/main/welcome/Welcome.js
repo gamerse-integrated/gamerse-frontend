@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import WelcomeSvg from "./Welcome.svg";
 import php from "@config/php";
 import { auth, db } from "@config/firebaseConfig";
+import { NotificationManager } from "react-notifications";
 
 export default class Welcome extends Component {
   constructor(props) {
@@ -109,7 +110,10 @@ export default class Welcome extends Component {
             hasData: true,
           })
           .then(() => {
-            window.location.href = "/home";
+            this.props.history.replace("/");
+          })
+          .catch(({ message }) => {
+            NotificationManager.error(message);
           });
       });
   };

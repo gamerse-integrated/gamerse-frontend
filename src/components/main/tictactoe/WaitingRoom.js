@@ -55,7 +55,9 @@ else:
                 })
                 .then(() => {
                   // proceed to game
-                  this.props.history.replace(`/tttfriend/${this.state.code}`);
+                  this.props.history.replace(
+                    `/tttfriend/${this.state.code}/challengee`
+                  );
                 });
             } else if (data["challengee"] === "3") {
               // challenger has left
@@ -77,7 +79,9 @@ else:
                   challengee: "",
                 })
                 .then(() => {
-                  this.props.history.replace(`/tttfriend/${this.state.code}`);
+                  this.props.history.replace(
+                    `/tttfriend/${this.state.code}/challenger`
+                  );
                 });
             }
           }
@@ -123,6 +127,7 @@ else:
     code = code.toString(CryptoJS.enc.Utf8);
     // console.log(code);
     code = code.split("z");
+    // time+id+userName
     let timestamp = code[0];
     code = code[1];
     // console.log(code);

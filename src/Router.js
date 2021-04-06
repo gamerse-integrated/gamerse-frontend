@@ -163,7 +163,7 @@ export class UserAuthenticated extends React.Component {
         <Route exact path="/ttthuman" component={TTThuman}></Route>
         <Route exact path="/waiting-room/:id" component={WaitingRoom}></Route>
         {/* <Route exact path="/joinroom" component={JoinRoom}></Route> */}
-        <Route exact path="/tttfriend/:id" component={TTTfriend}></Route>
+        <Route exact path="/tttfriend/:id/:type" component={TTTfriend}></Route>
         <Route exact path="/tttai" component={TTTai}></Route>
         <Redirect to="/" />
       </Switch>

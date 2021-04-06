@@ -43,6 +43,7 @@ export class TTTfriend extends Component {
       friend: null,
       userName: null,
       icon: null,
+      type: this.props.match.params.type,
     };
   }
 
@@ -122,6 +123,7 @@ export class TTTfriend extends Component {
     }
   }
   componentWillUnmount() {
+    // this.sendMessage("USER_LEFT");
     this.props.resetScore();
   }
   render() {
@@ -154,6 +156,7 @@ export class TTTfriend extends Component {
               <div className="flex-grow-1 d-flex flex-row">
                 <div className="col-5 mx-auto d-flex bg- flex-row flex-grow-1">
                   <TicTacToeMainFriend
+                    type={this.state.type}
                     pubnub={pubnub}
                     userName={this.state.userName}
                     friendId={this.state.friendId}
@@ -164,34 +167,12 @@ export class TTTfriend extends Component {
                 <div className="col d-flex flex-row flex-grow-1">
                   <div className="col d-flex flex-column align-items-between">
                     <TicTacToeFriendScoreboard
+                      type={this.state.type}
                       pubnub={pubnub}
                       icon={this.state.icon}
                       userName={this.state.userName}
                       friend={this.state.friend}
                     />
-                    <TTTFriendAppContext.Consumer>
-                      {(context) => (
-                        <>
-                          <button
-                            id="SetGameTypeHuman"
-                            className="btn btn-primary d-block"
-                            style={{}}
-                            onClick={() => {
-                              context.newGameHuman();
-                            }}
-                          >
-                            New Game
-                          </button>
-                          <button
-                            className="btn btn-primary mt-5 d-block"
-                            style={{}}
-                            onClick={this.props.resetScore}
-                          >
-                            Reset score
-                          </button>
-                        </>
-                      )}
-                    </TTTFriendAppContext.Consumer>
                   </div>
                   <div className="col">
                     <Route

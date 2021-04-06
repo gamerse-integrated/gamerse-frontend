@@ -6,6 +6,7 @@ import setOnlineStatus from "@workers/OnlineStatusWorker";
 import WebWorker from "@workers/WorkerSetup";
 import { NotificationManager } from "react-notifications";
 import { UserAuthenticated, USER_NOT_AUTHENTICATED } from "./Router";
+import { Route } from "react-router";
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ export default class App extends Component {
     if (this.state.loading) return <Loading />;
     else {
       if (this.__authenticated) {
-        if (this.whereTo === "w") return <Welcome />;
+        if (this.whereTo === "w") return <Route component={Welcome} />;
         else if (this.whereTo === "h") return <UserAuthenticated />;
       } else return USER_NOT_AUTHENTICATED;
     }

@@ -11,6 +11,7 @@ import { TTTFriendAppContext } from "./TTTFriendAppProvider";
 import { GAME_TYPES, ICON_CHARS } from "./common";
 import "./Main.css";
 import $ from "jquery";
+import { NotificationManager } from "react-notifications";
 
 const ICON_PLACE_HOLDER = "_";
 
@@ -110,20 +111,36 @@ export class TicTacToeMainFriend extends Component {
       // console.log(event);
       if (typeof message === "string" || message.hasOwnProperty("text")) {
         const text = message.text || message;
-        let index = text.split(" ")[1];
-        // this.context.humanPlay(index);
-        $(`#cell-tttfriend-id-${index}`).click();
-        this.setState(
-          (prevState) => {
-            return {
-              moves: [...prevState.moves, text],
-            };
-          },
-          () => {}
-        );
+        console.log(text);
+        if (text.split(" ")[1] === "New") {
+          // new game
+          $(".hack").css("display", "none");
+          this.context.newGameHuman();
+        } else if (text.split(" ")[1] === "Reset") {
+          this.props.resetScore();
+        } else if (text.split(" ")[1] === "USER_LEFT") {
+          NotificationManager.error("The user has left");
+          this.props.history.replace("/tictactoe");
+        } else {
+          let index = text.split(" ")[1];
+          // this.context.humanPlay(index);
+          $(`#cell-tttfriend-id-${index}`).click();
+          this.setState(
+            (prevState) => {
+              return {
+                moves: [...prevState.moves, text],
+              };
+            },
+            () => {}
+          );
+        }
       }
     }
   };
+
+  componentWillUnmount() {
+    this.sendMessage("USER_LEFT");
+  }
 
   componentDidMount() {
     this.props.pubnub.addListener({ message: this.handleMessage });
@@ -144,12 +161,11 @@ export class TicTacToeMainFriend extends Component {
           let icon = ICON_CHARS[currentIconType];
           if (icon === this.props.icon) {
             textInfo = `Its your(${icon}) turn`;
+            $(".hack").css("display", "none");
           } else {
             textInfo = `Its ${this.props.friend["friend"]}'s(${icon}) turn`;
             // lock game here
-            for (let i = 1; i <= 9; i++) {
-              $(`#cell-tttfriend-id-${i}`).prop("disabled", true);
-            }
+            $(".hack").css("display", "flex");
           }
         } else {
           let icon = ICON_CHARS[1 - currentIconType];
@@ -158,6 +174,7 @@ export class TicTacToeMainFriend extends Component {
           } else {
             textInfo = `${this.props.friend["friend"]} Wins!`;
           }
+          $(".hack").css("display", "flex");
           if (icon === "X") this.props.updateScoreX();
           else this.props.updateScoreO();
         }
@@ -165,10 +182,76 @@ export class TicTacToeMainFriend extends Component {
     }
     if (this.state.loading) return <Loading height=" " />;
     return (
-      <main className="main mx-auto">
-        <h1 className="info">{textInfo}</h1>
-        <Board sendMessage={this.sendMessage} />
-      </main>
+      <div className="d-flex flex-column ">
+        <main className="main mx-auto">
+          <h1 className="info">{textInfo}</h1>
+          <Board sendMessage={this.sendMessage} />
+        </main>
+        <div
+          className="bg- hack"
+          style={
+            this.props.icon === "X"
+              ? {
+                  position: "absolute",
+                  display: "none",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  top: "13vh",
+                  width: "70vh",
+                  height: "72.56vh",
+                }
+              : {
+                  position: "absolute",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  top: "13vh",
+                  width: "70vh",
+                  height: "72.56vh",
+                }
+          }
+        >
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        {this.props.type === "challenger" && (
+          <TTTFriendAppContext.Consumer>
+            {(context) => (
+              <div
+                className="bg-"
+                style={{
+                  position: "absolute",
+                  top: "50vh",
+                  left: "46vw",
+                  width: "21.2vw",
+                  zIndex: 2,
+                }}
+              >
+                <button
+                  id="SetGameTypeHuman"
+                  className="btn btn-primary d-block w-100"
+                  onClick={() => {
+                    this.sendMessage("New");
+                    context.newGameHuman();
+                  }}
+                >
+                  New Game
+                </button>
+                <button
+                  className="btn btn-primary mt-5 d-block w-100"
+                  onClick={() => {
+                    this.sendMessage("Reset");
+                    this.props.resetScore();
+                  }}
+                >
+                  Reset score
+                </button>
+              </div>
+            )}
+          </TTTFriendAppContext.Consumer>
+        )}
+      </div>
     );
   }
 }

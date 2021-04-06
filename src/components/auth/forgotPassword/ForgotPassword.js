@@ -18,6 +18,9 @@ function ForgotPassword() {
           .then(() => {
             NotificationManager.success("Password reset email sent");
           })
+          .catch(({ message }) => {
+            NotificationManager.error(message);
+          })
           .finally(() => window.removeCaptcha());
       },
     });
