@@ -1,4 +1,4 @@
-import BackgroundImage from "@assets/5.jpg";
+import BackgroundImage from "@assets/ttthuman.webp";
 import { resetScore } from "@redux/actionCreators/tictactoe";
 import Header from "@shared/Header";
 import $ from "jquery";
@@ -25,7 +25,7 @@ export class TTThuman extends Component {
           <Route
             component={(props) => <Header color="white" {...props}></Header>}
           ></Route>
-          <div className="d-flex flex-row mx-auto flex-grow-">
+          <div className="d-flex bg- container-fluid flex-row flex-grow-1">
             <div
               className="w-100"
               style={{
@@ -43,8 +43,12 @@ export class TTThuman extends Component {
                 backgroundColor: `#fff`,
               }}
             />
-            <AgainstHumanScoreBoard />
-            <Main></Main>
+            <div className="d-flex align-items-center ml-5">
+              <AgainstHumanScoreBoard />
+            </div>
+            <div className="mx-auto">
+              <Main></Main>
+            </div>
             <AppContext.Consumer>
               {(context) => (
                 <>

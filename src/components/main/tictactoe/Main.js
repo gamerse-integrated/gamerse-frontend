@@ -115,8 +115,8 @@ class Main extends Component {
     }
 
     return (
-      <main className="main">
-        <h1 className="info">{textInfo}</h1>
+      <main className="main mr-5">
+        <h1 className="text-white info">{textInfo}</h1>
         <Board />
       </main>
     );

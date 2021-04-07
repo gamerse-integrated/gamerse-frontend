@@ -1,5 +1,5 @@
 // import $ from "jquery";
-import BackgroundImage from "@assets/6.webp";
+import BackgroundImage from "@assets/tttai.webp";
 import { resetScore } from "@redux/actionCreators/tictactoe";
 import Header from "@shared/Header";
 import React, { Component } from "react";
@@ -26,7 +26,7 @@ export class TTTai extends Component {
           <Route
             component={(props) => <Header color="white" {...props}></Header>}
           ></Route>
-          <div className="d-flex flex-row mx-auto flex-grow-">
+          <div className="d-flex bg- container-fluid flex-row flex-grow-1">
             <div
               className="w-100"
               style={{
@@ -44,8 +44,12 @@ export class TTTai extends Component {
                 backgroundColor: `#fff`,
               }}
             />
-            <AgainstHumanScoreBoard against="computer" />
-            <Main></Main>
+            <div className="d-flex align-items-center ml-5">
+              <AgainstHumanScoreBoard against="computer" />
+            </div>
+            <div className="mx-auto">
+              <Main></Main>
+            </div>
             <AppContext.Consumer>
               {(context) => (
                 <>
