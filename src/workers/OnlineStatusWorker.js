@@ -1,7 +1,7 @@
 const setOnlineStatus = () => {
   onmessage = ({ data }) => {
     setInterval(() => {
-      fetch("http://localhost/mp/api/player.php", {
+      fetch("https://gamerse.infinityfreeapp.com/api/player.php", {
         // fetch(process.env.REACT_APP_BASE_URL + "player.php", {
         // fetch(process.env.PUBLIC_URL + "/api/player.php", {
         method: "POST",

@@ -31,3 +31,5 @@ localhost-key.pem
 localhost.pem
 gamerse deployment.txt
 .env.development
+gulp.js
+gulpfile.js
