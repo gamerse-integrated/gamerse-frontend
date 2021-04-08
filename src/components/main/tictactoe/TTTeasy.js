@@ -42,6 +42,8 @@ export default class TTTeasy extends Component {
             backgroundRepeat: "no-repeat",
             backgroundSize: `cover`,
             backgroundColor: `#fff`,
+            filter: "blur(2px)",
+            transform: "scale(1.1)",
           }}
         />
         <div className="d-flex flex-row flex-grow-1">
@@ -98,8 +100,14 @@ export default class TTTeasy extends Component {
                 style={{ width: "4rem", height: "4rem" }}
               ></img>
               <div className="d-flex flex-column justify-content-between">
+                <audio
+                  className="d-none"
+                  autoPlay
+                  src="https://d1o44v9snwqbit.cloudfront.net/musicfox_demo_MF-4006.mp3"
+                  loop
+                ></audio>
                 <img
-                  src="https://api.multiavatar.com/41ae3276318cb34b82.svg"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Circle-icons-computer.svg/1024px-Circle-icons-computer.svg.png"
                   alt="Computer"
                   className="img-responsive d-block rounded-circle shadow"
                   style={{

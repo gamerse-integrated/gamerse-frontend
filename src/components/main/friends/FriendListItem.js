@@ -117,7 +117,7 @@ export class FriendListItem extends Component {
                     className="dropdown-item text-muted"
                     // onClick={() => this.challenge(this.props.ownProps.id)}
                   >
-                    iChallenge
+                    Challenge
                   </div>
                 )}
                 <div

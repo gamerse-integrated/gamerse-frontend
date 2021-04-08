@@ -1,45 +1,43 @@
 .game-area {
   position: relative;
   /* margin: 50px auto; */
-  width: 500px;
-  height: 500px;
+  width: 80vh;
+  height: 80vh;
   /* padding: 2rem; */
-  /* border: 2px solid #000; */
-  background-color: lightblue;
+  border: 0.3rem solid #ff0022;
+
+  // border-radius: 0.2rem;
+  background-color: rgba(255, 235, 205, 0.431);
+  // background-color: #ffffffdd;
+  backdrop-filter: blur(10px);
 }
 .snake-dot {
   position: absolute;
   width: 2%;
   height: 2%;
-  background-color: greenyellow;
+  background-color: rgb(64, 173, 0);
   border: 1px solid #fff;
   z-index: 2;
-  border-radius: 20px;
+  // border-radius: 20px;
 }
 
 .snake-food {
   position: absolute;
-  width: 2%;
-  height: 2%;
-  background: red;
-  border: 1px solid #fff;
+  font-size: x-small;
+  width: 1%;
+  height: 1%;
+  // background: rgb(255, 60, 0);
+  // border: 1px solid #fff;
   z-index: 1;
-  transform: rotate(45deg);
+  // transform: rotate(45deg);
 }
 .poison {
   position: absolute;
-  width: 2%;
-  height: 2%;
-  background: purple;
-  border: 1px solid #fff;
+  font-size: x-small;
+  width: 1%;
+  height: 1%;
+  // background: purple;
+  // border: 1px solid #fff;
   z-index: 1;
-  transform: rotate(45deg);
+  // transform: rotate(45deg);
 }
-/* .score{
-  position: fixed;
-  top: 40px;
-  right: 90px;
-  background-color: red;
-  color:white;
-  font-size: large;
-} */

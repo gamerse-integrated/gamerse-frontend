@@ -84,6 +84,8 @@ export class Explore extends Component {
             background: `url(${BackgroundImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
+            filter: "blur(4px)",
+            transform: "scale(1.1)",
           }}
         />
         <div className="container">

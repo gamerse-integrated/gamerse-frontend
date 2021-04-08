@@ -56,6 +56,12 @@ export class Snakes extends Component {
   render() {
     return (
       <div className="min-vh-100 game-container d-flex flex-column bg-">
+        <audio
+          className="d-none"
+          autoPlay
+          src="https://d1o44v9snwqbit.cloudfront.net/musicfox_demo_MF-4006.mp3"
+          loop
+        ></audio>
         <div
           className="w-100"
           style={{
@@ -67,6 +73,8 @@ export class Snakes extends Component {
             background: `url(${BackgroundImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
+            filter: "blur(4px)",
+            transform: "scale(1.1)",
           }}
         />
         <Route component={(props) => <Header {...props}></Header>}></Route>
@@ -81,12 +89,29 @@ export class Snakes extends Component {
               updateHighScore={this.updateHighScore}
             />
           </div>
-          <div className="col justify-content-center align-items-center d-flex">
+          <div className="col justify-content-center align-items-center d-flex flex-column">
             <SnakesScore
               score={this.state.score}
               userName={this.state.userName}
               highScore={this.state.highScore}
             />
+            <div
+              style={{
+                borderRadius: `1rem`,
+                width: `30vw`,
+                // height: `40vh`,
+                backdropFilter: `blur(10px)`,
+                background: `rgba(255,255,255,.7)`,
+              }}
+              className="p-3 mt-4 shadow"
+            >
+              <h1 className="text-danger">Remember</h1>
+              <div className="lead">
+                Avoid kale, spinach, broccoli, cabbage, and romaine lettuce,
+                because these greens contain an ingredient that prevents
+                reptiles from absorbing calcium properly.
+              </div>
+            </div>
           </div>
         </div>
       </div>

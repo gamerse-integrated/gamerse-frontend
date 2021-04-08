@@ -30,3 +30,4 @@ mkcert-v1.4.3-windows-amd64.exe
 localhost-key.pem
 localhost.pem
 gamerse deployment.txt
+.env.development

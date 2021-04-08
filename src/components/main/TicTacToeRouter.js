@@ -44,7 +44,10 @@ export default class TicTacToeRouter extends Component {
                   }
                 }
               />
-              <Link className="stretched-link" to="ttteasy">
+              <Link
+                className="text-decoration-none stretched-link"
+                to="ttteasy"
+              >
                 <p>Easy</p>
               </Link>
             </div>
@@ -59,7 +62,7 @@ export default class TicTacToeRouter extends Component {
                   }
                 }
               />
-              <Link className="stretched-link" to="tttai">
+              <Link className="text-decoration-none stretched-link" to="tttai">
                 <p>Impossible (against AI)</p>
               </Link>
             </div>
@@ -74,7 +77,10 @@ export default class TicTacToeRouter extends Component {
                   }
                 }
               />
-              <Link className="stretched-link" to="ttthuman">
+              <Link
+                className="text-decoration-none stretched-link"
+                to="ttthuman"
+              >
                 <p>Player side-by-side</p>
               </Link>
             </div>

@@ -132,6 +132,12 @@ export class TTTfriend extends Component {
       <div>
         <TTTFriendAppProvider icon={this.state.icon}>
           <PubNubProvider client={pubnub}>
+            <audio
+              className="d-none"
+              autoPlay
+              src="https://d1o44v9snwqbit.cloudfront.net/musicfox_demo_MF-4006.mp3"
+              loop
+            ></audio>
             <div
               className="w-100"
               style={{
@@ -147,6 +153,8 @@ export class TTTfriend extends Component {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: `cover`,
                 backgroundColor: `#fff`,
+                filter: "blur(4px)",
+                transform: "scale(1.1)",
               }}
             />
             <div className="d-flex min-vh-100 flex-column">

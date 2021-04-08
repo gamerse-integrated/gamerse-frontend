@@ -58,7 +58,7 @@ export class FriendsMainContent extends Component {
           status: p["status"],
           photoURL: p["photoURL"],
           onlineStatus:
-            new Date(parseInt(p["onlineStatus"])).getTime() + 6 * 1000 >
+            new Date(parseInt(p["onlineStatus"])).getTime() + 7000 >
             new Date().getTime()
               ? "online"
               : "offline",
@@ -104,7 +104,7 @@ export class FriendsMainContent extends Component {
         friends: friends,
         requests: requests,
       });
-    }, 4 * 1000);
+    }, parseInt(process.env.REACT_APP_FRIEND_DATA_FETCH_INTERVAL));
   }
 
   componentWillUnmount() {

@@ -26,6 +26,12 @@ export class TTThuman extends Component {
             component={(props) => <Header color="white" {...props}></Header>}
           ></Route>
           <div className="d-flex bg- container-fluid flex-row flex-grow-1">
+            <audio
+              className="d-none"
+              autoPlay
+              src="https://d1o44v9snwqbit.cloudfront.net/musicfox_demo_MF-4006.mp3"
+              loop
+            ></audio>
             <div
               className="w-100"
               style={{
@@ -41,6 +47,8 @@ export class TTThuman extends Component {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: `cover`,
                 backgroundColor: `#fff`,
+                filter: "blur(4px)",
+                transform: "scale(1.1)",
               }}
             />
             <div className="d-flex align-items-center ml-5">

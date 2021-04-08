@@ -2,6 +2,7 @@ import { auth } from "@config/firebaseConfig";
 import React, { Component } from "react";
 import { NotificationManager } from "react-notifications";
 import { connect } from "react-redux";
+// import Logo from "@assets/logo.svg";
 
 export class Header extends Component {
   constructor(props) {
@@ -51,10 +52,19 @@ export class Header extends Component {
         <div className="navbar navbar-expand-lg navbar-light bg- shadow- mb-3">
           <div
             onClick={() => this.props.history.push("/")}
-            className="navbar-brand"
+            className="navbar-brand m-0 p-0"
             role="button"
+            // style={{
+            //   width: "4.2rem",
+            // }}
           >
             <h1 className={`text-${this.props.color || ""}`}>Gamerse</h1>
+            {/* {logo} */}
+            {/* <img
+              src={Logo}
+              alt="Gamerse"
+              className="img-responsive w-100 p-0 m-0 bg-white"
+            /> */}
           </div>
 
           <div className="ml-auto dropdown nav-item">

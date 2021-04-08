@@ -34,6 +34,8 @@ export default class Home extends Component {
             background: `url(${BackgroundImage})`,
             backgroundPosition: `center`,
             backgroundSize: `cover`,
+            filter: "blur(2px)",
+            transform: "scale(1.1)",
           }}
         />
         <div
@@ -54,7 +56,7 @@ export default class Home extends Component {
             >
               <div className="carousel-inner">
                 <div
-                  className="carousel-item"
+                  className="carousel-item active"
                   onClick={() => this.props.history.push("/snakes")}
                   role="button"
                 >
@@ -68,7 +70,7 @@ export default class Home extends Component {
                   />
                 </div>
                 <div
-                  className="carousel-item active text-center bg-white"
+                  className="carousel-item text-center bg-white"
                   onClick={() => this.props.history.push("/tictactoe")}
                   role="button"
                 >

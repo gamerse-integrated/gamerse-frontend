@@ -5,6 +5,7 @@ import "./Snakes.scss";
 import { Component } from "react";
 import { connect } from "react-redux";
 import php from "@config/php.js";
+import { NotificationManager } from "react-notifications";
 
 // import { updateScore } from "../../../actionCreator";
 
@@ -24,7 +25,7 @@ const getRandomCoordinates2 = () => {
 };
 const initialState = {
   food: getRandomCoordinates(),
-  speed: 200,
+  speed: 100,
   direction: "n",
   poison: null,
   length: 2,
@@ -200,6 +201,7 @@ export class SnakeGame extends Component {
   onGameOver() {
     this.score = "your score is " + this.s;
     this.game = "Game-Over";
+    NotificationManager.error("Game over", "Ohoo!");
     php
       .post("snake-api.php/", { userName: this.props.userName, score: this.s })
       .then((res) => console.log(res))
@@ -237,7 +239,7 @@ export class SnakeGame extends Component {
   }
   render() {
     return (
-      <div className="game-area shadow rounded">
+      <div className="game-area shadow">
         <Snake snakeDots={this.state.snakeDots} />
         <Food dot={this.state.food} />
         <Poison dot={this.state.poison} />
