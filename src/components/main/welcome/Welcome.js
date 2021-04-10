@@ -22,17 +22,17 @@ export default class Welcome extends Component {
   calculate_age = (date) => {
     var today = new Date();
     var birthDate = new Date(date);
-    console.log("get bod-->", birthDate);
+    // console.log("get bod-->", birthDate);
     var age_now = today.getFullYear() - birthDate.getFullYear();
     var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age_now--;
     }
-    console.log("my age", age_now);
+    // console.log("my age", age_now);
     return age_now;
   };
   onDateChange = (ev) => {
-    console.log(ev.target.value);
+    // console.log(ev.target.value);
     this.setState({ dob: ev.target.value }, () => {
       if (this.calculate_age(ev.target.value) <= 11) {
         this.setState({ err: "You must be atleast 11 years of old to join." });
@@ -53,7 +53,7 @@ export default class Welcome extends Component {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.userName === userName) {
           this.setState({ ...this.state, unameError: "User already exists !" });
         } else {

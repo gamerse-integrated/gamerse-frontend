@@ -12,10 +12,11 @@ import { connect } from "react-redux";
 
 export class FriendListItem extends Component {
   removeFriend = (id) =>
-    php
-      .post("friends.php", { action: "R", friendRecordId: id })
-      .then((res) => this.props.removeFriend(id))
-      .catch((error) => console.log(error));
+    php.post("friends.php", { action: "R", friendRecordId: id }).then((res) => {
+      NotificationManager.info("Removed friend");
+      this.props.removeFriend(id);
+    });
+  // .catch((error) => console.log(error));
 
   challenge = (id) => {
     let b64 = CryptoJS.AES.encrypt(

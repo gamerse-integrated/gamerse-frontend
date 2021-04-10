@@ -33,3 +33,4 @@ gamerse deployment.txt
 .env.development
 gulp.js
 gulpfile.js
+webpack.config.js

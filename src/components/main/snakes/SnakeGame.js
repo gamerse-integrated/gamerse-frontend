@@ -80,7 +80,8 @@ export class SnakeGame extends Component {
         }
         break;
       default:
-        console.log("inside default");
+        break;
+      // console.log("inside default");
     }
   };
 
@@ -123,8 +124,9 @@ export class SnakeGame extends Component {
         });
         break;
       default:
-        // head = head;
-        console.log("default case");
+        break;
+      // head = head;
+      // console.log("default case");
     }
   };
 
@@ -191,7 +193,7 @@ export class SnakeGame extends Component {
     }
   }
   checklength = () => {
-    console.log("inside check_length");
+    // console.log("inside check_length");
     if (this.state.length > 2) {
       this.setState({
         poison: this.gen_poison(),
@@ -202,10 +204,12 @@ export class SnakeGame extends Component {
     this.score = "your score is " + this.s;
     this.game = "Game-Over";
     NotificationManager.error("Game over", "Ohoo!");
-    php
-      .post("snake-api.php/", { userName: this.props.userName, score: this.s })
-      .then((res) => console.log(res))
-      .catch((err) => console.log("err from snake game:" + err));
+    php.post("snake-api.php/", {
+      userName: this.props.userName,
+      score: this.s,
+    });
+    // .then((res) => console.log(res))
+    // .catch((err) => console.log("err from snake game:" + err));
     // this.props.updateScore(0);
 
     this.s = 0;

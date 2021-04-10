@@ -31,7 +31,7 @@ class TicTacToe extends Component {
       this.gameState.totalMoves++;
     }
 
-    console.log(this.gameState.totalMoves);
+    // console.log(this.gameState.totalMoves);
 
     var result = this.checkWinner();
 
@@ -110,7 +110,7 @@ class TicTacToe extends Component {
         return board[moves[i][0]];
     }
 
-    console.log(this.gameState.totalMoves);
+    // console.log(this.gameState.totalMoves);
     if (this.gameState.totalMoves === 9) {
       return "draw";
     }

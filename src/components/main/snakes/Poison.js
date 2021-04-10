@@ -31,7 +31,7 @@ const getPoison = (style) => {
 };
 const Poison = (props) => {
   useEffect(() => {
-    console.log("Inside poison");
+    // console.log("Inside poison");
   });
   if (props["dot"]) {
     const style = {

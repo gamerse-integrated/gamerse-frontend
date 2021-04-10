@@ -2,7 +2,7 @@
   "name": "gamerse",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gamerse.infinityfreeapp.com/",
+  "homepage": "https://gamersenish.000webhostapp.com/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -47,7 +47,8 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build && npx gulp",
+    "build": "react-app-rewired build",
+    "build:bundle": "webpack --config webpack.config.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
@@ -70,10 +71,9 @@
     ]
   },
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-inline-source": "^4.0.0",
-    "gulp-replace": "^1.0.0",
     "react-app-rewire-alias": "^1.0.3",
-    "react-app-rewired": "^2.1.8"
+    "react-app-rewired": "^2.1.8",
+    "uglifyjs-webpack-plugin": "1.1.8",
+    "webpack-cli": "^4.6.0"
   }
 }

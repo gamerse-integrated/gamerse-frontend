@@ -27,17 +27,13 @@ export default class App extends Component {
     }
   };
   componentWillUnmount() {
-    // clearInterval(this.consoleClear);
+    clearInterval(this.consoleClear);
   }
   componentDidMount() {
-    // this.consoleClear = setInterval(() => {
-    //   console.clear();
-    // }, 1000);
-    window.addEventListener("offline", () => {
-      NotificationManager.warning(
-        "You are offline but you can still continue to enjoy the app"
-      );
-    });
+    this.consoleClear = setInterval(() => {
+      console.clear();
+    }, 1000);
+
     auth.onAuthStateChanged(async (user) => {
       if (user && user.emailVerified) {
         if (await this.checkData(user.uid)) {
@@ -55,12 +51,22 @@ export default class App extends Component {
     });
   }
   render() {
-    if (this.state.loading) return <Loading />;
-    else {
-      if (this.__authenticated) {
-        if (this.whereTo === "w") return <Route component={Welcome} />;
-        else if (this.whereTo === "h") return <UserAuthenticated />;
-      } else return USER_NOT_AUTHENTICATED;
+    if (navigator.onLine) {
+      if (this.state.loading) return <Loading />;
+      else {
+        if (this.__authenticated) {
+          if (this.whereTo === "w") return <Route component={Welcome} />;
+          else if (this.whereTo === "h") return <UserAuthenticated />;
+        } else return USER_NOT_AUTHENTICATED;
+      }
+    } else {
+      return (
+        <div>
+          <div className="min-vh-100 d-flex justify-content-center align-items-center bg-dark">
+            <div className="h1 text-white">You are offline</div>
+          </div>
+        </div>
+      );
     }
   }
 }

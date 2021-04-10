@@ -111,7 +111,7 @@ export class TicTacToeMainFriend extends Component {
       // console.log(event);
       if (typeof message === "string" || message.hasOwnProperty("text")) {
         const text = message.text || message;
-        console.log(text);
+        // console.log(text);
         if (text.split(" ")[1] === "New") {
           // new game
           $(".hack").css("display", "none");

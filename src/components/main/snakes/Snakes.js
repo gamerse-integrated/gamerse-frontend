@@ -31,7 +31,7 @@ export class Snakes extends Component {
         userName: userName,
       },
     });
-    console.log(res2);
+    // console.log(res2);
     let highScore = res2.data["highscore"];
     this.setState({ highScore: highScore });
   }
@@ -47,11 +47,11 @@ export class Snakes extends Component {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         let highScore = res.data["highscore"];
         this.setState({ highScore: highScore, score: 0 });
-      })
-      .catch((err) => console.log(err));
+      });
+    // .catch((err) => console.log(err));
   };
   render() {
     return (
