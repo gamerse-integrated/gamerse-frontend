@@ -28,6 +28,8 @@ export default class App extends Component {
   };
   componentWillUnmount() {
     clearInterval(this.consoleClear);
+    /* localStorage.removeItem("FirebaseToken");
+    clearInterval(this.setFirebaseToken); */
   }
   componentDidMount() {
     this.consoleClear = setInterval(() => {
@@ -41,10 +43,26 @@ export default class App extends Component {
         } else {
           this.whereTo = "w";
         }
+        /* 
+        // set firebase token
+        (function () {
+          function setFirebaseToken() {
+            localStorage.setItem("FirebaseToken", user.getIdToken());
+          }
+          setFirebaseToken();
+          setInterval(setFirebaseToken, 30 * 1000);
+        })();
+ */
         this.__authenticated = true;
+
+        // start worker
         global.worker = new WebWorker(setOnlineStatus);
         global.worker.postMessage(auth.currentUser.email);
       } else {
+        /* // remove firebase token
+        localStorage.removeItem("FirebaseToken");
+        clearInterval(this.setFirebaseToken); */
+
         this.__authenticated = false;
       }
       this.setState({ loading: false });
